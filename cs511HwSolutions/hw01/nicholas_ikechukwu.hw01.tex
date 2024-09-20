@@ -1,0 +1,301 @@
+\documentclass{article}
+\usepackage[letterpaper]{geometry} % Set the paper size to US Letter
+\usepackage{amsmath, amssymb, bussproofs, qtree, booktabs, array, lastpage, fancyhdr}
+\usepackage{mdframed}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=magenta,      
+  urlcolor=cyan,
+  pdftitle={Your Title Here},
+  pdfpagemode=FullScreen,
+}
+
+\newcommand{\proves}{\vdash}
+
+% Define a custom proof environment
+\newenvironment{proof}{\par\noindent\textbf{Proof:}\quad}{\hfill$\square$\par\vspace{1em}}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Page \thepage}
+\lhead{Nicholas Ikechukwu - U71641768}
+\cfoot{}
+
+\begin{document}
+
+
+\begin{center}
+    \Large\textbf{Solutions to CS511 Homework 01}
+    
+    \vspace{0.5cm}
+    
+    \large Nicholas Ikechukwu - U71641768
+    
+    \vspace{0.3cm}
+    
+    \large September 11, 2024
+\end{center}
+
+
+% Exercise 1 [LCS, page 79]: Exercise 1.2.1. Do parts (h), (i), and (j). 
+% Exercise 2 [LCS, page 84]: Exercise 1.4.2. Do parts (g), (h), and (i). 
+% PROBLEM 1 [LCS, page 87]: Exercise 1.5.3. Do parts (b) and (c)
+
+
+\section*{Exercise 1 [LCS, page 79]: Exercise 1.2.1. parts (h), (i), and (j)}
+Prove the validity of the following sequents:
+
+
+\section*{Sequent Proofs}
+
+\subsection*{(h) $p \proves (p \rightarrow q) \rightarrow q$}
+
+\begin{proof}
+We will use natural deduction to prove this sequent.
+
+\begin{tabular}{r@{ }l@{\qquad}l}
+1. & $p$ & (Premise) \\
+\multicolumn{3}{l}{\fbox{\begin{minipage}{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+2. \quad $p \rightarrow q$ \qquad (Assumption) \\
+3. \quad $q$ \qquad (Modus Ponens 1, 2)
+\end{minipage}}} \\
+4. & $(p \rightarrow q) \rightarrow q$ & ($\rightarrow$-Introduction 2-3)
+\end{tabular}\\\\
+ 
+This proof is valid because:
+\begin{itemize}
+    \item We start with the premise $p$.
+    \item We assume $p \rightarrow q$ (for $\rightarrow$-Introduction).
+    \item We use Modus Ponens with lines 1 and 2 to derive $q$.
+    \item We conclude $(p \rightarrow q) \rightarrow q$ by $\rightarrow$-Introduction, discharging the assumption in line 2.
+\end{itemize}
+\end{proof}
+
+\newpage
+\subsection*{(i) $(p \rightarrow r) \wedge (q \rightarrow r) \proves p \wedge q \rightarrow r$}
+
+
+\begin{proof}
+We will use natural deduction to prove this sequent.
+
+\begin{tabular}{r@{ }l@{\qquad}l}
+1. & $(p \rightarrow r) \wedge (q \rightarrow r)$ & (Premise) \\
+2. & $p \rightarrow r$ & ($\wedge$-Elimination 1) \\
+3. & $q \rightarrow r$ & ($\wedge$-Elimination 1) \\
+\multicolumn{3}{l}{\fbox{\begin{minipage}{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+4. \quad $p \wedge q$ \qquad (Assumption) \\
+5. \quad $p$ \qquad ($\wedge$-Elimination 4) \\
+6. \quad $q$ \qquad ($\wedge$-Elimination 4) \\
+7. \quad $r$ \qquad (Modus Ponens 2, 5)
+\end{minipage}}} \\
+8. & $p \wedge q \rightarrow r$ & ($\rightarrow$-Introduction 4-7)
+\end{tabular}\\\\
+
+This proof is valid because:
+\begin{itemize}
+    \item We start with the premise $(p \rightarrow r) \wedge (q \rightarrow r)$.
+    \item We use $\wedge$-Elimination to derive $p \rightarrow r$ and $q \rightarrow r$.
+    \item We assume $p \wedge q$ (for $\rightarrow$-Introduction).
+    \item We use $\wedge$-Elimination to derive $p$ and $q$ separately.
+    \item We use Modus Ponens with $p \rightarrow r$ and $p$ to derive $r$.
+    \item We conclude $p \wedge q \rightarrow r$ by $\rightarrow$-Introduction, discharging the assumption in line 4.
+\end{itemize}
+\end{proof}
+
+\newpage
+\subsection*{(j) $q \rightarrow r \proves (p \rightarrow q) \rightarrow (p \rightarrow r)$}
+
+\begin{proof}
+We will use natural deduction to prove this sequent.
+
+\begin{tabular}{r@{ }l@{\qquad}l}
+1. & $q \rightarrow r$ & (Premise) \\
+\multicolumn{3}{l}{\fbox{\begin{minipage}{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+2. \quad $p \rightarrow q$ \qquad (Assumption) \\
+\fbox{\begin{minipage}{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+3. \quad \quad $p$ \qquad (Assumption) \\
+4. \quad \quad $q$ \qquad (Modus Ponens 2, 3) \\
+5. \quad \quad $r$ \qquad (Modus Ponens 1, 4)
+\end{minipage}} \\
+6. \quad $p \rightarrow r$ \qquad ($\rightarrow$-Introduction 3-5)
+\end{minipage}}} \\
+7. & $(p \rightarrow q) \rightarrow (p \rightarrow r)$ & ($\rightarrow$-Introduction 2-6)
+\end{tabular}\\\\
+
+This proof is valid because:
+\begin{itemize}
+    \item We start with the premise $q \rightarrow r$.
+    \item We assume $p \rightarrow q$ (for outer $\rightarrow$-Introduction).
+    \item We assume $p$ (for inner $\rightarrow$-Introduction).
+    \item We use Modus Ponens twice to derive $r$.
+    \item We conclude $p \rightarrow r$ by $\rightarrow$-Introduction, discharging the assumption in line 3.
+    \item We conclude $(p \rightarrow q) \rightarrow (p \rightarrow r)$ by $\rightarrow$-Introduction, discharging the assumption in line 2.
+\end{itemize}
+\end{proof}
+
+
+\newpage
+\section*{Exercise 2 [LCS, page 84]: Exercise 1.4.2. parts (g), (h), and (i).}
+\textbf{Compute the complete truth table of the formulae:}
+
+\section*{Complete Truth Tables}
+
+\subsection*{(g) $((p \rightarrow q) \rightarrow p) \rightarrow p$}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ccc|ccc|c}
+\toprule
+$p$ & $q$ & $p \rightarrow q$ & $(p \rightarrow q) \rightarrow p$ & $((p \rightarrow q) \rightarrow p) \rightarrow p$ \\
+\midrule
+T & T & T & T & T \\
+T & F & F & T & T \\
+F & T & T & F & T \\
+F & F & T & F & T \\
+\bottomrule
+\end{tabular}
+\caption{Truth table for $((p \rightarrow q) \rightarrow p) \rightarrow p$}
+\end{table}
+
+\newpage
+\subsection*{(h) $((p \vee q) \rightarrow r) \rightarrow ((p \rightarrow r) \vee (q \rightarrow r))$}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ccc|ccccc|c}
+\toprule
+$p$ & $q$ & $r$ & $p \vee q$ & $(p \vee q) \rightarrow r$ & $p \rightarrow r$ & $q \rightarrow r$ & $(p \rightarrow r) \vee (q \rightarrow r)$ & $((p \vee q) \rightarrow r) \rightarrow ((p \rightarrow r) \vee (q \rightarrow r))$ \\
+\midrule
+T & T & T & T & T & T & T & T & T \\
+T & T & F & T & F & F & F & F & T \\
+T & F & T & T & T & T & T & T & T \\
+T & F & F & T & F & F & T & T & T \\
+F & T & T & T & T & T & T & T & T \\
+F & T & F & T & F & T & F & T & T \\
+F & F & T & F & T & T & T & T & T \\
+F & F & F & F & T & T & T & T & T \\
+\bottomrule
+\end{tabular}
+\caption{Truth table for $((p \vee q) \rightarrow r) \rightarrow ((p \rightarrow r) \vee (q \rightarrow r))$}
+\end{table}
+
+\newpage
+\subsection*{(i) $(p \rightarrow q) \rightarrow (\neg p \rightarrow \neg q)$}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{cc|cccc|c}
+\toprule
+$p$ & $q$ & $p \rightarrow q$ & $\neg p$ & $\neg q$ & $\neg p \rightarrow \neg q$ & $(p \rightarrow q) \rightarrow (\neg p \rightarrow \neg q)$ \\
+\midrule
+T & T & T & F & F & T & T \\
+T & F & F & F & T & T & T \\
+F & T & T & T & F & F & F \\
+F & F & T & T & T & T & T \\
+\bottomrule
+\end{tabular}
+\caption{Truth table for $(p \rightarrow q) \rightarrow (\neg p \rightarrow \neg q)$}
+\end{table}
+
+
+\medskip
+
+\noindent
+
+\newpage
+\section*{PROBLEM 1 [LCS, page 87]: Exercise 1.5.3. parts (b) and (c).}
+
+\section*{3. Adequate Set of Connectives}
+
+\subsection*{(b) Showing that if $C \subseteq \{\neg, \wedge, \vee, \rightarrow, \bot\}$ is adequate, then $\neg \in C$ or $\bot \in C$}
+
+\textbf{Proof by contradiction:}
+
+Assume that $C$ is adequate and that neither $\neg \in C$ nor $\bot \in C$. 
+
+Let $v$ be a valuation that assigns T to all atomic propositions. Consider any formula $\phi$ constructed using only connectives from $C$. We will prove by structural induction that $v(\phi) = \text{T}$ for all such $\phi$.
+
+Base case: 
+\begin{itemize}
+    \item If $\phi$ is an atomic proposition, then $v(\phi) = \text{T}$ by definition of $v$.
+\end{itemize}
+
+Inductive step:
+\begin{itemize}
+    \item If $\phi = \psi \wedge \chi$, then $v(\phi) = v(\psi) \wedge v(\chi) = \text{T} \wedge \text{T} = \text{T}$
+    \item If $\phi = \psi \vee \chi$, then $v(\phi) = v(\psi) \vee v(\chi) = \text{T} \vee \text{T} = \text{T}$
+    \item If $\phi = \psi \rightarrow \chi$, then $v(\phi) = v(\psi) \rightarrow v(\chi) = \text{T} \rightarrow \text{T} = \text{T}$
+\end{itemize}
+
+Therefore, any formula constructed using only connectives from $C$ will always evaluate to T under valuation $v$.
+
+However, the formula $\bot$ (false) should always evaluate to F under any valuation. Since $C$ is assumed to be adequate, it must be able to express $\bot$, which is impossible given our proof.
+
+This contradiction shows that our initial assumption must be false. Therefore, if $C$ is adequate, then $\neg \in C$ or $\bot \in C$.
+
+\newpage
+\subsection*{(c) Is $\{\leftrightarrow, \neg\}$ adequate?}
+
+\textbf{Claim:} The set $\{\leftrightarrow, \neg\}$ is adequate for propositional logic.
+
+\textbf{Proof:}
+
+To prove adequacy, we need to show that we can express all other connectives using only $\leftrightarrow$ and $\neg$. We'll do this by providing equivalent formulas for $\wedge$, $\vee$, and $\rightarrow$.
+
+1. Expressing $\wedge$:
+   $p \wedge q \equiv \neg(p \leftrightarrow \neg q)$
+   
+   Proof of equivalence:
+   \begin{itemize}
+       \item When $p$ and $q$ are both T, $\neg q$ is F, so $p \leftrightarrow \neg q$ is F, and $\neg(p \leftrightarrow \neg q)$ is T.
+       \item In all other cases, either $p$ is F or $q$ is F (or both), so $p \leftrightarrow \neg q$ is T, and $\neg(p \leftrightarrow \neg q)$ is F.
+   \end{itemize}
+
+2. Expressing $\vee$:
+   $p \vee q \equiv (p \leftrightarrow q) \leftrightarrow (p \leftrightarrow p)$
+   
+   Proof of equivalence:
+   \begin{itemize}
+       \item When either $p$ or $q$ (or both) are T, $p \leftrightarrow q$ is not equivalent to $p \leftrightarrow p$ (which is always T), so the overall expression is T.
+       \item When both $p$ and $q$ are F, $p \leftrightarrow q$ is T, which is equivalent to $p \leftrightarrow p$, so the overall expression is F.
+   \end{itemize}
+
+3. Expressing $\rightarrow$:
+   $p \rightarrow q \equiv \neg p \leftrightarrow (p \leftrightarrow q)$
+   
+   Proof of equivalence:
+   \begin{itemize}
+       \item When $p$ is T and $q$ is F, $\neg p$ is F, $p \leftrightarrow q$ is F, so $\neg p \leftrightarrow (p \leftrightarrow q)$ is T.
+       \item In all other cases, $p \rightarrow q$ is T, and our expression also evaluates to T.
+   \end{itemize}
+
+Since we can express $\wedge$, $\vee$, and $\rightarrow$ using only $\leftrightarrow$ and $\neg$, and we already have $\neg$, the set $\{\leftrightarrow, \neg\}$ is adequate for propositional logic.
+
+
+
+\newpage
+\section*{With Lean 4}
+
+
+\subsection*{Exercise 3 Write the script of the Lean 4 proof for Example 1.3.4 in Macbeth’s book. The book
+gives the “proof by hand” in full, but does not give its mechanized version in Lean 4.}
+
+\subsection*{Solutions in one file at: \url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/d7a44938a14b51e12a670a41a9c27f0f70de6e46/cs511HwSolutions/hw01/hw01.lean}}
+\newpage
+\subsection*{Script link for Exercise 3}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/d7a44938a14b51e12a670a41a9c27f0f70de6e46/cs511HwSolutions/hw01/hw01_3.lean}
+
+\newpage
+\subsection*{Exercise 4 Write the script of the Lean 4 proof for Example 1.3.9 in Macbeth’s book. Again
+here, the book gives the “proof by hand”, but does not give its mechanized version in Lean 4.}
+\subsection*{Script link for Exercise 4}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/d7a44938a14b51e12a670a41a9c27f0f70de6e46/cs511HwSolutions/hw01/hw01_4.lean}
+
+\newpage
+\subsection*{Problem 2: Do Exercise 7, in Section 1.3.11, in Macbeth’s book.}
+\subsection*{Script link for Problem 2 - Exercise 7}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/d7a44938a14b51e12a670a41a9c27f0f70de6e46/cs511HwSolutions/hw01/hw01_p2.lean}
+\end{document}
