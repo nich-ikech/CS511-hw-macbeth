@@ -119,6 +119,9 @@ $\phi_1 \equiv \neg(p \land q \land r) \to (\neg p \lor \neg q \lor \neg r)$
 of the exercise on that page.
 (b) Go to page 18 in Lecture Slides 10 once more. Your task is to carefully do parts 2, 3, and 4
 of the exercise on that page.}
+
+\section*{(a)}
+
 \section*{2. Natural-deduction proof of the most general de Morgan's law}
 
 For $\phi_2 \equiv \neg(p_1 \land \cdots \land p_n) \to (\neg p_1 \lor \cdots \lor \neg p_n)$, where $n \geq 2$:
@@ -134,9 +137,13 @@ For $\phi_2 \equiv \neg(p_1 \land \cdots \land p_n) \to (\neg p_1 \lor \cdots \l
 \end{enumerate}
 \end{proof}
 
+\newpage
+
 \section*{3. Proof length is O(n)}
 
 The natural-deduction proof of $\phi_2$ has a constant number of steps regardless of $n$. The only part that depends on $n$ is the length of the formulas themselves. Therefore, the proof length is O(n).
+
+\newpage
 
 \section*{4. Complexity comparison: Natural-deduction vs. Truth-table}
 
@@ -150,7 +157,58 @@ The natural-deduction proof of $\phi_2$ has a constant number of steps regardles
 
 Comparison: The natural-deduction proof is significantly more efficient, with linear complexity O(n) compared to the exponential complexity O($n \cdot 2^n$) of the truth-table method.
 
+\newpage
 
+\section*{(b)}
+
+\section*{2. Use the tableaux method to show the validity of de Morgan's law (4) in general:}
+
+$\phi_2 \equiv \neg(p_1 \wedge \cdots \wedge p_n) \to (\neg p_1 \vee \cdots \vee \neg p_n)$ where $n \geq 2$.
+
+\begin{tabular}{l l}
+1. & $\neg(\neg(p_1 \wedge \cdots \wedge p_n) \to (\neg p_1 \vee \cdots \vee \neg p_n))$ \\
+2. & $\neg(p_1 \wedge \cdots \wedge p_n)$ \\
+3. & $\neg(\neg p_1 \vee \cdots \vee \neg p_n)$ \\
+4. & $p_1$ \\
+5. & $p_2$ \\
+   & $\vdots$ \\
+n+3. & $p_n$ \\
+n+4. & $\neg p_1 \vee \neg p_2 \vee \cdots \vee \neg p_n$ \\
+\hline
+n+5. & $\neg p_1$ \quad X \\
+n+6. & $\neg p_2$ \quad X \\
+     & $\vdots$ \\
+2n+4. & $\neg p_n$ \quad X \\
+\end{tabular}
+
+\newpage
+
+\section*{3. Compute the precise size of the tableau (i.e., the number of nodes in the tree underlying the tableau), in Part 2 above, as a function of n (the number of variables).}
+
+The tableau has:
+\begin{itemize}
+    \item $n+4$ nodes before branching
+    \item $n$ branches, each with 1 node
+\end{itemize}
+
+Total number of nodes = $(n+4) + n = 2n + 4$
+\newpage
+
+\section*{4. Compare the complexity of the tableau proof for $\phi_2$ in Part 2 above with the complexity of the natural-deduction proof of $\phi_2$ and that of the truth-table verification of $\phi_2$. For the latter two procedures, consult Lecture Slides 09.}
+
+\begin{itemize}
+    \item[a)] Tableau method: $O(n)$ nodes and steps
+    \item[b)] Natural-deduction proof: $O(n)$ steps (as shown in previous lectures)
+    \item[c)] Truth-table verification: $O(2^n)$ rows to check all possible combinations
+\end{itemize}
+
+Comparison:
+\begin{itemize}
+    \item The tableau and natural-deduction proofs have linear complexity $O(n)$.
+    \item The truth-table verification has exponential complexity $O(2^n)$.
+\end{itemize}
+
+For large $n$, the tableau and natural-deduction proofs are significantly more efficient than the truth-table method. The tableau method is comparable in efficiency to the natural-deduction proof for this particular formula.
 
 \newpage
 \section*{ON LEAN-4}
