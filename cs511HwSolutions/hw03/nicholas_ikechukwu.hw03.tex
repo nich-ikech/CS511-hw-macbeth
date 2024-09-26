@@ -52,8 +52,9 @@
 \section*{Exercise 1 Go to page 13 in Lecture Slides 09. Your task is to carefully do part 1 of the exercise
 on that page.}
 
-\section*{Solution}
-\subsection*{Proof by Natural Deduction: $\neg(p \wedge q \wedge r)\rightarrow (\neg p \vee \neg q \vee \neg r)$}
+\subsection*{Prove by Natural Deduction: $\neg(p \wedge q \wedge r)\rightarrow (\neg p \vee \neg q \vee \neg r)$}
+\section*{Solution:}
+
 \begin{enumerate}
     \item $\neg(p \wedge q \wedge r)$  \hfill [Assumption]
     \item $\neg(\neg p \vee \neg q \vee \neg r)$  \hfill [Assumption for contradiction]
@@ -68,8 +69,49 @@ on that page.}
 
 \section*{Exercise 2 Go to page 18 in Lecture Slides 10. Your task is to carefully do part 1 of the exercise
 on that page. }
-\section*{Solution}
+\section*{Use the tableaux method to show the validity of the following more general version of de Morgan's law (4):}
 
+$\phi_1 \equiv \neg(p \land q \land r) \to (\neg p \lor \neg q \lor \neg r)$
+
+\section*{Solution:}
+\begin{center}
+\begin{tabular}{l l}
+1. & $\neg(\neg(p \wedge q \wedge r) \to (\neg p \vee \neg q \vee \neg r))$ \\ 
+2. & $p \wedge q \wedge r$ \\ 
+3. & $\neg(\neg p \vee \neg q \vee \neg r)$ \\ 
+\hline
+4. & $p$ \\ 
+5. & $q$ \\ 
+6. & $r$ \\ 
+7. & $\neg p$ \\ 
+8. & $\neg q$ \\ 
+9. & $\neg r$ \\ 
+\hline
+10. & Contradiction (from 4 and 7) \\ 
+11. & Contradiction (from 5 and 8) \\ 
+12. & Contradiction (from 6 and 9) \\ 
+\end{tabular}
+\end{center}
+
+
+\begin{center}
+\Tree [.{$\neg(\neg(p \land q \land r) \to (\neg p \lor \neg q \lor \neg r))$} 
+        [.{$\neg(p \land q \land r)$} ]
+        [.{$\neg(\neg p \lor \neg q \lor \neg r)$}
+            [.{$p$} ]
+            [.{$q$} ]
+            [.{$r$} ]
+            [.{$\neg p \lor \neg q \lor \neg r$}
+                [.{$\neg p$} 
+                    [.{X} ] ]
+                [.{$\neg q$} 
+                    [.{X} ] ]
+                [.{$\neg r$} 
+                    [.{X} ] ]
+            ]
+        ]
+    ]
+\end{center}
 
 \newpage
 \section*{PROBLEM 1 There are do parts:
@@ -77,21 +119,50 @@ on that page. }
 of the exercise on that page.
 (b) Go to page 18 in Lecture Slides 10 once more. Your task is to carefully do parts 2, 3, and 4
 of the exercise on that page.}
-\section*{Solution} 
+\section*{2. Natural-deduction proof of the most general de Morgan's law}
+
+For $\phi_2 \equiv \neg(p_1 \land \cdots \land p_n) \to (\neg p_1 \lor \cdots \lor \neg p_n)$, where $n \geq 2$:
+
+\begin{proof}
+\begin{enumerate}
+    \item $\neg(p_1 \land \cdots \land p_n)$ \hfill (Assumption)
+    \item $\neg(\neg p_1 \lor \cdots \lor \neg p_n)$ \hfill (Assumption for contradiction)
+    \item $p_1 \land \cdots \land p_n$ \hfill (From 2, by De Morgan's law)
+    \item Contradiction \hfill (From 1 and 3)
+    \item $\neg p_1 \lor \cdots \lor \neg p_n$ \hfill (From 2-4, by Reductio ad Absurdum)
+    \item $\neg(p_1 \land \cdots \land p_n) \to (\neg p_1 \lor \cdots \lor \neg p_n)$ \hfill (From 1-5, by Conditional Proof)
+\end{enumerate}
+\end{proof}
+
+\section*{3. Proof length is O(n)}
+
+The natural-deduction proof of $\phi_2$ has a constant number of steps regardless of $n$. The only part that depends on $n$ is the length of the formulas themselves. Therefore, the proof length is O(n).
+
+\section*{4. Complexity comparison: Natural-deduction vs. Truth-table}
+
+\begin{itemize}
+    \item \textbf{Natural-deduction proof:} As shown above, the proof length is O(n), where n is the number of propositions.
+    
+    \item \textbf{Truth-table verification:} A truth table for n propositions has $2^n$ rows. Each row requires O(n) operations to compute.
+    
+    Total complexity: O($n \cdot 2^n$)
+\end{itemize}
+
+Comparison: The natural-deduction proof is significantly more efficient, with linear complexity O(n) compared to the exponential complexity O($n \cdot 2^n$) of the truth-table method.
 
 
 
 \newpage
-\section*{ON LEAN 4}
+\section*{ON LEAN-4}
 \subsection*{Solutions in one file at: 
-\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw02/hw02_nicholas_ikechukwu.lean}}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw03/hw02_nicholas_ikechukwu.lean}}
 
 \newpage
 
 \section*{Exercise 3 For each of the three examples in the following three sections of Macbeth’s book, your
 task is to remove ‘sorry’ and insert appropriate Lean 4 tactics}
 \section*{Solution}
-\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw02/hw02_nicholas_ikechukwu.lean}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw03/hw02_nicholas_ikechukwu.lean}
 
 \newpage
 
@@ -99,7 +170,7 @@ task is to remove ‘sorry’ and insert appropriate Lean 4 tactics}
 task is to remove ‘sorry’ and insert appropriate Lean 4 tactics.}
 \section*{Solution}
 
-\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw02/hw02_nicholas_ikechukwu.lean}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw03/hw02_nicholas_ikechukwu.lean}
 
 \newpage
 
@@ -107,5 +178,5 @@ task is to remove ‘sorry’ and insert appropriate Lean 4 tactics.}
 your task is to remove ‘sorry’ and insert appropriate Lean 4 tactics}
 \section*{Solution}
 
-\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw02/hw02_nicholas_ikechukwu.lean}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw03/hw02_nicholas_ikechukwu.lean}
 \end{document}
