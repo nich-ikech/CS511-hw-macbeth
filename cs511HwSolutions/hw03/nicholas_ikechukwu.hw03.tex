@@ -36,7 +36,7 @@
 
 
 \begin{center}
-    \Large\textbf{Solutions to CS511 Homework 01}
+    \Large\textbf{Solutions to CS511 Homework 03}
     
     \vspace{0.5cm}
     
@@ -44,141 +44,45 @@
     
     \vspace{0.3cm}
     
-    \large September 19, 2024
+    \large September 25, 2024
 \end{center}
 
 
 
-\section*{Exercise 1 Go to page 9 in Lecture Slides 06. Your task is to carefully write all the details of
-the proof by structural induction. These details are not included in the slides.}
+\section*{Exercise 1 Go to page 13 in Lecture Slides 09. Your task is to carefully do part 1 of the exercise
+on that page.}
 
 \section*{Solution}
-\section*{Concise Proof by Structural Induction}
-
-\textbf{Proposition:} $\forall s, t \in A^*, \text{reverse}(s \cdot t) = \text{reverse}(t) \cdot \text{reverse}(s)$
-
-Let $P(t) := \forall s \in A^*, \text{reverse}(s \cdot t) = \text{reverse}(t) \cdot \text{reverse}(s)$
-
-\textbf{Proof by structural induction on $t$:}
-
+\subsection*{Proof by Natural Deduction: $\neg(p \wedge q \wedge r)\rightarrow (\neg p \vee \neg q \vee \neg r)$}
 \begin{enumerate}
-    \item Base case: $t = \varepsilon$
-    
-    $\forall s \in A^*, \text{reverse}(s \cdot \varepsilon) = \text{reverse}(s) = \varepsilon \cdot \text{reverse}(s) = \text{reverse}(\varepsilon) \cdot \text{reverse}(s)$
-
-    \item Inductive step: Assume $P(t)$ holds for $t \in A^*$. Show $P(a \cdot t)$ for $a \in A$.
-    
-    $\forall s \in A^*$:
-    \begin{align*}
-    \text{reverse}(s \cdot (a \cdot t)) 
-    &= \text{reverse}((s \cdot a) \cdot t) &&\text{[associativity]} \\
-    &= \text{reverse}(t) \cdot \text{reverse}(s \cdot a) &&\text{[I.H.]} \\
-    &= \text{reverse}(t) \cdot (\text{reverse}(a) \cdot \text{reverse}(s)) &&\text{[def. of reverse]} \\
-    &= (\text{reverse}(t) \cdot \text{reverse}(a)) \cdot \text{reverse}(s) &&\text{[associativity]} \\
-    &= \text{reverse}(a \cdot t) \cdot \text{reverse}(s) &&\text{[def. of reverse]}
-    \end{align*}
+    \item $\neg(p \wedge q \wedge r)$  \hfill [Assumption]
+    \item $\neg(\neg p \vee \neg q \vee \neg r)$  \hfill [Assumption for contradiction]
+    \item $p \wedge q \wedge r$  \hfill [De Morgan's Law applied to line 2]
+    \item Contradiction  \hfill [Lines 1 and 3 contradict]
+    \item $\neg\neg(\neg p \vee \neg q \vee \neg r)$  \hfill [Negation Introduction, 2-4]
+    \item $\neg p \vee \neg q \vee \neg r$  \hfill [Double Negation Elimination, 5]
+    \item $\neg(p \wedge q \wedge r) \to (\neg p \vee \neg q \vee \neg r)$  \hfill [Conditional Proof, 1-6]
 \end{enumerate}
 
-By structural induction, $P(t)$ holds $\forall t \in A^*$, proving the proposition.
-
 \newpage
 
-\section*{Exercise 2 [LCS, page 87]: Exercise 1.4.15.
-Hint: You may find it helpful to review pages 20 and 21 in Lecture Slides 02.}
+\section*{Exercise 2 Go to page 18 in Lecture Slides 10. Your task is to carefully do part 1 of the exercise
+on that page. }
 \section*{Solution}
 
-\section*{Concise Proof by Mathematical Induction}
-\begin{mdframed}
-\textbf{Theorem:} For $n \geq 1$, 
-\[((\varphi_1 \land (\varphi_2 \land (\cdots\land \varphi_n)\cdots) \to \psi) \to (\varphi_1 \to (\varphi_2 \to (\cdots(\varphi_n \to \psi)\cdots))))\]
-\end{mdframed}
-
-Let $P(n)$ denote the theorem statement.
-
-\textbf{Proof:}
-
-\begin{enumerate}
-    \item Base case $(n = 1)$:
-    \begin{mdframed}
-    $P(1): ((\varphi_1 \to \psi) \to (\varphi_1 \to \psi))$ [Trivially true]
-    \end{mdframed}
-
-    \item Inductive step:
-    Assume $P(k)$ holds for some $k \geq 1$.
-    To prove $P(k+1)$:
-
-    LHS of $P(k+1)$:
-    \begin{mdframed}
-    \begin{align*}
-    &(\varphi_1 \land (\varphi_2 \land (\cdots\land \varphi_{k+1})\cdots) \to \psi) \\
-    &\equiv ((\varphi_1 \land (\varphi_2 \land (\cdots\land \varphi_k)\cdots)) \land \varphi_{k+1} \to \psi) \\
-    &\equiv (\varphi_1 \land (\varphi_2 \land (\cdots\land \varphi_k)\cdots) \to (\varphi_{k+1} \to \psi)) \quad \text{[Deduction theorem]}
-    \end{align*}
-    \end{mdframed}
-
-    Applying $P(k)$ to this:
-    \begin{mdframed}
-    $(\varphi_1 \to (\varphi_2 \to (\cdots(\varphi_k \to (\varphi_{k+1} \to \psi))\cdots)))$
-    \end{mdframed}
-
-    This is the RHS of $P(k+1)$.
-\end{enumerate}
-
-Therefore, by mathematical induction, $P(n)$ holds for all $n \geq 1$.
-
 
 \newpage
-\section*{PROBLEM 1 Show that any of the three rules 
-{(LEM),(PBC),(¬¬E)} are interderivable.}
+\section*{PROBLEM 1 There are do parts:
+(a) Go to page 13 in Lecture Slides 09 once more. Your task is to carefully do parts 2, 3, and 4
+of the exercise on that page.
+(b) Go to page 18 in Lecture Slides 10 once more. Your task is to carefully do parts 2, 3, and 4
+of the exercise on that page.}
 \section*{Solution}
 
-\section*{Interderivability of LEM, PBC, and ¬¬E}
-
-We will show that the three rules Law of Excluded Middle (LEM), Proof by Contradiction (PBC), and Double Negation Elimination (¬¬E) are interderivable.
-
-\subsection*{(a) (PBC) is derivable from (¬¬E)}
-
-\begin{proof}
-\item $\neg\varphi \to \bot$ \hfill given
-\item $\neg\varphi$ \hfill assumption
-\item $\bot$ \hfill $\to$E 1, 2
-\item $\neg\neg\varphi$ \hfill $\neg$I 2-3
-\item $\varphi$ \hfill ¬¬E 4
-\end{proof}
-
-\subsection*{(b) (LEM) is derivable from (PBC)}
-
-\begin{proof}
-\item $\neg(\varphi \lor \neg\varphi)$ \hfill assumption
-\item \quad $\varphi$ \hfill assumption
-\item \quad $\varphi \lor \neg\varphi$ \hfill $\lor$I 2
-\item \quad $\bot$ \hfill $\neg$E 1, 3
-\item $\neg\varphi$ \hfill $\neg$I 2-4
-\item $\varphi \lor \neg\varphi$ \hfill $\lor$I 5
-\item $\bot$ \hfill $\neg$E 1, 6
-\item $\varphi \lor \neg\varphi$ \hfill PBC 1-7
-\end{proof}
-
-\subsection*{(c) (¬¬E) is derivable from (LEM)}
-
-\begin{proof}
-\item $\neg\neg\varphi$ \hfill premise
-\item $\varphi \lor \neg\varphi$ \hfill LEM
-\item \quad $\varphi$ \hfill assumption
-\item \quad $\varphi$ \hfill reiteration 3
-\item \quad $\neg\varphi$ \hfill assumption
-\item \quad $\bot$ \hfill $\neg$E 1, 5
-\item \quad $\varphi$ \hfill $\bot$E 6
-\item $\varphi$ \hfill $\lor$E 2, 3-4, 5-7
-\end{proof}
-
-Therefore, we have shown that (¬¬E) $\Rightarrow$ (PBC) $\Rightarrow$ (LEM) $\Rightarrow$ (¬¬E), proving that these three rules are interderivable.
-
-
 
 
 \newpage
-
+\section*{ON LEAN 4}
 \subsection*{Solutions in one file at: 
 \url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw02/hw02_nicholas_ikechukwu.lean}}
 
