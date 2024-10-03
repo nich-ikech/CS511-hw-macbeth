@@ -155,20 +155,62 @@ This formalization provides a more concise and less error-prone definition of su
 
 \newpage
 \section*{PROBLEM 1 [EML.Chapter 1.pdf, page 15-16]: Do parts 2, 3, and 4 of Exercise 27. .}
-\section*{2. }
+\section*{n-Queens Problem (continued)}
+
+\subsection*{2. Infinite Chessboard Argument}
+
+The argument for the Infinite Queens Problem is flawed for the following reason:
+
+While $\Gamma = \{\psi_n | n \geq 4\}$ is indeed finitely satisfiable (as any finite subset corresponds to a finite n-Queens problem which has a solution), the satisfaction of all $\psi_n$ for $n \geq 4$ does not necessarily imply a solution to the Infinite Queens Problem.
+
+The key issue is that each $\psi_n$ only constrains a finite $n \times n$ portion of the infinite board. A model satisfying all $\psi_n$ might place queens in a way that satisfies each finite constraint, but could potentially place infinitely many queens in some rows, columns, or diagonals when considering the entire infinite board.
+
+In other words, the conditions (a), (b), (c), and (d) for all $n \geq 4$ do not fully capture the constraints of the Infinite Queens Problem, which requires that no two queens attack each other on the entire infinite board.
 
 \newpage
 
-\section*{3.}
+\subsection*{3. Defining $\Theta$}
 
+Let's define $\Theta = \{\theta_k | k \geq 1\}$ as follows:
+
+\begin{align*}
+\theta_k = \bigwedge_{i=1}^k \bigwedge_{j=1}^k &\left(q_{i,j} \leftrightarrow (i+j \equiv k+1 \pmod{k})\right) \\
+&\wedge \bigwedge_{i=k+1}^\infty \bigwedge_{j=k+1}^\infty \neg q_{i,j}
+\end{align*}
+
+This definition satisfies the required conditions:
+
+(a) Each $\theta_k$ defines a solution to the $k$-Queens Problem by placing queens on the $k \times k$ board in positions where $i+j \equiv k+1 \pmod{k}$, and no queens elsewhere.
+
+(b) For $k' > k$, $\theta_{k'}$ defines a solution to a larger Queens Problem than $\theta_k$.
+
+(c) Any finite subset of $\Theta$ is satisfiable, as each $\theta_k$ defines a distinct, valid queen placement on a finite portion of the board.
 \newpage
 
-\section*{4. }
 
+\subsection*{4. Solution to the Infinite Queens Problem}
+
+Using the Compactness Theorem for Propositional Logic, we can prove that the Infinite Queens Problem has a solution:
+
+1. We have shown that every finite subset of $\Theta$ is satisfiable.
+
+2. By the Compactness Theorem, $\Theta$ itself is satisfiable.
+
+3. Let $v$ be a truth assignment that satisfies all wffs in $\Theta$.
+
+4. Define a queen placement on the infinite board as follows:
+   Place a queen at position $(i,j)$ if and only if $v(q_{i,j}) = \text{true}$.
+
+5. This placement is a valid solution to the Infinite Queens Problem because:
+   \begin{itemize}
+     \item For each $k$, the placement satisfies $\theta_k$, ensuring a valid $k$-Queens solution in the $k \times k$ subboard.
+     \item As $k$ increases, larger portions of the board are covered with valid queen placements.
+     \item In the limit, this results in a valid placement for the entire infinite board.
+   \end{itemize}
+
+Therefore, we have rigorously shown that the Infinite Queens Problem has a solution.
 
 \newpage
-
-
 
 
 
@@ -178,14 +220,14 @@ This formalization provides a more concise and less error-prone definition of su
 
 \section*{ON LEAN-4}
 \subsection*{Solutions in one file at: 
-\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw03/hw03_nicholas_ikechukwu.lean}}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw04/hw04_nicholas_ikechukwu.lean}}
 
 \newpage
 
 \section*{Exercise 3 For each of the three examples in the following three sections of Macbeth’s book, your
 task is to remove ‘sorry’ and insert appropriate Lean 4 tactics}
 \section*{Solution}
-\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw03/hw03_nicholas_ikechukwu.lean}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw04/hw04_nicholas_ikechukwu.lean}
 
 \newpage
 
@@ -193,7 +235,7 @@ task is to remove ‘sorry’ and insert appropriate Lean 4 tactics}
 task is to remove ‘sorry’ and insert appropriate Lean 4 tactics.}
 \section*{Solution}
 
-\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw03/hw03_nicholas_ikechukwu.lean}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw04/hw04_nicholas_ikechukwu.lean}
 
 \newpage
 
@@ -201,5 +243,5 @@ task is to remove ‘sorry’ and insert appropriate Lean 4 tactics.}
 your task is to remove ‘sorry’ and insert appropriate Lean 4 tactics}
 \section*{Solution}
 
-\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw03/hw03_nicholas_ikechukwu.lean}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw04/hw04_nicholas_ikechukwu.lean}
 \end{document}
