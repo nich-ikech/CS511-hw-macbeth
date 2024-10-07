@@ -108,9 +108,6 @@ theorem exercise2_3_6_14 {m : ℕ} : m ^ 2 + 4 * m ≠ 46 := by
         _ = m ^ 2 + 4 * m := by rw [h5]
         _ = 46 := by rw [h]
     numbers at h7
-  · have h5 : m = -7 := by addarith [h4]
-    have h6 : m ≥ 0 := by extra
-    contradiction
 
 theorem exercise2_4_5_7 {a b : ℝ} (h1 : a * b = a) (h2 : a * b = b) : a = 0 ∧ b = 0 ∨ a = 1 ∧ b = 1 := by
   have h3 : a = b := by
@@ -126,13 +123,3 @@ theorem exercise2_4_5_7 {a b : ℝ} (h1 : a * b = a) (h2 : a * b = b) : a = 0 �
       a * (a - 1) = a * a - a := by ring
       _ = a - a := by rw [h4]
       _ = 0 := by ring
-  have h6 := eq_zero_or_eq_zero_of_mul_eq_zero h5
-  obtain h7 | h8 := h6
-  · left
-    constructor
-    · exact h7
-    · rw [← h3, h7]
-  · right
-    constructor
-    · exact h8
-    · rw [← h3, h8]

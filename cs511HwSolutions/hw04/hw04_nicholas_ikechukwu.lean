@@ -22,9 +22,7 @@ theorem exercise3c {p q : ℝ} (h : p < q) : ∃ x, p < x ∧ x < q := by
   use (p + q) / 2
   constructor
   · calc
-      p < (p + q) / 2 := by linarith
-  · calc
-      (p + q) / 2 < q := by linarith
+      p < (p + q) / 2 := by ring
 
 
 
@@ -40,9 +38,7 @@ theorem exercise4a {m n : ℤ} (hm : Odd m) (hn : Even n) : Odd (n + m) := by
   obtain ⟨k, hk⟩ := hm
   obtain ⟨l, hl⟩ := hn
   use k + l
-  calc
-    n + m = (2 * l) + (2 * k + 1) := by rw [hl, hk]
-    _ = 2 * (k + l) + 1 := by ring
+  ring
 
 
 --Exercise 4.1.10.1
@@ -52,7 +48,6 @@ theorem exercise4b {a : ℚ} (h : ∀ b : ℚ, a ≥ -3 + 4 * b - b ^ 2) : a ≥
   calc
     a ≥ -3 + 4 * 2 - 2 ^ 2 := by rel [h1]
     _ = 1 := by ring
-
 
 theorem exercise4c {a b : ℝ} (h : ∀ x, x ≥ a ∨ x ≤ b) : a ≤ b := by
   by_contra hc
@@ -64,20 +59,12 @@ theorem exercise4c {a b : ℝ} (h : ∀ x, x ≥ a ∨ x ≤ b) : a ≤ b := by
   · have : b < (a + b) / 2 := by linarith
     linarith
 
-
-
-
-
-
-
-
 --Exercise 3.2.9.2
 @[autograded 2]
 theorem problem2a : ¬(3 : ℤ) ∣ -10 := by
   intro h
   have := Int.mod_eq_zero_of_dvd h
-  norm_num at this
-
+  norm_num at h
 
 --Exercise 3.2.9.5
 @[autograded 2]
@@ -86,7 +73,7 @@ theorem problem2b {a b : ℤ} (hab : a ∣ b) : a ∣ 2 * b ^ 3 - b ^ 2 + 3 * b 
   use 2 * k ^ 3 - k ^ 2 + 3 * k
   calc
     2 * b ^ 3 - b ^ 2 + 3 * b = 2 * (a * k) ^ 3 - (a * k) ^ 2 + 3 * (a * k) := by rw [hk]
-    _ = a * (2 * k ^ 3 - k ^ 2 + 3 * k) := by sorry
+    _ = a * (2 * k ^ 3 - k ^ 2 + 3 * k) := by ring
 
 --Exercise 3.2.9.6
 @[autograded 2]
