@@ -1,138 +1,100 @@
 import Mathlib.Data.Real.Basic
 import Library.Basic
+import AutograderLib
 
 math2001_init
 
--- # Exercise 3
+--Example 2.5.5
+@[autograded 2]
+theorem exercise3a : ∃ m n : ℤ, m ^ 2 - n ^ 2 = 11 := by
+  use 6, 5
+  ring
 
--- /-2 points-/
-theorem exercise2_3_6_2 {x : ℝ} (h : x = 1 ∨ x = 2) : x ^ 2 - 3 * x + 2 = 0 := by
-  obtain h1 | h2 := h
-  · calc
-      x ^ 2 - 3 * x + 2 = 1 ^ 2 - 3 * 1 + 2 := by rw [h1]
-      _ = 0 := by ring
-  · calc
-      x ^ 2 - 3 * x + 2 = 2 ^ 2 - 3 * 2 + 2 := by rw [h2]
-      _ = 0 := by ring
+--Example 2.5.6
+@[autograded 2]
+theorem exercise3b (a : ℤ) : ∃ m n : ℤ, m ^ 2 - n ^ 2 = 2 * a + 1 := by
+  use a + 1, a
+  ring
 
--- /-2 points-/
-theorem exercise2_3_6_3 {t : ℚ} (h : t = -2 ∨ t = 3) : t ^ 2 - t - 6 = 0 := by
-  obtain h1 | h2 := h
-  · calc
-      t ^ 2 - t - 6 = (-2) ^ 2 - (-2) - 6 := by rw [h1]
-      _ = 0 := by ring
-  · calc
-      t ^ 2 - t - 6 = 3 ^ 2 - 3 - 6 := by rw [h2]
-      _ = 0 := by ring
-
--- /-2 points-/
-theorem exercise2_3_6_4 {x y : ℝ} (h : x = 2 ∨ y = -2) : x * y + 2 * x = 2 * y + 4 := by
-  obtain hx | hy := h
-  · calc
-      x * y + 2 * x = 2 * y + 2 * 2 := by rw [hx]
-      _ = 2 * y + 4 := by ring
-  · calc
-      x * y + 2 * x = x * (-2) + 2 * x := by rw [hy]
-      _ = -2 * x + 2 * x := by ring
-      _ = 0 := by ring
-      _ = 2 * (-2) + 4 := by ring
-      _ = 2 * y + 4 := by rw [hy]
-
-
-
-
-
--- # Exercise 4
-theorem exercise2_3_6_12 {x : ℤ} : 2 * x ≠ 3 := by
-sorry
-
-/-2 points-/
-theorem exercise2_4_5_1 {a b : ℚ} (H : a ≤ 1 ∧ a + b ≤ 3) : 2 * a + b ≤ 4 := by
-  obtain ⟨h1, h2⟩ := H
-  calc
-    2 * a + b = a + (a + b) := by ring
-    _ ≤ 1 + (a + b) := by rel [h1]
-    _ ≤ 1 + 3 := by rel [h2]
-    _ = 4 := by ring
-
-/-2 points-/
-theorem exercise2_4_5_6 {x y : ℚ} (h : x + y = 5 ∧ x + 2 * y = 7) : x = 3 ∧ y = 2 := by
-  obtain ⟨h1, h2⟩ := h
-  have hy : y = 2 := by
-    calc
-      y = (x + 2 * y) - (x + y) := by ring
-      _ = 7 - 5 := by rw [h2, h1]
-      _ = 2 := by ring
-  have hx : x = 3 := by
-    calc
-      x = (x + y) - y := by ring
-      _ = 5 - 2 := by rw [h1, hy]
-      _ = 3 := by ring
+--Example 2.5.7
+@[autograded 2]
+theorem exercise3c {p q : ℝ} (h : p < q) : ∃ x, p < x ∧ x < q := by
+  use (p + q) / 2
   constructor
-  · exact hx
-  · exact hy
+  · calc
+      p < (p + q) / 2 := by linarith
+  · calc
+      (p + q) / 2 < q := by linarith
 
--- # Problem 2
 
 
-theorem exercise2_3_6_10 {t : ℝ} (ht : t ^ 3 = t ^ 2) : t = 1 ∨ t = 0 := by
-  have h1 : t ^ 2 * (t - 1) = 0 := by
-    calc
-      t ^ 2 * (t - 1) = t ^ 3 - t ^ 2 := by ring
-      _ = t ^ 2 - t ^ 2 := by rw [ht]
-      _ = 0 := by ring
-  have h2 := eq_zero_or_eq_zero_of_mul_eq_zero h1
-  obtain h3 | h4 := h2
-  · right
-    exact sq_eq_zero_iff.mp h3
-  · left
-    exact h4
 
-theorem exercise2_3_6_14 {m : ℕ} : m ^ 2 + 4 * m ≠ 46 := by
+
+
+
+
+--Exercise 3.1.10.3
+@[autograded 2]
+theorem exercise4a {m n : ℤ} (hm : Odd m) (hn : Even n) : Odd (n + m) := by
+  dsimp [Odd, Even] at *
+  obtain ⟨k, hk⟩ := hm
+  obtain ⟨l, hl⟩ := hn
+  use k + l
+  calc
+    n + m = (2 * l) + (2 * k + 1) := by rw [hl, hk]
+    _ = 2 * (k + l) + 1 := by ring
+
+
+--Exercise 4.1.10.1
+@[autograded 2]
+theorem exercise4b {a : ℚ} (h : ∀ b : ℚ, a ≥ -3 + 4 * b - b ^ 2) : a ≥ 1 := by
+  have h1 := h 2
+  calc
+    a ≥ -3 + 4 * 2 - 2 ^ 2 := by rel [h1]
+    _ = 1 := by ring
+
+
+theorem exercise4c {a b : ℝ} (h : ∀ x, x ≥ a ∨ x ≤ b) : a ≤ b := by
+  by_contra hc
+  push_neg at hc
+  have h1 := h ((a + b) / 2)
+  obtain h1 | h1 := h1
+  · have : (a + b) / 2 < a := by linarith
+    linarith
+  · have : b < (a + b) / 2 := by linarith
+    linarith
+
+
+
+
+
+
+
+
+--Exercise 3.2.9.2
+@[autograded 2]
+theorem problem2a : ¬(3 : ℤ) ∣ -10 := by
   intro h
-  have h1 : (m + 2) ^ 2 = 50 := by
-    calc
-      (m + 2) ^ 2 = m ^ 2 + 4 * m + 4 := by ring
-      _ = 46 + 4 := by rw [h]
-      _ = 50 := by ring
-  have h2 : m + 2 = 5 ∨ m + 2 = -5 := by
-    apply sq_eq_sq_iff_eq_or_eq_neg.mp
-    rw [h1]
-    ring
-  obtain h3 | h4 := h2
-  · have h5 : m = 3 := by addarith [h3]
-    have h6 : 3 ^ 2 + 4 * 3 = 21 := by ring
-    have h7 : 21 = 46 := by
-      calc
-        21 = 3 ^ 2 + 4 * 3 := by ring
-        _ = m ^ 2 + 4 * m := by rw [h5]
-        _ = 46 := by rw [h]
-    numbers at h7
-  · have h5 : m = -7 := by addarith [h4]
-    have h6 : m ≥ 0 := by extra
-    contradiction
+  have := Int.mod_eq_zero_of_dvd h
+  norm_num at this
 
-theorem exercise2_4_5_7 {a b : ℝ} (h1 : a * b = a) (h2 : a * b = b) : a = 0 ∧ b = 0 ∨ a = 1 ∧ b = 1 := by
-  have h3 : a = b := by
-    calc
-      a = a * b := by rw [h1]
-      _ = b := by rw [h2]
-  have h4 : a * a = a := by
-    calc
-      a * a = a * b := by rw [h3]
-      _ = a := by rw [h1]
-  have h5 : a * (a - 1) = 0 := by
-    calc
-      a * (a - 1) = a * a - a := by ring
-      _ = a - a := by rw [h4]
-      _ = 0 := by ring
-  have h6 := eq_zero_or_eq_zero_of_mul_eq_zero h5
-  obtain h7 | h8 := h6
-  · left
-    constructor
-    · exact h7
-    · rw [← h3, h7]
-  · right
-    constructor
-    · exact h8
-    · rw [← h3, h8]
+
+--Exercise 3.2.9.5
+@[autograded 2]
+theorem problem2b {a b : ℤ} (hab : a ∣ b) : a ∣ 2 * b ^ 3 - b ^ 2 + 3 * b := by
+  obtain ⟨k, hk⟩ := hab
+  use 2 * k ^ 3 - k ^ 2 + 3 * k
+  calc
+    2 * b ^ 3 - b ^ 2 + 3 * b = 2 * (a * k) ^ 3 - (a * k) ^ 2 + 3 * (a * k) := by rw [hk]
+    _ = a * (2 * k ^ 3 - k ^ 2 + 3 * k) := by sorry
+
+--Exercise 3.2.9.6
+@[autograded 2]
+theorem problem2c {k l m : ℤ} (h1 : k ∣ l) (h2 : l ^ 3 ∣ m) : k ^ 3 ∣ m := by
+  obtain ⟨x, hx⟩ := h1
+  obtain ⟨y, hy⟩ := h2
+  use x ^ 3 * y
+  calc
+    m = l ^ 3 * y := by rw [hy]
+    _ = (k * x) ^ 3 * y := by rw [hx]
+    _ = k ^ 3 * (x ^ 3 * y) := by ring
