@@ -6,3 +6,7 @@
 /.lake/
 /.cache
 /.DS_Store
+*.aux
+*.log
+*.out
+*.synctex.gz
