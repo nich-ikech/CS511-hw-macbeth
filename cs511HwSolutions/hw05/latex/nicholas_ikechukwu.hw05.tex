@@ -50,39 +50,42 @@
 
 
 \section*{Exercise 1 [LCS, page 160]: Exercise 2.3.1, do parts (a) and (b) only }
+\begin{mdframed}
+    Prove the validity of the following sequents using, among others, the rules =i
+    and =e. Make sure that you indicate for each application of =e what the rule
+    instances $\phi$, $t_1$ and $t_2$ are.
+    
+    Use $\approx$, instead of =, for the formal symbol whose interpretation is equality. In LaTeX, you can typeset
+    with ${"approx"}$
+     
+    
+    \begin{enumerate}[label=(\alph*)]
+    \item $(y = 0) \land (y = x) \vdash 0 = x$
+    \item $t_1 = t_2 \vdash (t + t_2) = (t + t_1)$
+    \end{enumerate}
+\end{mdframed}
 
-\section*{Part 1 of Exercise 27 (Queens Problem)}
-\section*{Solution:}
+\section*{Solutions:}
 
-The wff $\psi_n$ for the n-Queens Problem can be written as:
+\subsection*{(a): $(y \approx 0) \land (y \approx x) \vdash 0 \approx x$}
 
-\[ \psi_n = \psi_{\text{row}_n} \wedge \psi_{\text{col}_n} \wedge \psi_{\text{diag1}_n} \wedge \psi_{\text{diag2}_n} \]
+\begin{proof}
+\item $(y \approx 0) \land (y \approx x)$ \hfill [Premise]
+\item $y \approx 0$ \hfill [$\land$-elim, 1]
+\item $y \approx x$ \hfill [$\land$-elim, 1]
+\item $0 \approx y$ \hfill [$\approx$e, $\phi: z \approx z$, $t_1: 0$, $t_2: y$, 2]
+\item $0 \approx x$ \hfill [$\approx$e, $\phi: 0 \approx z$, $t_1: y$, $t_2: x$, 4, 3]
+\end{proof}
 
-Where:
+\newpage
+\subsection*{(b): $t_1 \approx t_2 \vdash (t + t_2) \approx (t + t_1)$}
 
-\begin{enumerate}
-    \item[$a)$] $\psi_{\text{row}_n}$ (exactly one queen in each row):
-    \[ \bigwedge_{i=1}^n \left(\bigvee_{j=1}^n q_{i,j} \wedge \bigwedge_{1 \leq j < k \leq n} (\neg q_{i,j} \vee \neg q_{i,k})\right) \]
+\begin{proof}
+\item $t_1 \approx t_2$ \hfill [Premise]
+\item $(t + t_1) \approx (t + t_1)$ \hfill [$\approx$i]
+\item $(t + t_2) \approx (t + t_1)$ \hfill [$\approx$e, $\phi: (t + z) \approx (t + t_1)$, $t_1: t_1$, $t_2: t_2$, 2, 1]
+\end{proof}
 
-    \item[$b)$] $\psi_{\text{col}_n}$ (exactly one queen in each column):
-    \[ \bigwedge_{j=1}^n \left(\bigvee_{i=1}^n q_{i,j} \wedge \bigwedge_{1 \leq i < k \leq n} (\neg q_{i,j} \vee \neg q_{k,j})\right) \]
-
-    \item[$c)$] $\psi_{\text{diag1}_n}$ (at most one queen in each diagonal):
-    \[ \bigwedge_{1 \leq i_1 < i_2 \leq n} \bigwedge_{1 \leq j_1 < j_2 \leq n} ((i_1 - j_1 = i_2 - j_2) \rightarrow (\neg q_{i_1,j_1} \vee \neg q_{i_2,j_2})) \]
-
-    \item[$d)$] $\psi_{\text{diag2}_n}$ (at most one queen in each antidiagonal):
-    \[ \bigwedge_{1 \leq i_1 < i_2 \leq n} \bigwedge_{1 \leq j_1 < j_2 \leq n} ((i_1 + j_1 = i_2 + j_2) \rightarrow (\neg q_{i_1,j_1} \vee \neg q_{i_2,j_2})) \]
-\end{enumerate}
-
-\textbf{Justification:}
-\begin{itemize}
-    \item $\psi_{\text{row}_n}$ ensures each row has exactly one queen by requiring at least one queen per row and no two queens in the same row.
-    \item $\psi_{\text{col}_n}$ does the same for columns.
-    \item $\psi_{\text{diag1}_n}$ prevents more than one queen on any diagonal by ensuring no two queens share the same $i-j$ difference.
-    \item $\psi_{\text{diag2}_n}$ prevents more than one queen on any antidiagonal by ensuring no two queens share the same $i+j$ sum.
-\end{itemize}
-
-The conjunction of these four conditions fully specifies the n-Queens Problem, ensuring a valid placement of $n$ queens on an $n \times n$ board where no two queens can attack each other.
 
 \newpage
 
