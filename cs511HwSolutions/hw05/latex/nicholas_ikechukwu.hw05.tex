@@ -49,7 +49,7 @@
 
 
 
-\section*{Exercise 1 [LCS, page 160]: Exercise 2.3.1, do parts (a) and (b) only }
+\section*{Exercise 1. [LCS, page 160]: Exercise 2.3.1, do parts (a) and (b) only }
 \begin{mdframed}
     Prove the validity of the following sequents using, among others, the rules =i
     and =e. Make sure that you indicate for each application of =e what the rule
@@ -67,151 +67,128 @@
 
 \section*{Solutions:}
 
-\subsection*{(a): $(y \approx 0) \land (y \approx x) \vdash 0 \approx x$}
+\section*{(a) $(y \approx 0) \wedge (y \approx x) \vdash 0 \approx x$}
 
 \begin{proof}
-\item $(y \approx 0) \land (y \approx x)$ \hfill [Premise]
-\item $y \approx 0$ \hfill [$\land$-elim, 1]
-\item $y \approx x$ \hfill [$\land$-elim, 1]
-\item $0 \approx y$ \hfill [$\approx$e, $\phi: z \approx z$, $t_1: 0$, $t_2: y$, 2]
-\item $0 \approx x$ \hfill [$\approx$e, $\phi: 0 \approx z$, $t_1: y$, $t_2: x$, 4, 3]
-\end{proof}
-
-\newpage
-\subsection*{(b): $t_1 \approx t_2 \vdash (t + t_2) \approx (t + t_1)$}
-
-\begin{proof}
-\item $t_1 \approx t_2$ \hfill [Premise]
-\item $(t + t_1) \approx (t + t_1)$ \hfill [$\approx$i]
-\item $(t + t_2) \approx (t + t_1)$ \hfill [$\approx$e, $\phi: (t + z) \approx (t + t_1)$, $t_1: t_1$, $t_2: t_2$, 2, 1]
-\end{proof}
-
-
-\newpage
-
-\section*{Exercise 2 [Lecture Slides 13, page 19]: Do the exercise on that page}
-
-\section*{Formalized Simplified Definition of Substitution}
-\section*{Solution:}
-
-\subsection*{ BNF Definition (Modified) with Free Variables:}
-
-\begin{verbatim}
-<wff> ::= T | F | <var> | ~<wff> | (<wff> & <wff>) | (<wff> | <wff>) | 
-          (<wff> -> <wff>) | A<var><wff> | E<var><wff>
-\end{verbatim}
-
-Where:
-\begin{itemize}
-    \item For $\phi = \top$ or $\bot$, $FV(\phi) = \emptyset$
-    \item For $\phi = x$ (a variable), $FV(\phi) = \{x\}$
-    \item For $\phi = \neg\psi$, $FV(\phi) = FV(\psi)$
-    \item For $\phi = (\psi_1 \star \psi_2)$ where $\star \in \{\wedge, \vee, \rightarrow\}$, $FV(\phi) = FV(\psi_1) \cup FV(\psi_2)$
-    \item For $\phi = Qx \psi$ where $Q \in \{\forall, \exists\}$, $FV(\phi) = FV(\psi) \setminus \{x\}$
-\end{itemize}
-
-Some additional constraints:
 \begin{enumerate}
-    \item In any wff, there is at most one binding occurrence for each variable.
-    \item If $x \in FV(\phi)$, then $x$ does not occur bound in $\phi$.
+    \item $(y \approx 0) \wedge (y \approx x)$ \hfill [Premise]
+    \item $y \approx 0$ \hfill [$\wedge$ elimination, 1]
+    \item $y \approx x$ \hfill [$\wedge$ elimination, 1]
+    \item $0 \approx y$ \hfill [=e: $\varphi(z) := (z \approx y)$, $t_1 := y$, $t_2 := 0$, from 2]
+    \item $0 \approx x$ \hfill [=e: $\varphi(z) := (0 \approx z)$, $t_1 := y$, $t_2 := x$, from 4, 3]
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+
+\section*{(b) $t_1 \approx t_2 \vdash (t + t_2) \approx (t + t_1)$}
+
+\begin{proof}
+\begin{enumerate}
+    \item $t_1 \approx t_2$ \hfill [Premise]
+    \item $(t + t_1) \approx (t + t_1)$ \hfill [=i]
+    \item $(t + t_2) \approx (t + t_1)$ \hfill [=e: $\varphi(z) := ((t + z) \approx (t + t_1))$, $t_1 := t_1$, $t_2 := t_2$, from 1, 2]
+\end{enumerate}
+\end{proof}
+
+
+
+\newpage
+
+\section*{Exercise 2. LCS, page 161: Exercise 2.3.9, do parts (a) and (d) only.}
+\begin{mdframed}
+    Prove the validity of the following sequents in predicate logic, where F , G, P ,
+    and Q have arity 1, and S has arity 0 (a ‘propositional atom’):
+
+    \begin{itemize}
+        \item (a) $\exists x (S \rightarrow Q(x)) \vdash S \rightarrow \exists x Q(x)$
+        \item (d) $\forall x P(x) \rightarrow S \vdash \exists x (P(x) \rightarrow S)$
+    \end{itemize}
+
+\end{mdframed}
+
+\section*{Solutions:}
+
+
+\section*{(a) $\exists x(S \to Q(x)) \vdash S \to \exists xQ(x)$}
+
+Let $\mathcal{I}$ be any interpretation in which $\exists x(S \to Q(x))$ is true.
+
+\begin{proof}
+    \item There exists some element $a$ in the domain such that $S \to Q(a)$ is true in $\mathcal{I}$. \hfill
+    \item To prove $S \to \exists xQ(x)$, consider two cases for $S$: \hfill
+    \item Case 1: If $S$ is false in $\mathcal{I}$, then $S \to \exists xQ(x)$ is trivially true. \hfill
+    \item Case 2: If $S$ is true in $\mathcal{I}$, then: \hfill
+    \begin{enumerate}
+        \item $Q(a)$ must be true in $\mathcal{I}$ (from steps 1 and 4). \hfill
+        \item Therefore, $\exists xQ(x)$ is true in $\mathcal{I}$. \hfill
+        \item Hence, $S \to \exists xQ(x)$ is true in $\mathcal{I}$. \hfill
+    \end{enumerate}
+    \item In both cases, $S \to \exists xQ(x)$ is true in $\mathcal{I}$. \hfill
+Thus, whenever $\exists x(S \to Q(x))$ is true in an interpretation, $S \to \exists xQ(x)$ is also true in that interpretation, proving the validity of the sequent. \hfill
+\end{proof}
+
+\newpage
+\section*{(d) $\forall xP(x) \to S \vdash \exists x(P(x) \to S)$}
+    We prove this by contradiction:
+
+\begin{proof}
+    \item Assume there exists an interpretation $\mathcal{I}$ in which $\forall xP(x) \to S$ is true but $\exists x(P(x) \to S)$ is false. \hfill
+    \item In $\mathcal{I}$, $\forall x\neg(P(x) \to S)$ must be true (negation of $\exists x(P(x) \to S)$). \hfill
+    \item This means for every element $a$ in the domain of $\mathcal{I}$: \hfill
+    \begin{enumerate}
+        \item $P(a)$ is true and $S$ is false. \hfill
+    \end{enumerate}
+    \item Therefore, $\forall xP(x)$ is true in $\mathcal{I}$. \hfill
+    \item From steps 1 and 4, $S$ must be true in $\mathcal{I}$ (by modus ponens). \hfill
+    \item But this contradicts step 3(a), where $S$ is false. \hfill
+This contradiction shows that our assumption in step 1 must be false. Therefore, in any interpretation where $\forall xP(x) \to S$ is true, $\exists x(P(x) \to S)$ must also be true, proving the validity of the sequent. \hfill
+\end{proof}
+
+\newpage
+\section*{PPROBLEM 1: Let $\psi1, \psi2, and \psi3$ be the three axioms of group theory, which are written as
+first-order wff’s on page 11 of Lecture Slides 20. Let $\psi$ be the wff in the middle of the same page
+11 of Lecture Slides 20. The wff $\psi$ expresses the uniqueness of inverses in groups. Your task is to
+produce a formal proof, as a natural deduction, of the following judgment:
+$\psi1, \psi2, \psi3 \vdash \psi$.}
+
+\subsection*{
+Hint: Do Exercises 1 and 2 above before this problem. Also use $\approx$ for the formal symbol whose
+interpretation is equality, leaving = for equality at the meta-level.
+}
+
+
+\section*{Solution:}
+Let $\psi_1$, $\psi_2$, and $\psi_3$ be the three axioms of group theory:
+
+\begin{enumerate}
+    \item $\forall x (e \cdot x \approx x \wedge x \cdot e \approx x)$ (identity)
+    \item $\forall x \exists y (x \cdot y \approx e \wedge y \cdot x \approx e)$ (inverse)
+    \item $\forall x \forall y \forall z ((x \cdot y) \cdot z \approx x \cdot (y \cdot z))$ (associative)
 \end{enumerate}
 
-\subsection*{Simplified Substitution Definition:}
+Let $\phi$ be the wff expressing the uniqueness of inverses in groups:
 
-Given the constraints, we can simplify the substitution definition as follows:
+\[\phi \equiv \forall x \forall y \forall z (x \cdot y \approx e \wedge x \cdot z \approx e \to y \approx z)\]
 
-\[
-\phi[u/x] =
-\begin{cases}
-    \phi                   & \text{if } \phi = \top \text{ or } \bot \\
-    u                      & \text{if } \phi = x \\
-    \phi                   & \text{if } \phi = y \text{ and } x \neq y \\
-    \neg(\psi[u/x])        & \text{if } \phi = \neg\psi \\
-    \psi_1[u/x] \star \psi_2[u/x]  & \text{if } \phi = \psi_1 \star \psi_2 \text{ and } \star \in \{\wedge, \vee, \rightarrow\} \\
-    Qy (\psi[u/x])         & \text{if } \phi = Qy \psi, Q \in \{\forall, \exists\}, \text{ and } x \neq y \\
-    \phi                   & \text{if } \phi = Qx \psi \text{ and } Q \in \{\forall, \exists\}
-\end{cases}
-\]
+We need to prove: $\psi_1, \psi_2, \psi_3 \proves \phi$
+Let $x$, $y$, and $z$ be arbitrary elements of the group.
 
-Where:
-\begin{itemize}
-    \item $u$ is $\top$, $\bot$, or a variable
-    \item The substitution is only defined if $u$ is substitutable for $x$ in $\phi$, which is always true under our constraints.
-\end{itemize}
+\begin{proof}
 
-\subsection*{Justification for the  Simplification above:}
+    \item Assume $x \cdot y \approx e$ and $x \cdot z \approx e$.
+    \item From $\psi_2$, there exists an element $x'$ such that $x \cdot x' \approx e$ and $x' \cdot x \approx e$.
+    \item By substituting $e$ into the equation, we have $(x \cdot y) \cdot x' \approx e$.
+    \item By the identity axiom ($\psi_1$), $(x \cdot y) \cdot x' = x'$.
+    \item By the associative property ($\psi_3$), we have $x \cdot (y \cdot x') = x'$.
+    \item Therefore, since $e = y$, we can conclude that $y = x'$.
+    \item Similarly, we can show that $z = x'$.
+    \item Thus, we conclude that $y = z$.
 
-\begin{itemize}
-    \item The case ``$\phi$ if $\phi = Qy \phi', Q \in \{\forall, \exists\}, x = y$'' is now covered by the last case ``$\phi$ if $\phi = Qx \psi$ and $Q \in \{\forall, \exists\}$'' because there's at most one binding occurrence for each variable.
+\end{proof}
+Since $x$, $y$, and $z$ were arbitrary, we have proven $\phi$.
 
-    \item We don't need to check if $u$ is substitutable for $x$ in $\phi$ in the quantifier case because:
-    \begin{enumerate}
-        \item There's at most one binding occurrence for each variable.
-        \item A variable cannot have both free and bound occurrences.
-    \end{enumerate}
-    These conditions ensure that there's no risk of variable capture during substitution.
-
-    \item The case for variables is simplified because we don't need to distinguish between free and bound occurrences of variables anymore.
-\end{itemize}
-
-
-
-\newpage
-\section*{PROBLEM 1 [EML.Chapter 1.pdf, page 15-16]: Do parts 2, 3, and 4 of Exercise 27. .}
-\section*{n-Queens Problem (continued)}
-
-\subsection*{(2). Infinite Chessboard Argument}
-
-The argument for the Infinite Queens Problem is flawed for the following reason:
-
-While $\Gamma = \{\psi_n | n \geq 4\}$ is indeed finitely satisfiable (as any finite subset corresponds to a finite n-Queens problem which has a solution), the satisfaction of all $\psi_n$ for $n \geq 4$ does not necessarily imply a solution to the Infinite Queens Problem.
-
-The key issue is that each $\psi_n$ only constrains a finite $n \times n$ portion of the infinite board. A model satisfying all $\psi_n$ might place queens in a way that satisfies each finite constraint, but could potentially place infinitely many queens in some rows, columns, or diagonals when considering the entire infinite board.
-
-In other words, the conditions (a), (b), (c), and (d) for all $n \geq 4$ do not fully capture the constraints of the Infinite Queens Problem, which requires that no two queens attack each other on the entire infinite board.
-
-\newpage
-
-\subsection*{(3). Defining $\Theta$}
-
-Let's define $\Theta = \{\theta_k | k \geq 1\}$ as follows:
-
-\begin{align*}
-\theta_k = \bigwedge_{i=1}^k \bigwedge_{j=1}^k &\left(q_{i,j} \leftrightarrow (i+j \equiv k+1 \pmod{k})\right) \\
-&\wedge \bigwedge_{i=k+1}^\infty \bigwedge_{j=k+1}^\infty \neg q_{i,j}
-\end{align*}
-
-This definition satisfies the required conditions:
-
-(a) Each $\theta_k$ defines a solution to the $k$-Queens Problem by placing queens on the $k \times k$ board in positions where $i+j \equiv k+1 \pmod{k}$, and no queens elsewhere.
-
-(b) For $k' > k$, $\theta_{k'}$ defines a solution to a larger Queens Problem than $\theta_k$.
-
-(c) Any finite subset of $\Theta$ is satisfiable, as each $\theta_k$ defines a distinct, valid queen placement on a finite portion of the board.
-\newpage
-
-
-\subsection*{(4). Solution to the Infinite Queens Problem}
-
-Using the Compactness Theorem for Propositional Logic, we can prove that the Infinite Queens Problem has a solution:
-
-a. We have shown that every finite subset of $\Theta$ is satisfiable.
-
-b. By the Compactness Theorem, $\Theta$ itself is satisfiable.
-
-c. Let $v$ be a truth assignment that satisfies all wffs in $\Theta$.
-
-d. Define a queen placement on the infinite board as follows:
-   Place a queen at position $(i,j)$ if and only if $v(q_{i,j}) = \text{true}$.
-
-e. This placement is a valid solution to the Infinite Queens Problem because:
-   \begin{itemize}
-     \item For each $k$, the placement satisfies $\theta_k$, ensuring a valid $k$-Queens solution in the $k \times k$ subboard.
-     \item As $k$ increases, larger portions of the board are covered with valid queen placements.
-     \item In the limit, this results in a valid placement for the entire infinite board.
-   \end{itemize}
-
-Therefore, we have rigorously shown that the Infinite Queens Problem has a solution.
 
 \newpage
 
@@ -240,9 +217,8 @@ context and goal, but universal quantifiers only in context.}
 
 \newpage
 
-\section*{PROBLEM 2. From Macbeth’s book: Hint: The first will be hard unless you use the lemma listed in the book. The other two involve some
-computation, but they should be easy if you make use of scratch paper while solving. The very last
-one shows that order matters when rewriting and is similar otherwise.}
+\section*{PROBLEM 2. Prove in Lean 4 the judgment for which you produced a formal proof as a natural
+deduction in Problem 1 above.}
 \section*{Solution}
 
 \url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw05/hw05_nicholas_ikechukwu.lean}
