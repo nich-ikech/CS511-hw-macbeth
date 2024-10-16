@@ -1,0 +1,224 @@
+\documentclass{article}
+\usepackage[letterpaper]{geometry} % Set the paper size to US Letter
+\usepackage{amsmath, amssymb, bussproofs, qtree, booktabs, array, lastpage, fancyhdr}
+\usepackage{mdframed}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+
+
+% Define a custom-proof environment
+
+\newenvironment{proof}
+{\begin{mdframed}[linewidth=0.5pt]\begin{enumerate}[label=\arabic*.,leftmargin=*]}
+{\end{enumerate}\end{mdframed}}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=magenta,      
+  urlcolor=cyan,
+  pdftitle={Your Title Here},
+  pdfpagemode=FullScreen,
+}
+
+\newcommand{\proves}{\vdash}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Page \thepage}
+\lhead{Nicholas  Ikechukwu - U71641768 - Boston University}
+\cfoot{}
+
+\begin{document}
+
+
+\begin{center}
+    \Large\textbf{Solutions to CS511 Homework 06}
+    
+    \vspace{0.5cm}
+    
+    \large Nicholas Ikechukwu - U71641768
+    
+    \vspace{0.3cm}
+    
+    \large October 16, 2024
+\end{center}
+
+
+
+\section*{Exercise 1. [LCS, page 160]: Exercise 2.3.1, do parts (a) and (b) only }
+\begin{mdframed}
+    Prove the validity of the following sequents using, among others, the rules =i
+    and =e. Make sure that you indicate for each application of =e what the rule
+    instances $\phi$, $t_1$ and $t_2$ are.
+    
+    Use $\approx$, instead of =, for the formal symbol whose interpretation is equality. In LaTeX, you can typeset
+    with ${"approx"}$
+     
+    
+    \begin{enumerate}[label=(\alph*)]
+    \item $(y = 0) \land (y = x) \vdash 0 = x$
+    \item $t_1 = t_2 \vdash (t + t_2) = (t + t_1)$
+    \end{enumerate}
+\end{mdframed}
+
+\section*{Solutions:}
+
+\section*{(a) $(y \approx 0) \wedge (y \approx x) \vdash 0 \approx x$}
+
+\begin{proof}
+\begin{enumerate}
+    \item $(y \approx 0) \wedge (y \approx x)$ \hfill [Premise]
+    \item $y \approx 0$ \hfill [$\wedge$ elimination, 1]
+    \item $y \approx x$ \hfill [$\wedge$ elimination, 1]
+    \item $0 \approx y$ \hfill [=e: $\varphi(z) := (z \approx y)$, $t_1 := y$, $t_2 := 0$, from 2]
+    \item $0 \approx x$ \hfill [=e: $\varphi(z) := (0 \approx z)$, $t_1 := y$, $t_2 := x$, from 4, 3]
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+
+\section*{(b) $t_1 \approx t_2 \vdash (t + t_2) \approx (t + t_1)$}
+
+\begin{proof}
+\begin{enumerate}
+    \item $t_1 \approx t_2$ \hfill [Premise]
+    \item $(t + t_1) \approx (t + t_1)$ \hfill [=i]
+    \item $(t + t_2) \approx (t + t_1)$ \hfill [=e: $\varphi(z) := ((t + z) \approx (t + t_1))$, $t_1 := t_1$, $t_2 := t_2$, from 1, 2]
+\end{enumerate}
+\end{proof}
+
+
+
+\newpage
+
+\section*{Exercise 2. LCS, page 161: Exercise 2.3.9, do parts (a) and (d) only.}
+\begin{mdframed}
+    Prove the validity of the following sequents in predicate logic, where F , G, P ,
+    and Q have arity 1, and S has arity 0 (a ‘propositional atom’):
+
+    \begin{itemize}
+        \item (a) $\exists x (S \rightarrow Q(x)) \vdash S \rightarrow \exists x Q(x)$
+        \item (d) $\forall x P(x) \rightarrow S \vdash \exists x (P(x) \rightarrow S)$
+    \end{itemize}
+
+\end{mdframed}
+
+\section*{Solutions:}
+
+
+\section*{(a) $\exists x(S \to Q(x)) \vdash S \to \exists xQ(x)$}
+
+Let $\mathcal{I}$ be any interpretation in which $\exists x(S \to Q(x))$ is true.
+
+\begin{proof}
+    \item There exists some element $a$ in the domain such that $S \to Q(a)$ is true in $\mathcal{I}$. \hfill
+    \item To prove $S \to \exists xQ(x)$, consider two cases for $S$: \hfill
+    \item Case 1: If $S$ is false in $\mathcal{I}$, then $S \to \exists xQ(x)$ is trivially true. \hfill
+    \item Case 2: If $S$ is true in $\mathcal{I}$, then: \hfill
+    \begin{enumerate}
+        \item $Q(a)$ must be true in $\mathcal{I}$ (from steps 1 and 4). \hfill
+        \item Therefore, $\exists xQ(x)$ is true in $\mathcal{I}$. \hfill
+        \item Hence, $S \to \exists xQ(x)$ is true in $\mathcal{I}$. \hfill
+    \end{enumerate}
+    \item In both cases, $S \to \exists xQ(x)$ is true in $\mathcal{I}$. \hfill
+Thus, whenever $\exists x(S \to Q(x))$ is true in an interpretation, $S \to \exists xQ(x)$ is also true in that interpretation, proving the validity of the sequent. \hfill
+\end{proof}
+
+\newpage
+\section*{(d) $\forall xP(x) \to S \vdash \exists x(P(x) \to S)$}
+    We prove this by contradiction:
+
+\begin{proof}
+    \item Assume there exists an interpretation $\mathcal{I}$ in which $\forall xP(x) \to S$ is true but $\exists x(P(x) \to S)$ is false. \hfill
+    \item In $\mathcal{I}$, $\forall x\neg(P(x) \to S)$ must be true (negation of $\exists x(P(x) \to S)$). \hfill
+    \item This means for every element $a$ in the domain of $\mathcal{I}$: \hfill
+    \begin{enumerate}
+        \item $P(a)$ is true and $S$ is false. \hfill
+    \end{enumerate}
+    \item Therefore, $\forall xP(x)$ is true in $\mathcal{I}$. \hfill
+    \item From steps 1 and 4, $S$ must be true in $\mathcal{I}$ (by modus ponens). \hfill
+    \item But this contradicts step 3(a), where $S$ is false. \hfill
+This contradiction shows that our assumption in step 1 must be false. Therefore, in any interpretation where $\forall xP(x) \to S$ is true, $\exists x(P(x) \to S)$ must also be true, proving the validity of the sequent. \hfill
+\end{proof}
+
+\newpage
+\section*{PROBLEM 1: Let $\psi1, \psi2, and \psi3$ be the three axioms of group theory, which are written as
+first-order wff’s on page 11 of Lecture Slides 20. Let $\psi$ be the wff in the middle of the same page
+11 of Lecture Slides 20. The wff $\psi$ expresses the uniqueness of inverses in groups. Your task is to
+produce a formal proof, as a natural deduction, of the following judgment:
+$\psi1, \psi2, \psi3 \vdash \psi$.}
+
+\subsection*{Hint: Do Exercises 1 and 2 above before this problem. Also use $\approx$ for the formal symbol whose
+interpretation is equality, leaving = for equality at the meta-level.
+}
+
+
+\section*{Solution:}
+Let $\psi_1$, $\psi_2$, and $\psi_3$ be the three axioms of group theory:
+
+\begin{enumerate}
+    \item $\forall x (e \cdot x \approx x \wedge x \cdot e \approx x)$ (identity)
+    \item $\forall x \exists y (x \cdot y \approx e \wedge y \cdot x \approx e)$ (inverse)
+    \item $\forall x \forall y \forall z ((x \cdot y) \cdot z \approx x \cdot (y \cdot z))$ (associative)
+\end{enumerate}
+
+Let $\phi$ be the wff expressing the uniqueness of inverses in groups:
+
+\[\phi \equiv \forall x \forall y \forall z (x \cdot y \approx e \wedge x \cdot z \approx e \to y \approx z)\]
+
+We need to prove: $\psi_1, \psi_2, \psi_3 \proves \phi$
+Let $x$, $y$, and $z$ be arbitrary elements of the group.
+
+\begin{proof}
+
+    \item Assume $x \cdot y \approx e$ and $x \cdot z \approx e$.
+    \item From $\psi_2$, there exists an element $x'$ such that $x \cdot x' \approx e$ and $x' \cdot x \approx e$.
+    \item By substituting $e$ into the equation, we have $(x \cdot y) \cdot x' \approx e$.
+    \item By the identity axiom ($\psi_1$), $(x \cdot y) \cdot x' = x'$.
+    \item By the associative property ($\psi_3$), we have $x \cdot (y \cdot x') = x'$.
+    \item Therefore, since $e = y$, we can conclude that $y = x'$.
+    \item Similarly, we can show that $z = x'$.
+    \item Thus, we conclude that $y = z$.
+
+\end{proof}
+Since $x$, $y$, and $z$ were arbitrary, we have proven $\phi$.
+
+
+\newpage
+
+
+
+
+
+
+
+\section*{ON LEAN-4}
+\subsection*{Solutions in one file at: 
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw06/hw06_nicholas_ikechukwu.lean}}
+
+\newpage
+
+\section*{Exercise 3. Hint: These should be easy if you read the book. Use existential quantifiers.}
+\section*{Solution}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw06/hw06_nicholas_ikechukwu.lean}
+
+\newpage
+
+\section*{Exercise 4. Hint: These use existential and universal quantifiers. The existential quantifiers are used in both
+context and goal, but universal quantifiers only in context.}
+
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw06/hw06_nicholas_ikechukwu.lean}
+
+\newpage
+
+\section*{PROBLEM 2. Prove in Lean 4 the judgment for which you produced a formal proof as a natural
+deduction in Problem 1 above.}
+\section*{Solution}
+
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw06/hw06_nicholas_ikechukwu.lean}
+\end{document}
