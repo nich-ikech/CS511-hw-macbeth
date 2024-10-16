@@ -21,8 +21,8 @@ theorem exercise3b (a : ℤ) : ∃ m n : ℤ, m ^ 2 - n ^ 2 = 2 * a + 1 := by
 theorem exercise3c {p q : ℝ} (h : p < q) : ∃ x, p < x ∧ x < q := by
   use (p + q) / 2
   constructor
-  · calc
-      p < (p + q) / 2 := by ring
+  · linarith
+  · linarith
 
 
 
@@ -49,22 +49,30 @@ theorem exercise4b {a : ℚ} (h : ∀ b : ℚ, a ≥ -3 + 4 * b - b ^ 2) : a ≥
     a ≥ -3 + 4 * 2 - 2 ^ 2 := by rel [h1]
     _ = 1 := by ring
 
+--Example 4.1.3
+@[autograded 2]
 theorem exercise4c {a b : ℝ} (h : ∀ x, x ≥ a ∨ x ≤ b) : a ≤ b := by
-  by_contra hc
-  push_neg at hc
-  have h1 := h ((a + b) / 2)
-  obtain h1 | h1 := h1
-  · have : (a + b) / 2 < a := by linarith
-    linarith
-  · have : b < (a + b) / 2 := by linarith
-    linarith
+  by_contra h1
+  push_neg at h1
+  have h2 := h ((a + b) / 2)
+  obtain h3 | h4 := h2
+  · linarith
+  · linarith
 
 --Exercise 3.2.9.2
 @[autograded 2]
 theorem problem2a : ¬(3 : ℤ) ∣ -10 := by
   intro h
-  have := Int.mod_eq_zero_of_dvd h
-  norm_num at h
+  obtain ⟨k, hk⟩ := h
+  have h1 : 3 ∣ 9 := by use 3; ring
+  have h2 : 3 ∣ 9 + (-10) := by
+    apply Int.dvd_add h1 h
+  have h3 : 3 ∣ -1 := by
+    convert h2
+    ring
+  have h4 : 3 ≤ |-1| := Int.le_abs_self 3
+  have h5 : |-1| = 1 := by norm_num
+  linarith
 
 --Exercise 3.2.9.5
 @[autograded 2]
