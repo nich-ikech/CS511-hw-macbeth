@@ -6,7 +6,9 @@
 /.lake/
 /.cache
 
+*.DS_Store
 /.DS_Store
+.DS_Store
 *.aux
 *.log
 *.out
