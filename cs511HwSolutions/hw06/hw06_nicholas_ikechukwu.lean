@@ -1,3 +1,12 @@
+import Mathlib.Data.Real.Basic
+import Library.Basic
+import Library.Theory.ModEq.Defs
+import Library.Tactic.ModEq
+import Library.Theory.ParityModular
+import AutograderLib
+
+math2001_init
+
 --# Exercise 3.4.5.6
 
 @[autograded 3]
