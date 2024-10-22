@@ -33,11 +33,11 @@ theorem exercise_3a (n : ℤ) : 5 * n ^ 2 + 3 * n + 7 ≡ 1 [ZMOD 2] := by
   mod_cases hn : n % 2
   · calc
       5 * n ^ 2 + 3 * n + 7 ≡ 5 * 0 ^ 2 + 3 * 0 + 7 [ZMOD 2] := by rel [hn]
-      _ = 0 + 1 + 2 * 3 := by ring
+      _ = 1 + 2 * 3 := by numbers
       _ ≡ 1 [ZMOD 2] := by extra
   · calc
       5 * n ^ 2 + 3 * n + 7 ≡ 5 * 1 ^ 2 + 3 * 1 + 7 [ZMOD 2] := by rel [hn]
-      _ = 15 := by ring
+      _ = 1 + 2 * 7 := by ring
       _ ≡ 1 [ZMOD 2] := by extra
 
 
