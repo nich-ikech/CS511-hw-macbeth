@@ -103,6 +103,11 @@ theorem exercise_4b : Prime 7 := by
     · use 1
       constructor <;> numbers
 
+
+
+
+
+
 --# Example 4.5.4
 
 @[autograded 2]
@@ -118,30 +123,48 @@ theorem problem_2a : ¬ (∃ n : ℕ, n ^ 2 = 2) := by
   | inl h_odd => exact no_int_even_and_odd ⟨n ^ 2, h_even, Int.odd_sq h_odd⟩
   | inr h_even => exact no_int_even_and_odd ⟨2, by { rw [← hn]; exact Int.even_sq h_even }, by use 1; ring⟩
 
---# Example 4.5.5
 
+
+
+
+
+
+--# Example 4.5.5
 @[autograded 2]
 theorem problem_2b (n : ℤ) : Int.Odd n ↔ ¬ Int.Even n := by
   constructor
-  · intro h1 h2; exact no_int_even_and_odd ⟨n, h2, h1⟩
+  · intro h1 h2
+    apply no_int_even_and_odd
+    use n
+    constructor
+    · exact h2
+    · exact h1
   · intro h
     cases Int.even_or_odd n with
-    | inl h1 => contradiction
-    | inr h2 => exact h2
+    | inl h_even => contradiction
+    | inr h_odd => exact h_odd
+
+
+
+
 
 --# Example 4.5.6
-
 @[autograded 2]
 theorem problem_2c (n : ℤ) : ¬(n ^ 2 ≡ 2 [ZMOD 3]) := by
   intro h
-  have : n ^ 2 ≡ n [ZMOD 3] := by
-    calc n ^ 2 ≡ n * n [ZMOD 3] := by rel [Int.ModEq.refl]
-               ≡ n [ZMOD 3] := by apply Int.ModEq.mul_right; apply Int.modEq_add_fac_self_symm''
-  have : n ≡ 2 [ZMOD 3] := by
-    calc n ≡ n ^ 2 [ZMOD 3] := by rel [this.symm]
-           ≡ 2 [ZMOD 3] := by rel [h]
-  have : 2 ≡ 2 ^ 2 [ZMOD 3] := by
-    calc 2 ≡ n [ZMOD 3] := by rel [this.symm]
-           ≡ n ^ 2 [ZMOD 3] := by rel [this]
-           ≡ 2 [ZMOD 3] := by rel [h]
-  numbers at this
+  mod_cases hn : n % 3
+  · have h :=
+    calc (0:ℤ) = 0 ^ 2 := by numbers
+      _ ≡ n ^ 2 [ZMOD 3] := by rel [hn]
+      _ ≡ 2 [ZMOD 3] := by rel [h]
+    numbers at h -- contradiction!
+  · have h :=
+    calc (1:ℤ) = 1 ^ 2 := by numbers
+      _ ≡ n ^ 2 [ZMOD 3] := by rel [hn]
+      _ ≡ 2 [ZMOD 3] := by rel [h]
+    numbers at h -- contradiction!
+  · have h :=
+    calc (2:ℤ) = 2 ^ 2 := by numbers
+      _ ≡ n ^ 2 [ZMOD 3] := by rel [hn]
+      _ ≡ 2 [ZMOD 3] := by rel [h]
+    numbers at h -- contradiction!
