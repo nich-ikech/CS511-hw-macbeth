@@ -27,6 +27,7 @@ theorem exercise_3a (n : ℤ) : 5 * n ^ 2 + 3 * n + 7 ≡ 1 [ZMOD 2] := by
 
 
 --# Exercise 3.4.5.7
+
 @[autograded 3]
 theorem exercise_3b {x : ℤ} : x ^ 5 ≡ x [ZMOD 5] := by
   mod_cases hx : x % 5
@@ -58,6 +59,8 @@ theorem exercise_3b {x : ℤ} : x ^ 5 ≡ x [ZMOD 5] := by
 
 
 --# Exercise 4.4.6.2
+
+@[autograded 3]
 theorem exercise_4a (n : ℤ) (hn : n ^ 2 ≡ 4 [ZMOD 5]) : n ≡ 2 [ZMOD 5] ∨ n ≡ 3 [ZMOD 5] := by
   mod_cases hn' : n % 5
   · have h := calc
@@ -85,6 +88,7 @@ theorem exercise_4a (n : ℤ) (hn : n ^ 2 ≡ 4 [ZMOD 5]) : n ≡ 2 [ZMOD 5] ∨
 
 
 --# Exercise 4.4.6.3
+
 @[autograded 3]
 theorem exercise_4b : Prime 7 := by
   apply prime_test
@@ -113,16 +117,21 @@ theorem exercise_4b : Prime 7 := by
 @[autograded 2]
 theorem problem_2a : ¬ (∃ n : ℕ, n ^ 2 = 2) := by
   intro h
-  obtain ⟨n, hn⟩ := h
-  have h_even : Int.Even (n ^ 2) := by
-    use 1
-    rw [hn]
-    ring
-  have h_odd : Int.Odd n ∨ Int.Even n := Int.odd_or_even n
-  cases h_odd with
-  | inl h_odd => exact no_int_even_and_odd ⟨n ^ 2, h_even, Int.odd_sq h_odd⟩
-  | inr h_even => exact no_int_even_and_odd ⟨2, by { rw [← hn]; exact Int.even_sq h_even }, by use 1; ring⟩
-
+  rcases h with ⟨n, hn⟩
+  have hn1 := le_or_gt n 1
+  cases hn1 with
+  | inl h1 =>
+    have contra := calc
+      2 = n ^ 2 := by rw [hn]
+      _ ≤ 1 ^ 2 := by rel [h1]
+      _ < 2 := by numbers
+    linarith
+  | inr h2 =>
+    have contra := calc
+      2 = n ^ 2 := by rw [hn]
+      _ ≥ 2 ^ 2 := by rel [h2]
+      _ > 2 := by numbers
+    linarith
 
 
 
@@ -130,6 +139,7 @@ theorem problem_2a : ¬ (∃ n : ℕ, n ^ 2 = 2) := by
 
 
 --# Example 4.5.5
+
 @[autograded 2]
 theorem problem_2b (n : ℤ) : Int.Odd n ↔ ¬ Int.Even n := by
   constructor
@@ -146,9 +156,8 @@ theorem problem_2b (n : ℤ) : Int.Odd n ↔ ¬ Int.Even n := by
 
 
 
-
-
 --# Example 4.5.6
+
 @[autograded 2]
 theorem problem_2c (n : ℤ) : ¬(n ^ 2 ≡ 2 [ZMOD 3]) := by
   intro h
@@ -164,7 +173,7 @@ theorem problem_2c (n : ℤ) : ¬(n ^ 2 ≡ 2 [ZMOD 3]) := by
       _ ≡ 2 [ZMOD 3] := by rel [h]
     numbers at h -- contradiction!
   · have h :=
-    calc (1:ℤ) = 1 ^ 2 := by ring
+    calc (4:ℤ) = 2 ^ 2 := by ring
       _ ≡ n ^ 2 [ZMOD 3] := by rel [hn]
       _ ≡ 2 [ZMOD 3] := by rel [h]
     numbers at h -- contradiction!
