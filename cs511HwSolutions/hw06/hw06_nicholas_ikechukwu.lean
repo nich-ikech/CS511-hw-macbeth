@@ -8,21 +8,6 @@ import AutograderLib
 math2001_init
 
 
-example {x : ℤ} : x ^ 3 ≡ x [ZMOD 3] := by
-  mod_cases hx : x % 3
-  calc
-    x ^ 3 ≡ 0 ^ 3 [ZMOD 3] := by rel [hx]
-    _ = 0 := by numbers
-    _ ≡ x [ZMOD 3] := by rel [hx]
-  calc
-    x ^ 3 ≡ 1 ^ 3 [ZMOD 3] := by rel [hx]
-    _ = 1 := by numbers
-    _ ≡ x [ZMOD 3] := by rel [hx]
-  calc
-    x ^ 3 ≡ 2 ^ 3 [ZMOD 3] := by rel [hx]
-    _ = 2 + 3 * 2 := by numbers
-    _ ≡ 2 [ZMOD 3] := by extra
-    _ ≡ x [ZMOD 3] := by rel [hx]
 
 
 
@@ -76,17 +61,27 @@ theorem exercise_3b {x : ℤ} : x ^ 5 ≡ x [ZMOD 5] := by
 
 @[autograded 3]
 theorem exercise_4a (n : ℤ) (hn : n ^ 2 ≡ 4 [ZMOD 5]) : n ≡ 2 [ZMOD 5] ∨ n ≡ 3 [ZMOD 5] := by
-  have h : (n - 2) * (n - 3) ≡ 0 [ZMOD 5] := by
-    calc (n - 2) * (n - 3)
-      ≡ n ^ 2 - 5 * n + 6 [ZMOD 5] := by rel [Int.ModEq.refl]
-      ≡ 4 - 0 + 1 [ZMOD 5] := by rel [hn, Int.ModEq.refl]
-      ≡ 0 [ZMOD 5] := by rel [Int.ModEq.refl]
-  obtain ⟨k, hk⟩ := h
-  have : n - 2 ≡ 0 [ZMOD 5] ∨ n - 3 ≡ 0 [ZMOD 5] := by
-    apply Int.ModEq.mul_eq_zero hk
-  cases this with
-  | inl h => right; rel [h]
-  | inr h => left; rel [h]
+  mod_cases hn' : n % 5
+  · have h := calc
+      4 ≡ n ^ 2 [ZMOD 5] := by rel [hn]
+      _ ≡ 0 ^ 2 [ZMOD 5] := by rel [hn']
+      _ = 0 := by ring
+    numbers at h
+  · have h := calc
+      4 ≡ n ^ 2 [ZMOD 5] := by rel [hn]
+      _ ≡ 1 ^ 2 [ZMOD 5] := by rel [hn']
+      _ = 1 := by ring
+    numbers at h
+  -- · right
+  --   exact hn'
+  -- · left
+  --   exact hn'
+  -- · have h := calc
+  --     4 ≡ n ^ 2 [ZMOD 5] := by rel [hn]
+  --     _ ≡ 4 ^ 2 [ZMOD 5] := by rel [hn']
+  --     _ = 16 := by ring
+  --     _ ≡ 1 [ZMOD 5] := by extra
+  --   numbers at h
 
 --# Exercise 4.4.6.3
 
@@ -95,8 +90,18 @@ theorem exercise_4b : Prime 7 := by
   apply prime_test
   · numbers
   · intros m hm1 hm2
+    apply Nat.not_dvd_of_exists_lt_and_lt
     interval_cases m
-    all_goals numbers
+    · use 3
+      constructor <;> numbers
+    · use 2
+      constructor <;> numbers
+    · use 1
+      constructor <;> numbers
+    · use 1
+      constructor <;> numbers
+    · use 1
+      constructor <;> numbers
 
 --# Example 4.5.4
 
