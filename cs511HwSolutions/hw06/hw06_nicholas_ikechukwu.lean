@@ -118,23 +118,30 @@ theorem exercise_4b : Prime 7 := by
 theorem problem_2a : ¬ (∃ n : ℕ, n ^ 2 = 2) := by
   intro h
   rcases h with ⟨n, hn⟩
-  have hn1 := le_or_gt n 1
-  cases hn1 with
+  cases le_or_lt n 2 with
   | inl h1 =>
-    have contra := calc
-      2 = n ^ 2 := by rw [hn]
-      _ ≤ 1 ^ 2 := by rel [h1]
-      _ < 2 := by numbers
-    linarith
+    -- Case: n ≤ 1
+    have h := calc
+      n ^ 2 ≤ 1 ^ 2 := by rel [h1]
+      _ < 2 := by norm_num
+    rw [hn] at h
+    exact lt_irrefl _ h
   | inr h2 =>
-    have contra := calc
-      2 = n ^ 2 := by rw [hn]
-      _ ≥ 2 ^ 2 := by rel [h2]
-      _ > 2 := by numbers
-    linarith
+    -- Case: n ≥ 2
+    have h := calc
+      n ^ 2 ≥ 2 ^ 2 := by rel [h2]
+      _ > 2 := by norm_num
+    rw [hn] at h
+    exact lt_irrefl _ h
 
+-- hint should to follow:
+-- case 1, n<= 1: then
+--  2 = n^2
+-- <= 1^2,
 
-
+-- case 2, n<= 2: then
+--  2 = n^2
+-- <= 2^2,
 
 
 
@@ -144,15 +151,16 @@ theorem problem_2a : ¬ (∃ n : ℕ, n ^ 2 = 2) := by
 theorem problem_2b (n : ℤ) : Int.Odd n ↔ ¬ Int.Even n := by
   constructor
   · intro h1 h2
-    apply no_int_even_and_odd
-    use n
-    constructor
-    · exact h2
-    · exact h1
+    rw [Int.odd_iff_modEq] at h1
+    rw [Int.even_iff_modEq] at h2
+    have h :=
+    calc 1 ≡ n [ZMOD 2] := by rel [h1]
+      _ ≡ 0 [ZMOD 2] := by rel [h2]
+    numbers at h -- contradiction!
   · intro h
-    cases Int.even_or_odd n with
-    | inl h_even => contradiction
-    | inr h_odd => exact h_odd
+    obtain h1 | h2 := Int.even_or_odd n
+    · contradiction
+    · exact h2
 
 
 
