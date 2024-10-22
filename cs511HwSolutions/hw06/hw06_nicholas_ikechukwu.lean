@@ -58,7 +58,7 @@ theorem exercise_3b {x : ℤ} : x ^ 5 ≡ x [ZMOD 5] := by
 
 
 --# Exercise 4.4.6.2
-theorem exercise_4aa (n : ℤ) (hn : n ^ 2 ≡ 4 [ZMOD 5]) : n ≡ 2 [ZMOD 5] ∨ n ≡ 3 [ZMOD 5] := by
+theorem exercise_4a (n : ℤ) (hn : n ^ 2 ≡ 4 [ZMOD 5]) : n ≡ 2 [ZMOD 5] ∨ n ≡ 3 [ZMOD 5] := by
   mod_cases hn' : n % 5
   · have h := calc
       4 ≡ n ^ 2 [ZMOD 5] := by rel [hn]
@@ -154,17 +154,17 @@ theorem problem_2c (n : ℤ) : ¬(n ^ 2 ≡ 2 [ZMOD 3]) := by
   intro h
   mod_cases hn : n % 3
   · have h :=
-    calc (0:ℤ) = 0 ^ 2 := by numbers
+    calc (0:ℤ) = 0 ^ 2 := by ring
       _ ≡ n ^ 2 [ZMOD 3] := by rel [hn]
       _ ≡ 2 [ZMOD 3] := by rel [h]
     numbers at h -- contradiction!
   · have h :=
-    calc (1:ℤ) = 1 ^ 2 := by numbers
+    calc (1:ℤ) = 1 ^ 2 := by ring
       _ ≡ n ^ 2 [ZMOD 3] := by rel [hn]
       _ ≡ 2 [ZMOD 3] := by rel [h]
     numbers at h -- contradiction!
   · have h :=
-    calc (2:ℤ) = 2 ^ 2 := by numbers
+    calc (1:ℤ) = 1 ^ 2 := by ring
       _ ≡ n ^ 2 [ZMOD 3] := by rel [hn]
       _ ≡ 2 [ZMOD 3] := by rel [h]
     numbers at h -- contradiction!
