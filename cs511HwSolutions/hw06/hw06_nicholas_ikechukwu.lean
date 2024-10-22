@@ -6,24 +6,71 @@ import Library.Theory.ParityModular
 import AutograderLib
 
 math2001_init
+
+
+example {x : ℤ} : x ^ 3 ≡ x [ZMOD 3] := by
+  mod_cases hx : x % 3
+  calc
+    x ^ 3 ≡ 0 ^ 3 [ZMOD 3] := by rel [hx]
+    _ = 0 := by numbers
+    _ ≡ x [ZMOD 3] := by rel [hx]
+  calc
+    x ^ 3 ≡ 1 ^ 3 [ZMOD 3] := by rel [hx]
+    _ = 1 := by numbers
+    _ ≡ x [ZMOD 3] := by rel [hx]
+  calc
+    x ^ 3 ≡ 2 ^ 3 [ZMOD 3] := by rel [hx]
+    _ = 2 + 3 * 2 := by numbers
+    _ ≡ 2 [ZMOD 3] := by extra
+    _ ≡ x [ZMOD 3] := by rel [hx]
+
+
+
 --# Exercise 3.4.5.6
 
 @[autograded 3]
 theorem exercise_3a (n : ℤ) : 5 * n ^ 2 + 3 * n + 7 ≡ 1 [ZMOD 2] := by
-  rel [Int.ModEq.refl]
+  mod_cases hn : n % 2
+  · calc
+      5 * n ^ 2 + 3 * n + 7 ≡ 5 * 0 ^ 2 + 3 * 0 + 7 [ZMOD 2] := by rel [hn]
+      _ = 0 + 1 + 2 * 3 := by ring
+      _ ≡ 1 [ZMOD 2] := by extra
+  · calc
+      5 * n ^ 2 + 3 * n + 7 ≡ 5 * 1 ^ 2 + 3 * 1 + 7 [ZMOD 2] := by rel [hn]
+      _ = 15 := by ring
+      _ ≡ 1 [ZMOD 2] := by extra
+
 
 --# Exercise 3.4.5.7
-
 @[autograded 3]
 theorem exercise_3b {x : ℤ} : x ^ 5 ≡ x [ZMOD 5] := by
-  have h : x ^ 5 - x = x * (x ^ 4 - 1) := by ring
-  have h' : x ^ 4 - 1 = (x ^ 2 - 1) * (x ^ 2 + 1) := by ring
-  have h'' : x ^ 2 - 1 = (x - 1) * (x + 1) := by ring
-  rw [h, h', h'']
-  apply Int.ModEq.mul_right
-  apply Int.ModEq.mul
-  · apply Int.modEq_zero_fac
-  · apply Int.modEq_zero_fac
+  mod_cases hx : x % 5
+  · calc
+      x ^ 5 ≡ 0 ^ 5 [ZMOD 5] := by rel [hx]
+      _ = 0 := by ring
+      _ ≡ x [ZMOD 5] := by rel [hx]
+  · calc
+      x ^ 5 ≡ 1 ^ 5 [ZMOD 5] := by rel [hx]
+      _ = 1 := by ring
+      _ ≡ x [ZMOD 5] := by rel [hx]
+  · calc
+      x ^ 5 ≡ 2 ^ 5 [ZMOD 5] := by rel [hx]
+      _ = 2 + 6 * 5 := by numbers
+      _ ≡ 2 [ZMOD 5] := by extra
+      _ ≡ x [ZMOD 5] := by rel [hx]
+  · calc
+      x ^ 5 ≡ 3 ^ 5 [ZMOD 5] := by rel [hx]
+      _ = 3 + 48 * 5 := by numbers
+      _ ≡ 3 [ZMOD 5] := by extra
+      _ ≡ x [ZMOD 5] := by rel [hx]
+  · calc
+      x ^ 5 ≡ 4 ^ 5 [ZMOD 5] := by rel [hx]
+      _ = 4 + 204 * 5 := by numbers
+      _ ≡ 4 [ZMOD 5] := by extra
+      _ ≡ x [ZMOD 5] := by rel [hx]
+
+
+
 
 --# Exercise 4.4.6.2
 
