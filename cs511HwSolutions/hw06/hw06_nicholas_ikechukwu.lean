@@ -58,9 +58,7 @@ theorem exercise_3b {x : ℤ} : x ^ 5 ≡ x [ZMOD 5] := by
 
 
 --# Exercise 4.4.6.2
-
-@[autograded 3]
-theorem exercise_4a (n : ℤ) (hn : n ^ 2 ≡ 4 [ZMOD 5]) : n ≡ 2 [ZMOD 5] ∨ n ≡ 3 [ZMOD 5] := by
+theorem exercise_4aa (n : ℤ) (hn : n ^ 2 ≡ 4 [ZMOD 5]) : n ≡ 2 [ZMOD 5] ∨ n ≡ 3 [ZMOD 5] := by
   mod_cases hn' : n % 5
   · have h := calc
       4 ≡ n ^ 2 [ZMOD 5] := by rel [hn]
@@ -72,19 +70,21 @@ theorem exercise_4a (n : ℤ) (hn : n ^ 2 ≡ 4 [ZMOD 5]) : n ≡ 2 [ZMOD 5] ∨
       _ ≡ 1 ^ 2 [ZMOD 5] := by rel [hn']
       _ = 1 := by ring
     numbers at h
-  -- · right
-  --   exact hn'
-  -- · left
-  --   exact hn'
-  -- · have h := calc
-  --     4 ≡ n ^ 2 [ZMOD 5] := by rel [hn]
-  --     _ ≡ 4 ^ 2 [ZMOD 5] := by rel [hn']
-  --     _ = 16 := by ring
-  --     _ ≡ 1 [ZMOD 5] := by extra
-  --   numbers at h
+  · left
+    exact hn'
+  · right
+    exact hn'
+  · have h := calc
+      4 ≡ n ^ 2 [ZMOD 5] := by rel [hn]
+      _ ≡ 4 ^ 2 [ZMOD 5] := by rel [hn']
+      _ = 1 + 5 * 3 := by ring
+      _ ≡ 1 [ZMOD 5] := by extra
+    numbers at h
+
+
+
 
 --# Exercise 4.4.6.3
-
 @[autograded 3]
 theorem exercise_4b : Prime 7 := by
   apply prime_test
