@@ -116,32 +116,35 @@ theorem exercise_4b : Prime 7 := by
 
 @[autograded 2]
 theorem problem_2a : ¬ (∃ n : ℕ, n ^ 2 = 2) := by
-  intro h
-  rcases h with ⟨n, hn⟩
-  cases le_or_lt n 2 with
+  by_contra h
+  obtain ⟨n, hn⟩ := h
+  have h1 := le_or_gt n 1
+  cases h1 with
   | inl h1 =>
-    -- Case: n ≤ 1
-    have h := calc
-      n ^ 2 ≤ 1 ^ 2 := by rel [h1]
-      _ < 2 := by norm_num
-    rw [hn] at h
-    exact lt_irrefl _ h
-  | inr h2 =>
-    -- Case: n ≥ 2
-    have h := calc
-      n ^ 2 ≥ 2 ^ 2 := by rel [h2]
-      _ > 2 := by norm_num
-    rw [hn] at h
-    exact lt_irrefl _ h
+    have : 2 ≤ 1 := by
+      calc
+        2 = n ^ 2 := by rw [hn]
+        _ ≤ 1 ^ 2 := by rel [h1]
+        _ = 1 := by ring
+    numbers at this
+  | inr h1 =>
+    have : 2 ≥ 4 := by
+      calc
+        2 = n ^ 2 := by rw [hn]
+        _ ≥ 2 ^ 2 := by rel [h1]
+        _ = 4 := by ring
+    numbers at this
 
--- hint should to follow:
+-- hint to follow:
+-- suppose that some integer n satisfied n2 = 2
+
 -- case 1, n<= 1: then
 --  2 = n^2
 -- <= 1^2,
 
--- case 2, n<= 2: then
+-- case 2, n>= 2: then
 --  2 = n^2
--- <= 2^2,
+-- >=  2^2,
 
 
 
