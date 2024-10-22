@@ -173,7 +173,9 @@ theorem problem_2c (n : ℤ) : ¬(n ^ 2 ≡ 2 [ZMOD 3]) := by
       _ ≡ 2 [ZMOD 3] := by rel [h]
     numbers at h -- contradiction!
   · have h :=
-    calc (4:ℤ) = 2 ^ 2 := by ring
-      _ ≡ n ^ 2 [ZMOD 3] := by rel [hn]
-      _ ≡ 2 [ZMOD 3] := by rel [h]
+      calc
+        (1:ℤ) ≡ 1 + 3 * 1 [ZMOD 3] := by extra
+        _ = 2 ^ 2 := by norm_num
+        _ ≡ n ^ 2 [ZMOD 3] := by rel [hn]
+        _ ≡ 2 [ZMOD 3] := by rel [h]
     numbers at h -- contradiction!
