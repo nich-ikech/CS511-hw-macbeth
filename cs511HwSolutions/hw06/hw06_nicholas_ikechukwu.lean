@@ -131,7 +131,7 @@ theorem problem_2a : ¬ (∃ n : ℕ, n ^ 2 = 2) := by
     have : 2 ≥ 4 := by
       calc
         2 = n ^ 2 := by rw [hn]
-        _ ≥ 2 ^ 2 := by rel [h1]
+        _ ≥ 2 ^ 2 := by ring
         _ = 4 := by ring
     numbers at this
 
