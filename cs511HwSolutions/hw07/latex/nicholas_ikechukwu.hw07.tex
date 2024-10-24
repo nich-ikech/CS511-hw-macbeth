@@ -1,0 +1,215 @@
+\documentclass{article}
+\usepackage[letterpaper]{geometry} % Set the paper size to US Letter
+\usepackage{amsmath, amssymb, bussproofs, qtree, booktabs, array, lastpage, fancyhdr}
+\usepackage{mdframed}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+
+
+% Define a custom-proof environment
+
+\newenvironment{proof}
+{\begin{mdframed}[linewidth=0.5pt]\begin{enumerate}[label=\arabic*.,leftmargin=*]}
+{\end{enumerate}\end{mdframed}}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=magenta,      
+  urlcolor=cyan,
+  pdftitle={Your Title Here},
+  pdfpagemode=FullScreen,
+}
+
+% Add the new command here
+\newcommand{\defeq}{\stackrel{\text{def}}{=}}
+\newcommand{\proves}{\vdash}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Page \thepage}
+\lhead{Nicholas  Ikechukwu - U71641768 - Boston University}
+\cfoot{}
+
+\begin{document}
+
+
+\begin{center}
+    \Large\textbf{Solutions to CS511 Homework 07}
+    
+    \vspace{0.5cm}
+    
+    \large Nicholas Ikechukwu - U71641768
+    
+    \vspace{0.3cm}
+    
+    \large October 24, 2024
+\end{center}
+
+
+
+\section*{Exercise 1. Lecture Slides 22, FO Definability, Appendix. Ex. 3 on pg2. }
+
+\subsection*{Hint: Carefully use the hint, as well as the special case given in lecture on Thursday, October 10.
+Use $\approx$, instead of =, for the formal symbol whose interpretation is equality. In LaTeX, you can typeset
+$\approx$ with \ approx.}
+
+\begin{mdframed}
+    Every finite subset X $\subseteq$ N is first-order definable in the structure ($\mathbb{N}; <$).
+\end{mdframed}
+
+\section*{Solutions to Ex.3 : First-Order Definability}
+Ex.3. Every finite subset $X \subseteq \mathbb{N}$ is first-order definable in the structure $\mathbb{N}; <$. We can use the first-order definable constant 0 and the successor function.
+
+% Define the WFF for the subset X
+Let $\phi_{\{0\}}(x)$ define the constant 0 as:
+$$
+\phi_{\{0\}}(x) \defeq \forall y (x \approx y \lor x < y)
+$$
+
+
+% Define the successor function
+Let $\phi_{\text{succ}}(x, y)$ define the successor function:
+$$
+\phi_{\text{succ}}(x, y) \defeq (x < y) \land \forall z (x < z \rightarrow (y \approx z \lor y < z)) \land \forall z (z < y \rightarrow (z \approx x \lor z < x))
+$$
+
+
+% Define the WFF for the finite subset
+A finite subset $X = \{ a_1, a_2, \ldots, a_n \}$ can be defined as follows:
+$$
+\phi_X(x) \defeq \bigvee_{i=1}^{n} \phi_{\text{succ}}^{i-1}(0, x)
+$$
+
+where $\phi_{\text{succ}}^{i-1}(0, x)$ denotes applying the successor function $(i-1)$ times starting from 0.
+
+
+
+
+\newpage
+
+\section*{Exercise 2. Lecture Slides 22, FO Definability, Appendix. Ex 10 on page 3.}
+
+\subsection*{Hint 1 : Review how we showed, in lecture on Thursday October 10, that the unary predicate prime
+was first-order definable in in structure ($\mathbb{N}$; =, <, +, ·, S, 0). See pages 15-16 in Lecture Slides 21
+where prime is called pr}
+
+\subsection*{Hint 2 : You case use any of the preceding exercises in Lecture Slides 22, FO Definability,
+Appendix as “lemmas” without proving them again, i.e., use the statements of the exercises as
+premises that you do not need to prove.}
+
+\begin{mdframed}
+    Show that the predicate $\text{prime} : \mathbb{N} \to \{\text{true}, \text{false}\}$ is first-order definable in the structure $(\mathbb{N}; |, +, 0)$.
+\end{mdframed}
+
+\section*{Solution to Ex. 10}
+
+\begin{proof}
+    \item We define the predicate $\text{prime}(x)$ using the following first-order formula:
+    
+    \[\phi_{\text{prime}}(x) \defeq \neg(x \approx 1) \wedge \forall y \forall z [(y|x \wedge z|x) \to (y \approx 1 \vee z \approx 1 \vee y \approx x \vee z \approx x)]\]
+    
+    \item This formula uses only the divisibility relation $|$ and equality $\approx$. We need to show that the other components can be defined using $\{|, +, 0\}$:
+    
+    \item $x \approx 1$ can be defined as $\phi_1(x) \defeq \forall y (y|x)$
+    
+    \item $x \approx 0$ can be defined as $\phi_0(x) \defeq \forall y (x|y)$
+    
+    \item Using these, we can rewrite $\phi_{\text{prime}}(x)$ as:
+    
+    \[\phi_{\text{prime}}(x) \defeq \neg\phi_1(x) \wedge \forall y \forall z [(y|x \wedge z|x) \to (\phi_1(y) \vee \phi_1(z) \vee y \approx x \vee z \approx x)]\]
+    
+  
+\end{proof}
+
+
+
+\newpage
+\section*{PROBLEM 1 Open EML.Chapter 4.pdf. Do part 2 and part 3 in Exercise 71 on page 46.}
+
+\subsection*{Hint: You will have to do a fair amount of reading in the same chapter before doing this problem, in
+particular, you should carefully study the material in Example 70 right before Exercise 71. However,
+by the time you have finished your reading, your answers will be relatively easy to write.
+}
+
+
+\section*{Solution to Ex. 2:}
+We can prove that if every finite subgraph of $G$ is $k$-colorable, then $G$ is $k$-colorable, using the Compactness Theorem for ZOL.
+\begin{proof}
+    
+    
+    \item Let $\Gamma = \Theta_1 \cup \Theta_2 \cup \Theta_3 \cup \Phi_1 \cup \Phi_2 \cup \Phi_3$ as defined in the background.
+    
+    \item Consider any finite subset $\Gamma_0 \subseteq \Gamma$. This $\Gamma_0$ only mentions a finite number of vertices of $G$.
+    
+    \item Let $G_0$ be the finite subgraph of $G$ induced by these vertices.
+    
+    \item By our assumption, $G_0$ is $k$-colorable.
+    
+    \item This $k$-coloring of $G_0$ can be extended to a model $M_0$ of $\Gamma_0$.
+    
+    \item Therefore, every finite subset of $\Gamma$ is satisfiable.
+    
+    \item By the Compactness Theorem for ZOL (Theorem 65), $\Gamma$ itself is satisfiable.
+    
+    \item Let $M$ be a model of $\Gamma$. By the Basic Herbrand Theorem (Theorem 58), we can assume $M$ is a Herbrand model.
+    
+    \item The reduct $M_0 = (M, R^M)$ contains an isomorphic copy of $G$ (by the Claim in the background).
+    
+    \item The interpretation of $C_1, \ldots, C_k$ in $M$ gives a valid $k$-coloring of this copy of $G$.
+    
+    \item Therefore, $G$ is $k$-colorable.
+    \end{proof}
+
+\newpage
+
+\section*{Solution to Ex. 3:}
+    Let $G = (N, E)$ be a planar graph. We will prove that $G$ is 4-colorable.
+
+\begin{proof}
+    
+    \item Every finite subgraph of $G$ is planar (as planarity is a hereditary property).
+    
+    \item By the Four Color Theorem, every finite planar graph is 4-colorable.
+    
+    \item Therefore, every finite subgraph of $G$ is 4-colorable.
+    
+    \item By the result from Exercise 2, since every finite subgraph of $G$ is 4-colorable, $G$ itself is 4-colorable.
+    
+    
+    \end{proof}
+
+\newpage
+
+
+
+
+
+
+
+\section*{ON LEAN-4}
+\subsection*{Solutions in one file at: 
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw07/hw07_nicholas_ikechukwu.lean}}
+
+\newpage
+
+\section*{Exercise 3. From Macbeth's book}
+\section*{Solution}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw07/hw07_nicholas_ikechukwu.lean}
+
+\newpage
+
+\section*{Exercise 4. From Macbeth's book}
+
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw07/hw07_nicholas_ikechukwu.lean}
+
+\newpage
+
+\section*{PROBLEM 2. From Macbeth's book}
+\section*{Solution}
+
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw07/hw07_nicholas_ikechukwu.lean}
+\end{document}
