@@ -68,7 +68,7 @@ example {x : Type} {S : Prop} {P : Type → Prop} (h : ∀x, P x → S) : ∃x, 
   use x
   apply h'
 
-/-# Problems from Homework 7-/
+/-# Problems from Homework 7-/ --lec slides 29  page 14
 
 example {P : Type → Type → Prop} (h1 : ∀x, ∀y, ∀z, P x y ∧ P y z → P x z)
   (h2 : ∀x, ∀y, P x y → P y x) : ∀x, ∀y, ∀z, P x y ∧ P z y → P x z := by

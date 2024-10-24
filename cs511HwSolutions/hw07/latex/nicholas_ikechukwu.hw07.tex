@@ -51,136 +51,176 @@
 
 
 
-\section*{Exercise 1. Lecture Slides 22, FO Definability, Appendix. Ex. 3 on pg2. }
+\section*{Exercise 1. Open Lecture Slides 29, I, Analytical Tableaux for Classical First-Order
+Logic. Do Exercise 1 on page 14. }
 
-\subsection*{Hint: Carefully use the hint, as well as the special case given in lecture on Thursday, October 10.
-Use $\approx$, instead of =, for the formal symbol whose interpretation is equality. In LaTeX, you can typeset
-$\approx$ with \ approx.}
+\subsection*{Hint: To show that $\{\phi1, \phi2, \phi3\} \models \phi$ is equivalent to showing $\{\phi1, \phi2, \phi3\}  \vdash \phi $ (by completeness),
+which is equivalent to showing $\vdash (\phi1 \land \phi2 \land \phi3) \rightarrow \phi.$ These equivalences hold for formal proofs carried
+out according to the rules of natural deduction, and they hold again when analytic tableaux are used
+as a formal-proof system.}
 
 \begin{mdframed}
-    Every finite subset X $\subseteq$ N is first-order definable in the structure ($\mathbb{N}; <$).
+    Show that $\Gamma \models \phi$ 
+    \vspace{1em}
+
+    where:
+    \vspace{1em}
+
+    $\Gamma = \{\forall x\forall y\forall z(P(x,y) \land P(y,z) \to P(x,z)), \forall x\forall y(P(x,y) \to P(y,x))\}$
+    
+    $\phi = \forall x\forall y\forall z(P(x,y) \land P(z,y) \to P(x,z))$
 \end{mdframed}
 
-\section*{Solutions to Ex.3 : First-Order Definability}
-Ex.3. Every finite subset $X \subseteq \mathbb{N}$ is first-order definable in the structure $\mathbb{N}; <$. We can use the first-order definable constant 0 and the successor function.
+\section*{Solutions to First-Order Ground Tableaux Proof:}
 
-% Define the WFF for the subset X
-Let $\phi_{\{0\}}(x)$ define the constant 0 as:
-$$
-\phi_{\{0\}}(x) \defeq \forall y (x \approx y \lor x < y)
-$$
+\vspace{1em}
+
+We negate the formula we want to prove and show it leads to a contradiction:
+
+\vspace{1em}
+\Tree [.{1. $\neg(\forall x\forall y\forall z(P(x,y) \land P(z,y) \to P(x,z)))$} 
+    [.{2. $\exists x\exists y\exists z(P(x,y) \land P(z,y) \land \neg P(x,z))$}
+        [.{3. $P(x_1,y_1) \land P(z_1,y_1) \land \neg P(x_1,z_1)$}
+            [.{4. $P(x_1,y_1)$}
+                [.{5. $P(z_1,y_1)$}
+                    [.{6. $\neg P(x_1,z_1)$}
+                        [.{7. $P(y_1,z_1)$ \quad (from 2, 5)}
+                            [.{8. $P(x_1,z_1)$ \quad (from 1, 4, 7)}
+                                [.{X} ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+    ]
+]
+
+\vspace{1em}
 
 
-% Define the successor function
-Let $\phi_{\text{succ}}(x, y)$ define the successor function:
-$$
-\phi_{\text{succ}}(x, y) \defeq (x < y) \land \forall z (x < z \rightarrow (y \approx z \lor y < z)) \land \forall z (z < y \rightarrow (z \approx x \lor z < x))
-$$
+Explanation:
+\begin{enumerate}
+    \item Line 1: Negation of the conclusion
+    \item Line 2: Converting universal quantifier to existential
+    \item Line 3: Instantiation with fresh variables $x_1$, $y_1$, $z_1$
+    \item Lines 4-6: Conjunction elimination
+    \item Line 7: From $P(z_1,y_1)$ and symmetry axiom
+    \item Line 8: From $P(x_1,y_1)$, $P(y_1,z_1)$ and transitivity axiom
+    \item X: Contradiction between lines 6 and 8
+\end{enumerate}
 
-
-% Define the WFF for the finite subset
-A finite subset $X = \{ a_1, a_2, \ldots, a_n \}$ can be defined as follows:
-$$
-\phi_X(x) \defeq \bigvee_{i=1}^{n} \phi_{\text{succ}}^{i-1}(0, x)
-$$
-
-where $\phi_{\text{succ}}^{i-1}(0, x)$ denotes applying the successor function $(i-1)$ times starting from 0.
-
-
+Since we reached a contradiction, the original formula is valid.
 
 
 \newpage
 
-\section*{Exercise 2. Lecture Slides 22, FO Definability, Appendix. Ex 10 on page 3.}
+\section*{Exercise 2. Open Lecture Slides 29, I, Analytical Tableaux for Classical First-Order
+Logic. Do Exercise 2 on page 14.}
 
-\subsection*{Hint 1 : Review how we showed, in lecture on Thursday October 10, that the unary predicate prime
-was first-order definable in in structure ($\mathbb{N}$; =, <, +, ·, S, 0). See pages 15-16 in Lecture Slides 21
-where prime is called pr}
+\subsection*{Hint: Review the hint in the preceding exercise}
 
-\subsection*{Hint 2 : You case use any of the preceding exercises in Lecture Slides 22, FO Definability,
-Appendix as “lemmas” without proving them again, i.e., use the statements of the exercises as
-premises that you do not need to prove.}
+
 
 \begin{mdframed}
-    Show that the predicate $\text{prime} : \mathbb{N} \to \{\text{true}, \text{false}\}$ is first-order definable in the structure $(\mathbb{N}; |, +, 0)$.
+    Show that $\Gamma \models \phi$ 
+    \vspace{1em}
+
+    where:
+    \vspace{1em}
+
+    $\Gamma = \{\forall x Q(a,x,x), \forall x\forall y\forall z(Q(x,y,z) \to Q(x,s(y),s(z))), \forall x\forall y\forall z(Q(x,y,z) \to Q(y,x,z))\}$
+    
+    $\phi = \exists x Q(s^{(2)}(a),s^{(3)}(a),x)$
+    \vspace{1em}
+
+    where $Q$ is a ternary predicate symbol, $s$ is a unary function symbol, and $a$ is a constant symbol.
 \end{mdframed}
 
-\section*{Solution to Ex. 10}
-
-\begin{proof}
-    \item We define the predicate $\text{prime}(x)$ using the following first-order formula:
-    
-    \[\phi_{\text{prime}}(x) \defeq \neg(x \approx 1) \wedge \forall y \forall z [(y|x \wedge z|x) \to (y \approx 1 \vee z \approx 1 \vee y \approx x \vee z \approx x)]\]
-    
-    \item This formula uses only the divisibility relation $|$ and equality $\approx$. We need to show that the other components can be defined using $\{|, +, 0\}$:
-    
-    \item $x \approx 1$ can be defined as $\phi_1(x) \defeq \forall y (y|x)$
-    
-    \item $x \approx 0$ can be defined as $\phi_0(x) \defeq \forall y (x|y)$
-    
-    \item Using these, we can rewrite $\phi_{\text{prime}}(x)$ as:
-    
-    \[\phi_{\text{prime}}(x) \defeq \neg\phi_1(x) \wedge \forall y \forall z [(y|x \wedge z|x) \to (\phi_1(y) \vee \phi_1(z) \vee y \approx x \vee z \approx x)]\]
-    
-  
-\end{proof}
+\section*{Solution using ground tableaux method: First-Order Ground Tableaux Proof}
 
 
+\vspace{1em}
+
+
+\Tree [.{1. $\neg(\exists x Q(s^{(2)}(a),s^{(3)}(a),x))$}
+    [.{2. $\forall x Q(a,x,x)$}
+        [.{3. $Q(a,a,a)$ \quad [from 2]}
+            [.{4. $Q(a,s(a),s(a))$ \quad [from 2,3]}
+                [.{5. $Q(s(a),a,s(a))$ \quad [from 3,4]}
+                    [.{6. $Q(s(a),s^{(2)}(a),s^{(2)}(a))$ \quad [from 4,5]}
+                        [.{7. $Q(s^{(2)}(a),s(a),s^{(2)}(a))$ \quad [from 5,6]}
+                            [.{8. $Q(s^{(2)}(a),s^{(2)}(a),s^{(3)}(a))$ \quad [from 6,7]}
+                                [.{9. $Q(s^{(2)}(a),s^{(3)}(a),s^{(3)}(a))$ \quad [from 7,8]}
+                                    [.{10. $\forall x \neg Q(s^{(2)}(a),s^{(3)}(a),x)$ \quad [from 1]}
+                                        [.{11. $\neg Q(s^{(2)}(a),s^{(3)}(a),s^{(3)}(a))$ \quad [from 10]}
+                                            [.{X} ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+    ]
+]
+
+\vspace{1em}
+The tableau closes because we derived a contradiction between lines 9 and 11, proving that $\Gamma \models \phi$.
 
 \newpage
-\section*{PROBLEM 1 Open EML.Chapter 4.pdf. Do part 2 and part 3 in Exercise 71 on page 46.}
 
-\subsection*{Hint: You will have to do a fair amount of reading in the same chapter before doing this problem, in
-particular, you should carefully study the material in Example 70 right before Exercise 71. However,
-by the time you have finished your reading, your answers will be relatively easy to write.
+
+\section*{PROBLEM 1 Open EML.Chapter 6.pdf. Do part Exercise 113 on page 69}
+
+\subsection*{Hint: This is a continuation of the discussion in lecture yesterday (Thursday, October 17). As sug-
+gested in lecture, read carefully and understand Example 112 on pages 68-69 before embarking on
+Exercise 113.
 }
 
 
-\section*{Solution to Ex. 2:}
-We can prove that if every finite subgraph of $G$ is $k$-colorable, then $G$ is $k$-colorable, using the Compactness Theorem for ZOL.
-\begin{proof}
-    
-    
-    \item Let $\Gamma = \Theta_1 \cup \Theta_2 \cup \Theta_3 \cup \Phi_1 \cup \Phi_2 \cup \Phi_3$ as defined in the background.
-    
-    \item Consider any finite subset $\Gamma_0 \subseteq \Gamma$. This $\Gamma_0$ only mentions a finite number of vertices of $G$.
-    
-    \item Let $G_0$ be the finite subgraph of $G$ induced by these vertices.
-    
-    \item By our assumption, $G_0$ is $k$-colorable.
-    
-    \item This $k$-coloring of $G_0$ can be extended to a model $M_0$ of $\Gamma_0$.
-    
-    \item Therefore, every finite subset of $\Gamma$ is satisfiable.
-    
-    \item By the Compactness Theorem for ZOL (Theorem 65), $\Gamma$ itself is satisfiable.
-    
-    \item Let $M$ be a model of $\Gamma$. By the Basic Herbrand Theorem (Theorem 58), we can assume $M$ is a Herbrand model.
-    
-    \item The reduct $M_0 = (M, R^M)$ contains an isomorphic copy of $G$ (by the Claim in the background).
-    
-    \item The interpretation of $C_1, \ldots, C_k$ in $M$ gives a valid $k$-coloring of this copy of $G$.
-    
-    \item Therefore, $G$ is $k$-colorable.
-    \end{proof}
 
-\newpage
+\section*{Queens Problem II}
 
-\section*{Solution to Ex. 3:}
-    Let $G = (N, E)$ be a planar graph. We will prove that $G$ is 4-colorable.
+\subsection*{Summary}
+We need to construct a first-order sentence $\psi$ that characterizes solutions of the Queens Problem using a unary function $q$ instead of a binary relation. The structure $M = (N, =, +, <, 0, q)$ interprets $q$ as a function where $q(i) = 0$ means no queen in row $i$, and $q(i) = j$ means a queen is placed at position $(i,j)$.
 
-\begin{proof}
-    
-    \item Every finite subgraph of $G$ is planar (as planarity is a hereditary property).
-    
-    \item By the Four Color Theorem, every finite planar graph is 4-colorable.
-    
-    \item Therefore, every finite subgraph of $G$ is 4-colorable.
-    
-    \item By the result from Exercise 2, since every finite subgraph of $G$ is 4-colorable, $G$ itself is 4-colorable.
-    
-    
-    \end{proof}
+\subsection*{Solution}
+The first-order sentence $\psi$ can be defined as:
+
+\[ \psi \defeq \psi_{\text{base}} \wedge (\psi_{\text{fin}} \vee \psi_{\text{inf}}) \wedge \psi_{\text{valid}} \wedge \psi_{\text{noattack}} \]
+
+where:
+
+\begin{align*}
+\psi_{\text{base}} &\defeq q(0) \approx 0 \\
+\\
+\psi_{\text{fin}} &\defeq \exists n > 0.(\forall i.(i > n \rightarrow q(i) \approx 0) \wedge \\
+    &\qquad \forall i.(0 < i \leq n \rightarrow 0 < q(i) \leq n)) \\
+\\
+\psi_{\text{inf}} &\defeq \forall i > 0.\exists j > 0.(q(i) \approx j) \\
+\\
+\psi_{\text{valid}} &\defeq \forall i > 0.\forall j > 0.(q(i) \approx j \rightarrow \\
+    &\qquad \forall k > 0.(k \not\approx i \rightarrow q(k) \not\approx j)) \\
+\\
+\psi_{\text{noattack}} &\defeq \forall i_1 > 0.\forall i_2 > 0.(i_1 \not\approx i_2 \wedge q(i_1) \not\approx 0 \wedge q(i_2) \not\approx 0 \rightarrow \\
+    &\qquad |i_1 - i_2| \not\approx |q(i_1) - q(i_2)|)
+\end{align*}
+
+where:
+\begin{itemize}
+\item $\psi_{\text{base}}$ ensures $q(0) = 0$
+\item $\psi_{\text{fin}}$ handles finite solutions
+\item $\psi_{\text{inf}}$ handles infinite solutions
+\item $\psi_{\text{valid}}$ ensures no two queens share a column
+\item $\psi_{\text{noattack}}$ ensures no two queens are on the same diagonal
+\end{itemize}
+
+The absolute value notation $|x - y|$ can be expressed in first-order logic as:
+\[ |x - y| \approx z \defeq ((x - y \approx z) \vee (y - x \approx z)) \wedge z \geq 0 \]
+
 
 \newpage
 
