@@ -184,10 +184,11 @@ Exercise 113.
 
 \section*{Queens Problem II}
 
-\subsection*{Summary}
-We need to construct a first-order sentence $\psi$ that characterizes solutions of the Queens Problem using a unary function $q$ instead of a binary relation. The structure $M = (N, =, +, <, 0, q)$ interprets $q$ as a function where $q(i) = 0$ means no queen in row $i$, and $q(i) = j$ means a queen is placed at position $(i,j)$.
+\subsection*{Task:}
+We need to construct a first-order sentence $\psi$ that characterizes solutions of the Queens Problem using a unary function $q$ instead of a binary relation. 
+The structure $M \defeq (\mathbb{N}, =, +, <, 0, q)$ interprets $q$ as a function where $q(i) = 0$ means no queen in row $i$, and $q(i) = j$ means a queen is placed at position $(i,j)$.
 
-\subsection*{Solution}
+\subsection*{Solution:}
 The first-order sentence $\psi$ can be defined as:
 
 \[ \psi \defeq \psi_{\text{base}} \wedge (\psi_{\text{fin}} \vee \psi_{\text{inf}}) \wedge \psi_{\text{valid}} \wedge \psi_{\text{noattack}} \]
