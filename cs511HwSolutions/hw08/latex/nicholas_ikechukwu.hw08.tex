@@ -55,57 +55,217 @@
 \section*{Exercise 1. [LCS, page 159-160]: Exercise 2.2.3. Do both part (a), on page 159, and part (b),
 on page 160. }
 
-% \subsection*{Hint: }
-\section*{Part a}
+\section*{Analysis of First-Order Formulas}
 
-\begin{mdframed}
-\end{mdframed}
+\section*{Part (a): Valid and Invalid Formulas in Predicate Logic}
 
-\section*{Solutions to ...:}
+Given: $m$ is a constant, $f$ is a function symbol with one argument, and $S$ and $B$ are two predicate symbols, each with two arguments.
 
-\vspace{1em}
+\subsection*{Valid Formulas with Parse Trees}
 
-Solu start
+\textbf{i.} $S(m, x)$ is a valid formula:
 
 \vspace{1em}
+\Tree [.$\bullet$
+    [.$S$ ]
+    [.$\circ$ $m$ ]
+    [.$\circ$ $x$ ]
+]
 
-Actual solution
+\textbf{ii.} $B(m, f(m))$ is a valid formula:
 
 \vspace{1em}
+\Tree [.$\bullet$
+    [.$B$ ]
+    [.$\circ$ $m$ ]
+    [.$\bullet$
+        [.$f$ ]
+        [.$\circ$ $m$ ]
+    ]
+]
+
+\textbf{vi.} $(B(x, y) \rightarrow (\exists z S(z,y)))$ is a valid formula:
 
 
-Explanation:
-% \begin{enumerate}
-   
-% \end{enumerate}
+\Tree [.$\bullet$
+    [.$\rightarrow$
+        [.$\bullet$
+            [.$B$ ]
+            [.$\circ$ $x$ ]
+            [.$\circ$ $y$ ]
+        ]
+        [.$\bullet$
+            [.$\exists z$ ]
+            [.$\bullet$
+                [.$S$ ]
+                [.$\circ$ $z$ ]
+                [.$\circ$ $y$ ]
+            ]
+        ]
+    ]
+]
+
+\textbf{vii.} $(S(x, y) \rightarrow S(y, f(f(x))))$ is a valid formula:
+
+\vspace{1em}
+\Tree [.$\bullet$
+    [.$\rightarrow$
+        [.$\bullet$
+            [.$S$ ]
+            [.$\circ$ $x$ ]
+            [.$\circ$ $y$ ]
+        ]
+        [.$\bullet$
+            [.$S$ ]
+            [.$\circ$ $y$ ]
+            [.$\bullet$
+                [.$f$ ]
+                [.$\bullet$
+                    [.$f$ ]
+                    [.$\circ$ $x$ ]
+                ]
+            ]
+        ]
+    ]
+]
+
+\subsection*{Invalid Formulas with Reasons}
+
+\textbf{iii.} $f(m)$ is not a formula because:
+\begin{itemize}
+    \item It is a term, not a formula
+    \item No predicate symbol is applied
+\end{itemize}
+
+\textbf{iv.} $B(B(m, x), y)$ is not a formula because:
+\begin{itemize}
+    \item $B$ is a predicate symbol, not a function symbol
+    \item Cannot use predicate $B$ as argument to another predicate
+\end{itemize}
+
+\textbf{v.} $S(B(m), z)$ is not a formula because:
+\begin{itemize}
+    \item $B(m)$ is invalid as $B$ requires two arguments
+    \item Cannot use predicate as argument
+\end{itemize}
+
+\textbf{viii.} $(B(x) \rightarrow B(B(x)))$ is not a formula because:
+\begin{itemize}
+    \item $B$ requires two arguments but given only one
+    \item Cannot use predicate $B$ as argument
+\end{itemize}
+
 
 \newpage
 
-\section*{Part b}
 
-\begin{mdframed}
-\end{mdframed}
+\section*{Part (b)}
 
-\section*{Solutions to ...:}
+Let $c$ and $d$ be constants, $f$ a function symbol with one argument, $g$ a function symbol with two arguments, $h$ a function symbol with three arguments, and $P$ and $Q$ are predicate symbols with three arguments.
 
-\vspace{1em}
+\subsection*{Valid Formulas with Parse Trees}
 
-Solu start
+\textbf{i.} $\forall x P(f(d), h(g(c, x), d, y))$ is a valid formula:
 
 \vspace{1em}
 
-Actual solution
+\Tree [.$\bullet$
+    [.$\forall x$ ]
+    [.$P$
+        [.$\bullet$
+            [.$f$
+                [.$\circ$ $d$ ]
+            ]
+        ]
+        [.$\bullet$
+            [.$h$
+                [.$\bullet$
+                    [.$g$
+                        [.$\circ$ $c$ ]
+                        [.$\circ$ $x$ ]
+                    ]
+                ]
+                [.$\circ$ $d$ ]
+                [.$\circ$ $y$ ]
+            ]
+        ]
+    ]
+]
 
 \vspace{1em}
 
+\textbf{iii.} $\forall x Q(g(h(x, f(d), x), g(x, x)), h(x, x, x), c)$ is a valid formula:
 
-Explanation:
-% \begin{enumerate}
-   
-% \end{enumerate}
+\Tree [.$\bullet$
+    [.$\forall x$ ]
+    [.$Q$
+        [.$\bullet$
+            [.$g$
+                [.$\bullet$
+                    [.$h$
+                        [.$\circ$ $x$ ]
+                        [.$\bullet$
+                            [.$f$
+                                [.$\circ$ $d$ ]
+                            ]
+                        ]
+                        [.$\circ$ $x$ ]
+                    ]
+                ]
+                [.$\bullet$
+                    [.$g$
+                        [.$\circ$ $x$ ]
+                        [.$\circ$ $x$ ]
+                    ]
+                ]
+            ]
+        ]
+        [.$\bullet$
+            [.$h$
+                [.$\circ$ $x$ ]
+                [.$\circ$ $x$ ]
+                [.$\circ$ $x$ ]
+            ]
+        ]
+        [.$\circ$ $c$ ]
+    ]
+]
+
+\vspace{1em}
+
+\textbf{vi.} $Q(c, d, c)$ is a valid formula:
+
+\vspace{1em}
+
+\Tree [.$\bullet$
+    [.$Q$ ]
+    [.$\circ$ $c$ ]
+    [.$\circ$ $d$ ]
+    [.$\circ$ $c$ ]
+]
+
+\subsection*{Invalid Formulas with Reasons}
+
+\textbf{ii.} $\forall x P(f(d), h(P(x, y), d, y))$ is not a formula because:
+\begin{itemize}
+    \item Cannot use predicate $P$ as argument to function $h$
+    \item Predicates can only appear as atomic formulas
+\end{itemize}
+
+\textbf{iv.} $\exists z (Q(z, z, z) \rightarrow P(z))$ is not a formula because:
+\begin{itemize}
+    \item $P$ requires three arguments but given only one
+    \item Arity mismatch for predicate $P$
+\end{itemize}
+
+\textbf{v.} $\forall x \forall y (g(x, y) \rightarrow P(x, y, x))$ is not a formula because:
+\begin{itemize}
+    \item $g(x, y)$ is a term, not a formula
+    \item Cannot use $\rightarrow$ with a term on left side
+    \item Only atomic formulas can be connected by logical operators
+\end{itemize}
 
 \newpage
-
 \section*{Exercise 2.}
 
 \subsection*{Hint: Review the hint in the preceding exercise}
@@ -127,7 +287,55 @@ Explanation:
 
 \section*{Part 2: [LCS, page 160]: Exercise 2.3.3, modified as follows. Change part (c) to read “at least three
 distinct elements”.}
+\subsection*{[LCS, page 160]: Exercise 2.3.2.}
 
+
+
+
+\section*{2.3.2. Formula Interpretation}
+
+The formula $\exists x \exists y (\neg(x = y) \land (\forall z ((z = x) \lor (z = y))))$ specifies:
+
+\vspace{1em}
+"There exist x and y, such that there is no x that equals y and for all z, z either equals x or y".
+
+\vspace{1em}
+in essense:
+
+\vspace{1em}
+"There exist exactly two distinct elements in the model."
+
+\vspace{1em}
+This is because:
+\begin{itemize}
+    \item $\exists x \exists y (\neg(x = y))$ states there are at least two different elements
+    \item $\forall z ((z = x) \lor (z = y))$ states every element must be equal to either $x$ or $y$
+    \item Together, they specify that there are exactly two distinct elements
+\end{itemize}
+
+\newpage
+\subsection*{[LCS, page 160]: Exercise 2.3.3, modified as follows. Change part (c) to read “at least three
+distinct elements”}
+\section*{2.3.3. Predicate Logic Sentences}
+
+\subsection*{(a) Exactly three distinct elements:}
+\[\begin{aligned}
+& \exists x \exists y \exists z (\neg(x = y) \land \neg(y = z) \land \neg(x = z) \land \\
+& \forall w ((w = x) \lor (w = y) \lor (w = z)))
+\end{aligned}\]
+
+\subsection*{(b) At most three distinct elements:}
+\[\forall x \forall y \forall w \forall z ((w = x) \lor (w = y) \lor (w = z))\]
+
+\subsection*{(c) At least three distinct elements:}
+\[\exists x \exists y \exists z (\neg(x = y) \land \neg(y = z) \land \neg(x = z))\]
+
+\textbf{Explanations:}
+\begin{itemize}
+    \item For "exactly three": We state there exist three distinct elements AND every element must be one of these three
+    \item For "at most three": We state that any fourth element must be equal to one of three elements
+    \item For "at least three": We state there exist three elements that are all different from each other
+\end{itemize}
 
 \vspace{1em}
 
@@ -138,11 +346,49 @@ distinct elements”.}
 
 \section*{PROBLEM 1 Open EML.Chapter 6.pdf. Do part Exercise 99 on page 61.}
 
-% \subsection*{Hint: }
+\section*{Interpretation of PL in FOL, II (Solution)}
 
+Let $\Sigma' \defeq \{f, g_1, g_2, g_3, c_1, c_2\}$ where:
+\begin{itemize}
+    \item $f$ corresponds to $\neg$ (unary)
+    \item $g_1$ corresponds to $\land$ (binary)
+    \item $g_2$ corresponds to $\lor$ (binary)
+    \item $g_3$ corresponds to $\to$ (binary)
+    \item $c_1$ corresponds to $\bot$ (constant)
+    \item $c_2$ corresponds to $\top$ (constant)
+\end{itemize}
 
+To define the two-element structure up to isomorphism, we construct $\psi$ as follows:
 
-\section*{Problem title}
+\[\begin{aligned}
+\psi \defeq & \hspace{1em} \exists x \exists y (\neg(x \approx y) \land \forall z(z \approx x \lor z \approx y)) \land \\
+& \forall x \forall y ( \\
+& \quad (x \approx c_1 \lor x \approx c_2) \land \\
+& \quad \neg(c_1 \approx c_2) \land \\
+& \quad (f(c_1) \approx c_2 \land f(c_2) \approx c_1) \land \\
+& \quad (g_1(c_1, c_1) \approx c_1 \land g_1(c_1, c_2) \approx c_1 \land \\
+& \quad g_1(c_2, c_1) \approx c_1 \land g_1(c_2, c_2) \approx c_2) \land \\
+& \quad (g_2(c_1, c_1) \approx c_1 \land g_2(c_1, c_2) \approx c_2 \land \\
+& \quad g_2(c_2, c_1) \approx c_2 \land g_2(c_2, c_2) \approx c_2) \land \\
+& \quad (g_3(c_1, c_1) \approx c_2 \land g_3(c_1, c_2) \approx c_2 \land \\
+& \quad g_3(c_2, c_1) \approx c_1 \land g_3(c_2, c_2) \approx c_2))
+\end{aligned}\]
+
+For any propositional formula $\phi$, we construct $\phi'$ as:
+\[\phi' \defeq \phi \land \psi\]
+
+\textbf{Proof of Correctness:}
+\begin{itemize}
+    \item The sentence $\psi$ ensures:
+    \begin{itemize}
+        \item Exactly two distinct elements ($c_1$ and $c_2$ representing false and true)
+        \item The truth tables for negation ($f$), conjunction ($g_1$), disjunction ($g_2$), and implication ($g_3$)
+        \item The constants false ($c_1$) and true ($c_2$)
+    \end{itemize}
+    \item If $\phi$ is valid in PL, then it evaluates to true under all truth assignments
+    \item The sentence $\psi$ ensures that any model of $\phi'$ is isomorphic to the two-element Boolean algebra
+    \item Therefore, $\phi$ is valid in PL if and only if $\phi'$ is valid in FOL
+\end{itemize}
 
 \newpage
 
