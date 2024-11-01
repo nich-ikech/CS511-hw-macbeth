@@ -105,7 +105,9 @@ example : forall_sufficiently_large n : ℕ, 2 ^ n ≥ n ^ 2 := by
       _ ≥ (k + 1) ^ 2 := by extra
 
 
+
 --Exercise 5.3.6.12
+
 example : ¬ ∃ a : ℤ, ∀ n : ℤ, 2 * a ^ 3 ≥ n * a + 7 := by
   push_neg
   intro a
@@ -113,9 +115,7 @@ example : ¬ ∃ a : ℤ, ∀ n : ℤ, 2 * a ^ 3 ≥ n * a + 7 := by
   calc
     2 * a ^ 3 < 2 * a ^ 3 + 7 := by extra
     _ = (4 * a ^ 2) * a + 7 - (2 * a ^ 3) := by ring
-    _ = (4 * a ^ 2) * a + 7 - (2 * a ^ 3) := by ring
     _ < (4 * a ^ 2) * a + 7 := by extra
-
 
 
 
