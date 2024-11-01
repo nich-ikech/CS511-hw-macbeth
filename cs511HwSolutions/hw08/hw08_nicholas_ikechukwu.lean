@@ -111,11 +111,10 @@ example : forall_sufficiently_large n : ℕ, 2 ^ n ≥ n ^ 2 := by
 example : ¬ ∃ a : ℤ, ∀ n : ℤ, 2 * a ^ 3 ≥ n * a + 7 := by
   push_neg
   intro a
-  use (4 * a ^ 2)
+  use (2 * a ^ 2)
   calc
     2 * a ^ 3 < 2 * a ^ 3 + 7 := by extra
-    _ = (4 * a ^ 2) * a + 7 - (2 * a ^ 3) := by ring
-    _ < (4 * a ^ 2) * a + 7 := by extra
+    _ = (2 * a ^ 2) * a + 7 := by ring
 
 
 
