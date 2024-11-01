@@ -51,16 +51,12 @@ example : ¬ (∃ t : ℝ, t ≤ 4 ∧ t ≥ 5) := by
   by_contra h2
   push_neg at h2
   obtain ⟨h3, h4⟩ := h2
-  have : 5 ≤ 4 := by
-    calc
-      5 ≤ t := h4
-      _ ≤ 4 := h3
   have : 4 < 4 := by
     calc
       4 < 5 := by numbers
-      _ ≤ 4 := this
+      _ ≤ t := h4
+      _ ≤ 4 := h3
   numbers at this
-
 
 
 
@@ -128,11 +124,11 @@ example {a : ℝ} (ha : -1 ≤ a) (n : ℕ) : (1 + a) ^ n ≥ 1 + n * a := by
       _ ≥ 1 + (0 * a) := by extra
   · -- inductive step
     calc
-      (1 + a) ^ (k + 1) = (1 + a) * (1 + a) ^ k := by ring
-      _ ≥ (1 + a) * (1 + k * a) := by rel [IH]
+      (1 + a) ^ (k + 1) = (1 + a) ^ 1 * (1 + a) ^ k := by ring
+      _ ≥ (1 + a) * (1 + k * a) := by rel [IH, ha]
       _ = 1 + a + k * a + k * a ^ 2 := by ring
       _ = 1 + (k + 1) * a + k * a ^ 2 := by ring
-      _ ≥ 1 + (k + 1) * a := by rel [ha]
+      _ ≥ 1 + (k + 1) * a := by extra
 
 
 
