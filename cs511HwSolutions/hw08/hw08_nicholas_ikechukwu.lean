@@ -44,21 +44,12 @@ example : (∃x : Type, ∀y : Type, (x = y)) → (∀v : Type, ∀w : Type, (v 
 
 
 --Exercise 5.3.6.9
-
 example : ¬ (∃ t : ℝ, t ≤ 4 ∧ t ≥ 5) := by
-  push_neg
+  push_neg  -- This transforms the goal into proving ∀ t, t > 4 ∨ t < 5
   intro t
-  by_contra h2
-  push_neg at h2
-  obtain ⟨h3, h4⟩ := h2
-  have : 4 < 4 := by
-    calc
-      4 < 5 := by numbers
-      _ ≤ t := h4
-      _ ≤ 4 := h3
-  numbers at this
-
-
+  intro h  -- Assume t ≤ 4 and t ≥ 5 to reach a contradiction
+  have h1 : 5 ≤ 4 := le_trans h.right h.left  -- Combine h.right (t ≥ 5) and h.left (t ≤ 4)
+  exact not_le_of_lt (by norm_num : 4 < 5) h1
 
 --Example 6.1.2
 
@@ -115,20 +106,31 @@ example : ¬ ∃ a : ℤ, ∀ n : ℤ, 2 * a ^ 3 ≥ n * a + 7 := by
 
 
 
+-- example {n : ℕ} (hn : 2 ≤ n) : (3:ℤ) ^ n ≥ 2 ^ n + 5 := by
+--   induction_from_starting_point n, hn with k hk IH
+--   · -- base case
+--     numbers
+--   · -- inductive step
+--     calc (3:ℤ) ^ (k + 1) = 2 * 3 ^ k + 3 ^ k := by ring
+--       _ ≥ 2 * (2 ^ k + 5) + 3 ^ k := by rel [IH]
+--       _ = 2 ^ (k + 1) + 5 + (5 + 3 ^ k) := by ring
+--       _ ≥ 2 ^ (k + 1) + 5 := by extra
 --Exercise 6.1.7.2 (Bernoulli's inequality)
 example {a : ℝ} (ha : -1 ≤ a) (n : ℕ) : (1 + a) ^ n ≥ 1 + n * a := by
-  simple_induction n with k IH
+  simple_induction n, ha with k IH
   · -- base case
     calc
       (1 + a) ^ 0 = 1 + (0 * a) := by ring
       _ ≥ 1 + (0 * a) := by extra
   · -- inductive step
+    have hb : 1 + a ≥ 0 := by addarith [ha]
     calc
-      (1 + a) ^ (k + 1) = (1 + a) ^ 1 * (1 + a) ^ k := by ring
-      _ ≥ (1 + a) * (1 + k * a) := by rel [IH, ha]
+      (1 + a) ^ (k + 1) = (1 + a) * (1 + a) ^ k := by ring
+      _ ≥ (1 + a) * (1 + k * a) := by rel [IH]
       _ = 1 + a + k * a + k * a ^ 2 := by ring
-      _ = 1 + (k + 1) * a + k * a ^ 2 := by ring
+      _ = 1 + ((k : ℝ) + 1) * a + k * a ^ 2 := by ring
       _ ≥ 1 + (k + 1) * a := by extra
+
 
 
 
