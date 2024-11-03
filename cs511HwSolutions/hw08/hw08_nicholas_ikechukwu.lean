@@ -41,15 +41,15 @@ example : (∃x : Type, ∀y : Type, (x = y)) → (∀v : Type, ∀w : Type, (v 
 --# Exercise 4
 
 
-
-
 --Exercise 5.3.6.9
+
 example : ¬ (∃ t : ℝ, t ≤ 4 ∧ t ≥ 5) := by
-  push_neg  -- This transforms the goal into proving ∀ t, t > 4 ∨ t < 5
-  intro t
-  intro h  -- Assume t ≤ 4 and t ≥ 5 to reach a contradiction
-  have h1 : 5 ≤ 4 := le_trans h.right h.left  -- Combine h.right (t ≥ 5) and h.left (t ≤ 4)
-  exact not_le_of_lt (by norm_num : 4 < 5) h1
+  push_neg  -- converts ¬∃ to ∀¬, giving goal: ∀ t, t > 4 ∨ t < 5
+  intro t   -- introduces arbitrary t
+  apply Or.inr  -- chooses to prove t < 5
+  have h1 : 4 < 5 := by numbers
+  exact h1
+
 
 --Example 6.1.2
 
@@ -93,6 +93,7 @@ example : forall_sufficiently_large n : ℕ, 2 ^ n ≥ n ^ 2 := by
       _ ≥ (k + 1) ^ 2 := by extra
 
 
+--# Problem 2
 
 --Exercise 5.3.6.12
 
@@ -106,16 +107,8 @@ example : ¬ ∃ a : ℤ, ∀ n : ℤ, 2 * a ^ 3 ≥ n * a + 7 := by
 
 
 
--- example {n : ℕ} (hn : 2 ≤ n) : (3:ℤ) ^ n ≥ 2 ^ n + 5 := by
---   induction_from_starting_point n, hn with k hk IH
---   · -- base case
---     numbers
---   · -- inductive step
---     calc (3:ℤ) ^ (k + 1) = 2 * 3 ^ k + 3 ^ k := by ring
---       _ ≥ 2 * (2 ^ k + 5) + 3 ^ k := by rel [IH]
---       _ = 2 ^ (k + 1) + 5 + (5 + 3 ^ k) := by ring
---       _ ≥ 2 ^ (k + 1) + 5 := by extra
---Exercise 6.1.7.2 (Bernoulli's inequality)
+--Exercise 6.1.7.2
+
 example {a : ℝ} (ha : -1 ≤ a) (n : ℕ) : (1 + a) ^ n ≥ 1 + n * a := by
   simple_induction n, ha with k IH
   · -- base case
@@ -130,7 +123,6 @@ example {a : ℝ} (ha : -1 ≤ a) (n : ℕ) : (1 + a) ^ n ≥ 1 + n * a := by
       _ = 1 + a + k * a + k * a ^ 2 := by ring
       _ = 1 + ((k : ℝ) + 1) * a + k * a ^ 2 := by ring
       _ ≥ 1 + (k + 1) * a := by extra
-
 
 
 
