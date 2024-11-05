@@ -43,12 +43,16 @@ example : (∃x : Type, ∀y : Type, (x = y)) → (∀v : Type, ∀w : Type, (v 
 
 --Exercise 5.3.6.9
 
+
+
 example : ¬ (∃ t : ℝ, t ≤ 4 ∧ t ≥ 5) := by
-  push_neg  -- converts ¬∃ to ∀¬, giving goal: ∀ t, t > 4 ∨ t < 5
+  push_neg  -- converts the goal to ∀ t, t > 4 ∨ t < 5
   intro t   -- introduces arbitrary t
-  apply Or.inr  -- chooses to prove t < 5
-  have h1 : 4 < 5 := by numbers
-  exact h1
+  by_contra h2  -- assume the negation of the goal
+  push_neg at h2  -- pushes negation into h2, giving h2: ∃ t, t ≤ 4 ∧ t ≥ 5
+  obtain ⟨h3, h4⟩ := h2  -- destructure h2 to get h3: t ≤ 4 and h4: t ≥ 5
+  have : 5 ≤ 4 := le_trans h4 h3  -- derive a contradiction: 5 ≤ 4
+  addarith [this]  -- derive final contradiction from 5 ≤ 4
 
 
 --Example 6.1.2
@@ -67,8 +71,6 @@ example (n : ℕ) : Even n ∨ Odd n := by
       use x + 1
       rw [hx]
       ring
-
-
 
 
 
