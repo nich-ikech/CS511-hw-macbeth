@@ -18,7 +18,9 @@ example (n : ℕ) : Odd (c n) := by
 
 --Exercise 6.2.7.2
 example (n : ℕ) : c n = 2 * 3 ^ n + 5 := by
-  sorry
+  simple_induction n with k IH
+  · rw [c]; ring
+  · rw [c, IH]; ring
 
 --Exercise 6.2.7.3
 def y : ℕ → ℕ
@@ -26,7 +28,9 @@ def y : ℕ → ℕ
   | n + 1 => (y n) ^ 2
 
 example (n : ℕ) : y n = 2 ^ (2 ^ n) := by
-  sorry
+  simple_induction n with k IH
+  · rw [y]; ring
+  · rw [y, IH]; ring
 
 --# Exercise 4
 
@@ -37,7 +41,10 @@ def b : ℕ → ℤ
   | n + 2 => 5 * b (n + 1) - 6 * b n
 
 example (n : ℕ) : b n = 3 ^ n - 2 ^ n := by
-  sorry
+  two_step_induction n with k IH1 IH2
+  · rw [b]; ring
+  · rw [b]; ring
+  · rw [b]; rw[IH1]; rw [IH2]; ring
 
 --Exercise 6.3.6.2
 def c' : ℕ → ℤ
@@ -46,7 +53,10 @@ def c' : ℕ → ℤ
   | n + 2 => 4 * c' n
 
 example (n : ℕ) : c' n = 2 * 2 ^ n + (-2) ^ n := by
-  sorry
+  two_step_induction n with k IH1 IH2
+  · rw [c']; ring
+  · rw [c']; ring
+  · rw [c']; rw[IH1]; ring
 
 --Exercise 6.3.6.3
 def t : ℕ → ℤ
@@ -55,7 +65,10 @@ def t : ℕ → ℤ
   | n + 2 => 2 * t (n + 1) - t n
 
 example (n : ℕ) : t n = 2 * n + 5 := by
-  sorry
+  two_step_induction n with k IH1 IH2
+  · rw [t]; ring
+  · rw [t]; ring
+  · rw [t]; rw[IH1]; rw [IH2]; ring
 
 --# Problem 2
 
