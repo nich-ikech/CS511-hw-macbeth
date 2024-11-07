@@ -13,14 +13,31 @@ def c : ℕ → ℤ
   | 0 => 7
   | n + 1 => 3 * c n - 10
 
+
 example (n : ℕ) : Odd (c n) := by
-  sorry
+  simple_induction n with k IH
+  · -- base case
+    rw [c]  -- c 0 = 7
+    use 3   -- show 7 = 2*3 + 1
+    ring
+  · -- inductive step
+    rw [c]  -- c (k+1) = 3 * c k - 10
+    obtain ⟨m, hm⟩ := IH  -- get m where c k = 2*m + 1
+    use (3*m - 4)  -- claim c (k+1) = 2*(3*m - 4) + 1
+    calc
+      3 * c k - 10 = 3 * (2*m + 1) - 10 := by rw [hm]
+      _ = 6*m + 3 - 10 := by ring
+      _ = 6*m - 7 := by ring
+      _ = 2*(3*m - 4) + 1 := by ring
+
 
 --Exercise 6.2.7.2
 example (n : ℕ) : c n = 2 * 3 ^ n + 5 := by
   simple_induction n with k IH
   · rw [c]; ring
   · rw [c, IH]; ring
+
+
 
 --Exercise 6.2.7.3
 def y : ℕ → ℕ
@@ -31,6 +48,10 @@ example (n : ℕ) : y n = 2 ^ (2 ^ n) := by
   simple_induction n with k IH
   · rw [y]; ring
   · rw [y, IH]; ring
+
+
+
+
 
 --# Exercise 4
 
