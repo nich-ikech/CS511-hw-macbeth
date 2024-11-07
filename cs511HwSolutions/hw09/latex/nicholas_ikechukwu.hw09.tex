@@ -103,10 +103,10 @@ Let $\Gamma_{\text{bipartite}}$ be the set of first-order sentences that express
     $\phi1 \defeq \forall x P (x, x)$
     
     \vspace{1em}
-    $\phi2 \defeq \forall x \forall y (P (x, y) \implies P (y, x))$
+    $\phi2 \defeq \forall x \forall y (P (x, y) \rightarrow P (y, x))$
     
     \vspace{1em}
-    $\phi3 \defeq \forall x \forall y \forall z ((P (x, y) \land P (y, z) \implies P (x, z)))$
+    $\phi3 \defeq \forall x \forall y \forall z ((P (x, y) \land P (y, z) \rightarrow P (x, z)))$
     
     \vspace{1em}
 
@@ -164,15 +164,101 @@ Therefore, it is clear that each sentence is independent of the others.
 \section*{PROBLEM 1  Open Lecture Slides 26: Do the two parts of the exercise on page 7.}
 
 \section*{Part 1:}
+\begin{mdframed}
+    Exercise:
+    Let $\phi(x, y)$ be an atomic WFF with free variables x and y, and f a unary function symbol not appearing in $\phi$.
+    \vspace{1em}
+
+    1. Show that the sentence $\forall x \phi(x, f (x)) \rightarrow \forall x\exists y \phi(x, y)$ is semantically
+    valid, i.e., the following sequent is formally derivable:
+    \vspace{1em}
+
+    $\vdash \forall x \phi(x, f (x)) \rightarrow \forall x \exists y \phi(x, y)$
+    \vspace{1em}
+
+    Hint: Use any of the available methods, i.e., try to find a formal proof
+    or try a semantic approach to show $\models \forall x \phi(x, f (x)) \rightarrow \forall x\exists y \phi(x, y)$
+    and then invoke the completeness of the proof rules.
+\end{mdframed}
+
+\section*{Solution:}
+\textbf{1.} To show $\vdash \forall x \phi(x, f(x)) \rightarrow \forall x \exists y \phi(x, y)$
 
 
+\vspace{1em}
+is valid, we use a semantic approach:
 
+\vspace{1em}
+Suppose $M \models \forall x \phi(x, f(x))$ for some model $M$. 
+
+\vspace{1em}
+We need to show 
+\[\begin{aligned}
+    M \models \forall x \exists y \phi(x, y)
+\end{aligned}\]
+
+\vspace{1em}
+Let $a$ be any element in the universe of $M$. 
+
+We need to show $M \models \exists y \phi(a, y)$.
+
+\vspace{1em}
+From $M \models \forall x \phi(x, f(x))$, 
+
+\vspace{1em}
+we know that $M \models \phi(a, f(a))$.
+
+\vspace{1em}
+Let $b = f^M(a)$. Then $M \models \phi(a, b)$, which means $M \models \exists y \phi(a, y)$.
+
+\vspace{1em}
+Since $a$ was arbitrary, $M \models \forall x \exists y \phi(x, y)$.
+
+\vspace{1em}
+Therefore, by completeness, 
+\[\begin{aligned}
+    & \vdash \forall x \phi(x, f(x)) \rightarrow \forall x \exists y \phi(x, y)
+\end{aligned}\]
 \newpage
 
 
 \section*{Part 2:}
 
 
+\begin{mdframed}
+    2. Show that the sentence $\forall x \exists y \phi(x, y) \rightarrow \forall x \phi(x, f (x))$ is NOT
+    semanticalle valid, i.e., the following sequent is NOT derivable:
+      \vspace{1em}
+      
+    $\vdash \forall x\exists y \phi(x, y) \rightarrow \forall x \phi(x, f (x))$
+      \vspace{1em}
+      
+    Hint: Try a semantic approach, i.e., define an appropriate $\phi$ and a
+    model where the left-hand side of “$\rightarrow$” is true but the right-hand side
+    of “$\rightarrow$” is false, and then invoke the completeness of the proof rules.
+\end{mdframed}
+\section*{Solution:}
+\textbf{2.} To show the sentence is not valid, we construct a counterexample:
+
+\vspace{1em}
+Let $\phi(x,y)$ be the atomic formula $x < y$ interpreted over the real numbers $\mathbb{R}$.
+
+\vspace{1em}
+Define $f(x) = x$ for all $x \in \mathbb{R}$.
+
+\vspace{1em}
+Then:
+\begin{itemize}
+\item $\forall x \exists y \phi(x,y)$ is true because for any real number $x$, there exists a larger real number $y$
+\item However, $\forall x \phi(x,f(x))$ is false because $\phi(x,f(x))$ means $x < x$, which is false for all $x$
+\end{itemize}
+
+Therefore, we have found a model where $\forall x \exists y \phi(x,y)$ is true but $\forall x \phi(x,f(x))$ is false.
+
+By completeness, 
+\[\begin{aligned}
+    & \not \vdash \forall x \exists y \phi(x,y) \rightarrow \forall x \phi(x,f(x))
+\end{aligned}\]
 
 \newpage
 
