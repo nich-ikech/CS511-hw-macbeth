@@ -104,64 +104,62 @@ example (m : ℕ) : s m ≡ 2 [ZMOD 5] ∨ s m ≡ 3 [ZMOD 5] := by
       (s n ≡ 2 [ZMOD 5] ∧ s (n+1) ≡ 3 [ZMOD 5])
       ∨ (s n ≡ 3 [ZMOD 5] ∧ s (n+1) ≡ 2 [ZMOD 5])
   · intro n
-    two_step_induction n with k IH1 IH2
-    · -- base case n = 0
+    induction n with
+    | zero =>
       left
       constructor
-      · rw [s]; apply Int.ModEq.refl
-      · rw [s]; apply Int.ModEq.refl
-    · -- base case n = 1
-      right
-      constructor
-      · rw [s]; apply Int.ModEq.refl
       · rw [s]
-        calc
-          2 * 3 + 3 * 2 = 2 + (5 *2) := by numbers
-          _ ≡ 2 [ZMOD 5] := by extra
-    · -- inductive step
-      obtain ⟨IH1, IH2⟩ | ⟨IH1, IH2⟩ := IH1
-      · right
+        apply Int.ModEq.refl
+      · rw [s]
+        apply Int.ModEq.refl
+    | succ k IH =>
+      cases IH with
+      | inl h =>
+        right
         constructor
-        · exact IH2
+        · exact h.right
         · rw [s]
           calc
-            2 * s (k + 1) + 3 * s k ≡ 2 * 3 + 3 * 2 [ZMOD 5] := by rel [IH1, IH2]
-            _ = 2 + (5 *2) := by ring
+            2 * s (k + 1) + 3 * s k ≡ 2 * 3 + 3 * 2 [ZMOD 5] := by rel [h.left, h.right]
+            _ = 2 + (2 *5) := by rfl
             _ ≡ 2 [ZMOD 5] := by extra
-      · left
+      | inr h =>
+        left
         constructor
-        · exact IH2
+        · exact h.right
         · rw [s]
           calc
-            2 * s (k + 1) + 3 * s k ≡ 2 * 2 + 3 * 3 [ZMOD 5] := by rel [IH1, IH2]
-            _ = 3 + (5 *2) := by ring
+            2 * s (k + 1) + 3 * s k ≡ 2 * 2 + 3 * 3 [ZMOD 5] := by rel [h.left, h.right]
+            _ =  3 + (2 *5)  := by rfl
             _ ≡ 3 [ZMOD 5] := by extra
 
-  obtain ⟨H1, H2⟩ | ⟨H1, H2⟩ := H m
-  · left
-    exact H1
-  · right
-    exact H1
+  cases H m with
+  | inl h => left; exact h.left
+  | inr h => right; exact h.left
+
+
 
 
 --Exercise 6.3.6.7
+
 def r : ℕ → ℤ
   | 0 => 2
   | 1 => 0
   | n + 2 => 2 * r (n + 1) + r n
 
-example : forall_sufficiently_large n : ℕ, r n ≥ 2 ^ n := by
-  dsimp
-  use 5
-  intros x hx
-  induction_from_starting_point x, hx with k hk IH
-  · -- Base case: x = 5
+example : ∃ N, ∀ n ≥ N, r n ≥ 2^n := by
+  use 5  -- We start from n = 5
+  intro n hn
+  induction_from_starting_point n, hn with k hk IH
+  · -- Base case: n = 5
     rw [r, r, r, r, r]
-    numbers
+    norm_num
   · -- Inductive step
     rw [r]
+    have IH1 : r k ≥ 2^k := IH (Nat.le_succ _)
+    have IH2 : r (k+1) ≥ 2^(k+1) := IH (Nat.le_refl _)
     calc
-      2 * r (k + 1) + r k ≥ 2 * 2^(k+1) + 2^k := by rel [IH]
+      r (k + 2) = 2 * r (k + 1) + r k := by rfl
+      _ ≥ 2 * 2^(k+1) + 2^k := by rel [IH1, IH2]
       _ = 2^(k+2) + 2^k := by ring
       _ ≥ 2^(k+2) := by extra
-      _ = 2^(k+2) := by ring
