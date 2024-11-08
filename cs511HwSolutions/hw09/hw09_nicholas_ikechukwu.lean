@@ -100,7 +100,49 @@ def s : ℕ → ℤ
   | n + 2 => 2 * s (n + 1) + 3 * s n
 
 example (m : ℕ) : s m ≡ 2 [ZMOD 5] ∨ s m ≡ 3 [ZMOD 5] := by
-  sorry
+  have H : ∀ n : ℕ,
+      (s n ≡ 2 [ZMOD 5] ∧ s (n+1) ≡ 3 [ZMOD 5])
+      ∨ (s n ≡ 3 [ZMOD 5] ∧ s (n+1) ≡ 2 [ZMOD 5])
+  · intro n
+    two_step_induction n with k IH1 IH2
+    · -- base case n = 0
+      left
+      constructor
+      · rw [s]; apply Int.ModEq.refl
+      · rw [s]; apply Int.ModEq.refl
+    · -- base case n = 1
+      right
+      constructor
+      · rw [s]; apply Int.ModEq.refl
+      · rw [s]
+        calc
+          2 * 3 + 3 * 2 = 2 + (5 *2) := by numbers
+          _ ≡ 2 [ZMOD 5] := by extra
+    · -- inductive step
+      obtain ⟨IH1, IH2⟩ | ⟨IH1, IH2⟩ := IH1
+      · right
+        constructor
+        · exact IH2
+        · rw [s]
+          calc
+            2 * s (k + 1) + 3 * s k ≡ 2 * 3 + 3 * 2 [ZMOD 5] := by rel [IH1, IH2]
+            _ = 2 + (5 *2) := by ring
+            _ ≡ 2 [ZMOD 5] := by extra
+      · left
+        constructor
+        · exact IH2
+        · rw [s]
+          calc
+            2 * s (k + 1) + 3 * s k ≡ 2 * 2 + 3 * 3 [ZMOD 5] := by rel [IH1, IH2]
+            _ = 3 + (5 *2) := by ring
+            _ ≡ 3 [ZMOD 5] := by extra
+
+  obtain ⟨H1, H2⟩ | ⟨H1, H2⟩ := H m
+  · left
+    exact H1
+  · right
+    exact H1
+
 
 --Exercise 6.3.6.7
 def r : ℕ → ℤ
@@ -109,4 +151,17 @@ def r : ℕ → ℤ
   | n + 2 => 2 * r (n + 1) + r n
 
 example : forall_sufficiently_large n : ℕ, r n ≥ 2 ^ n := by
-  sorry
+  dsimp
+  use 5
+  intros x hx
+  induction_from_starting_point x, hx with k hk IH
+  · -- Base case: x = 5
+    rw [r, r, r, r, r]
+    numbers
+  · -- Inductive step
+    rw [r]
+    calc
+      2 * r (k + 1) + r k ≥ 2 * 2^(k+1) + 2^k := by rel [IH]
+      _ = 2^(k+2) + 2^k := by ring
+      _ ≥ 2^(k+2) := by extra
+      _ = 2^(k+2) := by ring
