@@ -142,24 +142,29 @@ example (m : ℕ) : s m ≡ 2 [ZMOD 5] ∨ s m ≡ 3 [ZMOD 5] := by
 
 --Exercise 6.3.6.7
 
+
 def r : ℕ → ℤ
   | 0 => 2
   | 1 => 0
   | n + 2 => 2 * r (n + 1) + r n
 
-example : ∃ N, ∀ n ≥ N, r n ≥ 2^n := by
+example : forall_sufficiently_large n : ℕ, r n ≥ 2^n := by
+  dsimp [forall_sufficiently_large]
   use 5  -- We start from n = 5
-  intro n hn
+  intros n hn
   induction_from_starting_point n, hn with k hk IH
   · -- Base case: n = 5
-    rw [r, r, r, r, r]
-    norm_num
+    have h5 : r 5 = 30 := by
+      rw [r, r, r, r, r]
+      ring
+    have h : 30 ≥ 2^5 := by norm_num
+    exact h5.symm h
   · -- Inductive step
-    rw [r]
-    have IH1 : r k ≥ 2^k := IH (Nat.le_succ _)
-    have IH2 : r (k+1) ≥ 2^(k+1) := IH (Nat.le_refl _)
+    have h_rec : r (k + 2) = 2 * r (k + 1) + r k := by rfl
+    rw [h_rec]
+    have IH1 : r k ≥ 2^k := IH (Nat.le_succ (Nat.le_succ (Nat.le_refl _)))
+    have IH2 : r (k+1) ≥ 2^(k+1) := IH (Nat.le_succ (Nat.le_refl _))
     calc
-      r (k + 2) = 2 * r (k + 1) + r k := by rfl
-      _ ≥ 2 * 2^(k+1) + 2^k := by rel [IH1, IH2]
+      2 * r (k + 1) + r k ≥ 2 * 2^(k+1) + 2^k := by rel [IH1, IH2]
       _ = 2^(k+2) + 2^k := by ring
       _ ≥ 2^(k+2) := by extra
