@@ -1,0 +1,303 @@
+\documentclass{article}
+\usepackage[letterpaper]{geometry} % Set the paper size to US Letter
+\usepackage{amsmath, amssymb, bussproofs, qtree, booktabs, array, lastpage, fancyhdr}
+\usepackage{mdframed}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+
+
+% \defeqine a custom-proof environment
+
+\newenvironment{proof}
+{\begin{mdframed}[linewidth=0.5pt]\begin{enumerate}[label=\arabic*.,leftmargin=*]}
+{\end{enumerate}\end{mdframed}}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=magenta,      
+  urlcolor=cyan,
+  pdftitle={Your Title Here},
+  pdfpagemode=FullScreen,
+}
+ 
+
+% Add the new command here
+\newcommand{\defeq}{\stackrel{\text{def}}{=}}
+\newcommand{\proves}{\vdash}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Page \thepage}
+\lhead{Nicholas  Ikechukwu - U71641768 - Boston University}
+\cfoot{}
+
+\begin{document}
+
+
+\begin{center}
+    \Large\textbf{Solutions to CS511 Homework 10}
+    
+    \vspace{0.5cm}
+    
+    \large Nicholas Ikechukwu - U71641768
+    
+    \vspace{0.3cm}
+    
+    \large November 14, 2024
+\end{center}
+
+
+
+\section*{Exercise 1 Open Lecture Slides 24, “Deductive Closure and First-Order Theories”, page 7:
+Carefully answer the question highlighted in green.}
+
+\subsection*{Hint: An appropriate answer should take no more than 4-5 lines. You will find it helpful to read the
+preceding pages in the same set of slides. }
+
+\begin{mdframed}
+    Exercise 107: (Two-Colorability of Graphs: First-Order Deﬁnable). The notion of two-colorable
+    simple graphs coincides with the notion of bipartite simple graphs. Write an inﬁnite set $\Gamma_{bipartite}$
+    of ﬁrst-order sentences such that, for every simple graph G, it holds that G $\models$ $\Gamma_{bipartite}$ iﬀ G is
+    bipartite.
+
+    \vspace{1em} 
+    Hint: An appropriate answer should take no more than 4-5 lines. You will find it helpful to read the
+preceding pages in the same set of slides. 
+\end{mdframed}
+\section*{Solution:}
+Let $\Gamma_{\text{bipartite}}$ be the set of first-order sentences that express that for every cycle of length $n$ (where $n$ is odd), such a cycle cannot exist in the graph. For each odd $n \geq 3$, we include a sentence $\phi_n$ in $\Gamma_{\text{bipartite}}$:
+    
+    \[
+    \phi_n := \forall x_1 \ldots \forall x_n \left(\bigwedge_{i=1}^{n-1} E(x_i,x_{i+1}) \land E(x_n,x_1) \rightarrow \bigvee_{1 \leq i < j \leq n} x_i \approx x_j\right)
+    \]
+    
+    Then:
+    \[
+    \Gamma_{\text{bipartite}} := \{\phi_n \mid n \geq 3 \text{ and } n \text{ is odd}\}
+    \]
+    
+    This works because:
+\begin{proof}
+    
+    \begin{itemize}
+        \item Each $\phi_n$ says "there cannot be a cycle of length $n$" where $n$ is odd
+        \item The formula enforces that if we have $n$ vertices connected in a cycle, at least two must be the same vertex
+        \item A graph models $\Gamma_{\text{bipartite}}$ if and only if it has no odd cycles
+        \item By the characterization of bipartite graphs, a graph is bipartite if and only if it has no odd cycles
+    \end{itemize}
+    
+    Therefore, $G \models \Gamma_{\text{bipartite}}$ if and only if $G$ is bipartite.
+\end{proof}
+
+
+\newpage
+
+
+
+\section*{Exercise 2. Open EML.Chapter 6.pdf : Do Exercise 109 on page 65.}
+
+\subsection*{Hint: There is some reading to do in this exercise, but the answers are straightforward. Correct
+answers for parts 1, 2, and 3, are each no more than a single line. An appropriate answer for part 4
+invokes Compactness and can be written in three or four lines.}
+
+
+\begin{mdframed}
+    Consider the three sentences:
+    
+    \vspace{1em}
+    $\phi1 \defeq \forall x P (x, x)$
+    
+    \vspace{1em}
+    $\phi2 \defeq \forall x \forall y (P (x, y) \rightarrow P (y, x))$
+    
+    \vspace{1em}
+    $\phi3 \defeq \forall x \forall y \forall z ((P (x, y) \land P (y, z) \rightarrow P (x, z)))$
+    
+    \vspace{1em}
+
+    which express that the binary predicate P is reﬂexive, symmetric and transitive,
+    respectively. Show that none of these sentences is semantically entailed by the
+    other ones by choosing for each pair of sentences above a model which satisﬁes
+    these two, but not the third sentence – essentially, you are asked to ﬁnd three
+    binary relations, each satisfying just two of these properties. 
+  
+\end{mdframed}
+
+\subsection*{Solution:}
+We can show that none of these sentences semantically entails the others, by first finding three different models:
+    
+\vspace{1em}
+1. A model satisfying $\phi_2$ and $\phi_3$ but not $\phi_1$ (symmetric and transitive but not reflexive)
+
+2. A model satisfying $\phi_1$ and $\phi_3$ but not $\phi_2$ (reflexive and transitive but not symmetric)
+
+3. A model satisfying $\phi_1$ and $\phi_2$ but not $\phi_3$ (reflexive and symmetric but not transitive)
+
+
+\vspace{1em}
+Now, we'll construct these models using simple binary relations on small sets:
+    
+\vspace{1em}
+
+\textbf{Model 1:} (symmetric and transitive but not reflexive)
+\begin{itemize}
+    \item Domain: $A = \{1, 2\}$
+    \item Relation: $P = \emptyset$ (empty relation)
+    \item This is symmetric (vacuously) and transitive (vacuously) but not reflexive since $P(1,1)$ and $P(2,2)$ don't hold   ß
+\end{itemize}
+
+    
+\textbf{Model 2:} (reflexive and transitive but not symmetric)
+
+\begin{itemize}
+\item Domain: $A = \{1, 2\}$
+    \item Relation: $P = \{(1,1), (2,2), (1,2)\}$
+    \item This is reflexive (all $(x,x)$ included) and transitive, but not symmetric since $(1,2)$ is in $P$ but $(2,1)$ is not
+\end{itemize}
+
+\textbf{Model 3:} (reflexive and symmetric but not transitive)
+\begin{itemize}
+    \item Domain: $A = \{1, 2, 3\}$
+    \item Relation: $P = \{(1,1), (2,2), (3,3), (1,2), (2,1)\}$
+    \item This is reflexive (all $(x,x)$ included) and symmetric, but not transitive since $(1,2)$ and $(2,3)$ are in $P$ but $(1,3)$ is not
+\end{itemize}
+    
+
+Therefore, it is clear that each sentence is independent of the others.
+\newpage
+
+
+
+
+\section*{PROBLEM 1 Open EML.Chapter 6.pdf : Do part 1 and part 2 only of Exercise 108 on page
+64. You do not need to do part 3 of that exercise.}
+
+\section*{Part 1:}
+\begin{mdframed}
+    Exercise:
+    Let $\phi(x, y)$ be an atomic WFF with free variables x and y, and f a unary function symbol not appearing in $\phi$.
+    \vspace{1em}
+
+    1. Show that the sentence $\forall x \phi(x, f (x)) \rightarrow \forall x\exists y \phi(x, y)$ is semantically
+    valid, i.e., the following sequent is formally derivable:
+    \vspace{1em}
+
+    $\vdash \forall x \phi(x, f (x)) \rightarrow \forall x \exists y \phi(x, y)$
+    \vspace{1em}
+
+    Hint: Use any of the available methods, i.e., try to find a formal proof
+    or try a semantic approach to show $\models \forall x \phi(x, f (x)) \rightarrow \forall x\exists y \phi(x, y)$
+    and then invoke the completeness of the proof rules.
+\end{mdframed}
+
+\section*{Solution:}
+\textbf{1.} To show $\vdash \forall x \phi(x, f(x)) \rightarrow \forall x \exists y \phi(x, y)$
+
+
+\vspace{1em}
+is valid, we use a semantic approach:
+
+\vspace{1em}
+Suppose $M \models \forall x \phi(x, f(x))$ for some model $M$. 
+
+\vspace{1em}
+We need to show 
+\[\begin{aligned}
+    M \models \forall x \exists y \phi(x, y)
+\end{aligned}\]
+
+\vspace{1em}
+Let $a$ be any element in the universe of $M$. 
+
+We need to show $M \models \exists y \phi(a, y)$.
+
+\vspace{1em}
+From $M \models \forall x \phi(x, f(x))$, 
+
+\vspace{1em}
+we know that $M \models \phi(a, f(a))$.
+
+\vspace{1em}
+Let $b = f^M(a)$. Then $M \models \phi(a, b)$, which means $M \models \exists y \phi(a, y)$.
+
+\vspace{1em}
+Since $a$ was arbitrary, $M \models \forall x \exists y \phi(x, y)$.
+
+\vspace{1em}
+Therefore, by completeness, 
+\[\begin{aligned}
+    & \vdash \forall x \phi(x, f(x)) \rightarrow \forall x \exists y \phi(x, y)
+\end{aligned}\]
+\newpage
+
+
+\section*{Part 2:}
+
+
+\begin{mdframed}
+    2. Show that the sentence $\forall x \exists y \phi(x, y) \rightarrow \forall x \phi(x, f (x))$ is NOT
+    semanticalle valid, i.e., the following sequent is NOT derivable:
+      \vspace{1em}
+      
+    $\vdash \forall x\exists y \phi(x, y) \rightarrow \forall x \phi(x, f (x))$
+      \vspace{1em}
+      
+    Hint: Try a semantic approach, i.e., define an appropriate $\phi$ and a
+    model where the left-hand side of “$\rightarrow$” is true but the right-hand side
+    of “$\rightarrow$” is false, and then invoke the completeness of the proof rules.
+\end{mdframed}
+\section*{Solution:}
+\textbf{2.} To show the sentence is not valid, we construct a counterexample:
+
+\vspace{1em}
+Let $\phi(x,y)$ be the atomic formula $x < y$ interpreted over the real numbers $\mathbb{R}$.
+
+\vspace{1em}
+Define $f(x) = x$ for all $x \in \mathbb{R}$.
+
+\vspace{1em}
+Then:
+\begin{itemize}
+\item $\forall x \exists y \phi(x,y)$ is true because for any real number $x$, there exists a larger real number $y$
+\item However, $\forall x \phi(x,f(x))$ is false because $\phi(x,f(x))$ means $x < x$, which is false for all $x$
+\end{itemize}
+
+Therefore, we have found a model where $\forall x \exists y \phi(x,y)$ is true but $\forall x \phi(x,f(x))$ is false.
+
+By completeness, 
+\[\begin{aligned}
+    & \not \vdash \forall x \exists y \phi(x,y) \rightarrow \forall x \phi(x,f(x))
+\end{aligned}\]
+
+\newpage
+
+
+
+
+\section*{ON LEAN-4}
+\subsection*{Solutions in one file at: 
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw09/hw09_nicholas_ikechukwu.lean}}
+
+\newpage
+
+\section*{Exercise 3. From Macbeth’s book:}
+\section*{Solutions}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw09/hw09_nicholas_ikechukwu.lean}
+
+\newpage
+
+\section*{Exercise 4. From Macbeth's book}
+
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw09/hw09_nicholas_ikechukwu.lean}
+
+\newpage
+
+\section*{PROBLEM 2. From Macbeth's book}
+\section*{Solution}
+
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw09/hw09_nicholas_ikechukwu.lean}
+\end{document}
