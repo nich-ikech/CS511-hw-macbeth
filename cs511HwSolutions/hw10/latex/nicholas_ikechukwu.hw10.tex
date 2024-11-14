@@ -35,6 +35,8 @@
 \lhead{Nicholas  Ikechukwu - U71641768 - Boston University}
 \cfoot{}
 
+\setlength{\parindent}{0pt}
+
 \begin{document}
 
 
@@ -59,39 +61,39 @@ Carefully answer the question highlighted in green.}
 preceding pages in the same set of slides. }
 
 \begin{mdframed}
-    Exercise 107: (Two-Colorability of Graphs: First-Order Deﬁnable). The notion of two-colorable
-    simple graphs coincides with the notion of bipartite simple graphs. Write an inﬁnite set $\Gamma_{bipartite}$
-    of ﬁrst-order sentences such that, for every simple graph G, it holds that G $\models$ $\Gamma_{bipartite}$ iﬀ G is
-    bipartite.
+    If $M$ is a relational structure, the first-order theory of $M$ is:
+\[
+\text{Th}(M) \stackrel{\text{def}}{=} \{ \phi \mid \phi \text{ is a first-order sentence s.t. } M \models \phi \}
+\]
+Question: Is $\text{Th}(M)$ deductively closed?
 
-    \vspace{1em} 
-    Hint: An appropriate answer should take no more than 4-5 lines. You will find it helpful to read the
-preceding pages in the same set of slides. 
+\vspace{1em} 
+    
 \end{mdframed}
 \section*{Solution:}
-Let $\Gamma_{\text{bipartite}}$ be the set of first-order sentences that express that for every cycle of length $n$ (where $n$ is odd), such a cycle cannot exist in the graph. For each odd $n \geq 3$, we include a sentence $\phi_n$ in $\Gamma_{\text{bipartite}}$:
-    
-    \[
-    \phi_n := \forall x_1 \ldots \forall x_n \left(\bigwedge_{i=1}^{n-1} E(x_i,x_{i+1}) \land E(x_n,x_1) \rightarrow \bigvee_{1 \leq i < j \leq n} x_i \approx x_j\right)
-    \]
-    
-    Then:
-    \[
-    \Gamma_{\text{bipartite}} := \{\phi_n \mid n \geq 3 \text{ and } n \text{ is odd}\}
-    \]
-    
-    This works because:
-\begin{proof}
-    
-    \begin{itemize}
-        \item Each $\phi_n$ says "there cannot be a cycle of length $n$" where $n$ is odd
-        \item The formula enforces that if we have $n$ vertices connected in a cycle, at least two must be the same vertex
-        \item A graph models $\Gamma_{\text{bipartite}}$ if and only if it has no odd cycles
-        \item By the characterization of bipartite graphs, a graph is bipartite if and only if it has no odd cycles
-    \end{itemize}
-    
-    Therefore, $G \models \Gamma_{\text{bipartite}}$ if and only if $G$ is bipartite.
-\end{proof}
+
+Yes, Th(M) is deductively closed.
+
+
+\vspace{1em}
+
+\vspace{1em}
+To prove this:
+
+\vspace{1em}
+Let $\phi \in \overline{\text{Th}(M)}$. Then $\text{Th}(M) \vdash \phi$.
+
+\vspace{1em}
+By the Soundness Theorem, $\text{Th}(M) \models \phi$.
+
+\vspace{1em}
+Since $M \models \text{Th}(M)$, we have $M \models \phi$.
+
+\vspace{1em}
+By definition of $\text{Th}(M)$, $\phi \in \text{Th}(M)$.
+
+\vspace{1em}
+Therefore, $\overline{\text{Th}(M)} \subseteq \text{Th}(M)$, so Th(M) is deductively closed.
 
 
 \newpage
@@ -104,70 +106,122 @@ Let $\Gamma_{\text{bipartite}}$ be the set of first-order sentences that express
 answers for parts 1, 2, and 3, are each no more than a single line. An appropriate answer for part 4
 invokes Compactness and can be written in three or four lines.}
 
+\vspace{1em}
 
 \begin{mdframed}
-    Consider the three sentences:
-    
-    \vspace{1em}
-    $\phi1 \defeq \forall x P (x, x)$
-    
-    \vspace{1em}
-    $\phi2 \defeq \forall x \forall y (P (x, y) \rightarrow P (y, x))$
-    
-    \vspace{1em}
-    $\phi3 \defeq \forall x \forall y \forall z ((P (x, y) \land P (y, z) \rightarrow P (x, z)))$
-    
-    \vspace{1em}
+    \subsection*{Graph Coloring}
 
-    which express that the binary predicate P is reﬂexive, symmetric and transitive,
-    respectively. Show that none of these sentences is semantically entailed by the
-    other ones by choosing for each pair of sentences above a model which satisﬁes
-    these two, but not the third sentence – essentially, you are asked to ﬁnd three
-    binary relations, each satisfying just two of these properties. 
+   Hint 1 : Find a way to make use of the following fact: Every ﬁnite planar graph is four-colorable.
+    (Do not try to prove this fact, which is diﬃcult, but you are allowed to invoke it.)
+
+    \vspace{1em}
+    Hint 2 : If M is a planar graph, then every subgraph of M is also planar. A subgraph of M is a
+    graph whose vertices are a subset of the vertices of M and whose adjacency relation is a subset
+    of the adjacency relation of M restricted to this subset. 
   
 \end{mdframed}
 
-\subsection*{Solution:}
-We can show that none of these sentences semantically entails the others, by first finding three different models:
-    
 \vspace{1em}
-1. A model satisfying $\phi_2$ and $\phi_3$ but not $\phi_1$ (symmetric and transitive but not reflexive)
+In this exercise, I will demonstrate that every infinite planar graph is 4-colorable. The first-order theory of simple undirected graphs can be taken as a set $\Gamma$ of two axioms over signature $\Sigma \stackrel{\text{def}}{=} \{R\}$ consisting of one binary relation symbol, namely:
 
-2. A model satisfying $\phi_1$ and $\phi_3$ but not $\phi_2$ (reflexive and transitive but not symmetric)
-
-3. A model satisfying $\phi_1$ and $\phi_2$ but not $\phi_3$ (reflexive and symmetric but not transitive)
-
+\[
+\Gamma \stackrel{\text{def}}{=} \{\forall x.\forall y. R(x, y) \rightarrow R(y, x), \forall x. \neg R(x, x)\}.
+\]
 
 \vspace{1em}
-Now, we'll construct these models using simple binary relations on small sets:
-    
+We now expand the signature $\Sigma$ to $\Sigma' = \Sigma \cup \{B, G, P, Y\}$ where $B, G, P$, and $Y$ are unary predicate symbols (for 'blue', 'green', 'purple', and 'yellow').
+
+
+\subsection*{Part 1}
+
 \vspace{1em}
+\begin{mdframed}
+Write a first-order sentence $\phi_1$ which, in any $\Sigma'$-structure $M$ satisfying $\Gamma$ (i.e., $M$ is a simple undirected graph),
+ asserts "every vertex has at least one of the colors: blue, green, purple, yellow".
+\end{mdframed}
 
-\textbf{Model 1:} (symmetric and transitive but not reflexive)
-\begin{itemize}
-    \item Domain: $A = \{1, 2\}$
-    \item Relation: $P = \emptyset$ (empty relation)
-    \item This is symmetric (vacuously) and transitive (vacuously) but not reflexive since $P(1,1)$ and $P(2,2)$ don't hold   ß
-\end{itemize}
 
+\subsection*{Solution}
+
+\[
+\phi_1 := \forall x (B(x) \lor G(x) \lor P(x) \lor Y(x))
+\]
+
+\newpage
+
+
+
+\subsection*{Part 2}
+
+\vspace{1em}
+\begin{mdframed}
+    Write a first-order sentence $\phi_2$ which, in any $\Sigma'$-structure $M$ satisfying $\Gamma$, 
+    asserts "every vertex has at most one color".
+\end{mdframed}
+
+
+\subsection*{Solution}
+
+\[
+\phi_2 := \forall x ((B(x) \rightarrow \neg G(x) \land \neg P(x) \land \neg Y(x)) \land (G(x) \rightarrow \neg P(x) \land \neg Y(x)) \land (P(x) \rightarrow \neg Y(x)))
+\]
+
+\newpage
+
+
+
+\subsection*{Part 3}
+
+\vspace{1em}
+\begin{mdframed}
+Write a first-order sentence $\phi_3$ which, in any $\Sigma'$-structure $M$ satisfying $\Gamma$, asserts "no two adjacent vertices have the same color".
+
+\end{mdframed}
+
+\subsection*{Solution}
+
+\[
+\phi_3 := \forall x \forall y (R(x,y) \rightarrow \neg(B(x) \land B(y)) \land \neg(G(x) \land G(y)) \land \neg(P(x) \land P(y)) \land \neg(Y(x) \land Y(y)))
+\]
+
+\newpage
+
+\subsection*{Part 4}
+
+
+\vspace{1em}
+\begin{mdframed}
+    Show that if $M$ is an infinite planar graph, i.e.,
+    \begin{itemize}
+    \item $M$ is a $\Sigma$-structure satisfying $\Gamma$,
+    \item the domain of $M$ is infinite, and
+    \item $M$ is planar as a graph,
+    \end{itemize}
+
+    \vspace{1em}
+
+    then there is a $\Sigma'$-structure $M'$,
+    which expands $M$ with four unary relations 
+
+    $B^{M'}, G^{M'}, P^{M'}, and Y^{M'}$, 
+    and which satisfies $\phi_1 \land \phi_2 \land \phi_3$, i.e., $M'$ is four-colorable and,
+    thus, $M$ is also four-colorable.
     
-\textbf{Model 2:} (reflexive and transitive but not symmetric)
+\end{mdframed}
 
-\begin{itemize}
-\item Domain: $A = \{1, 2\}$
-    \item Relation: $P = \{(1,1), (2,2), (1,2)\}$
-    \item This is reflexive (all $(x,x)$ included) and transitive, but not symmetric since $(1,2)$ is in $P$ but $(2,1)$ is not
-\end{itemize}
 
-\textbf{Model 3:} (reflexive and symmetric but not transitive)
-\begin{itemize}
-    \item Domain: $A = \{1, 2, 3\}$
-    \item Relation: $P = \{(1,1), (2,2), (3,3), (1,2), (2,1)\}$
-    \item This is reflexive (all $(x,x)$ included) and symmetric, but not transitive since $(1,2)$ and $(2,3)$ are in $P$ but $(1,3)$ is not
-\end{itemize}
-    
+\subsection*{Solution}
 
-Therefore, it is clear that each sentence is independent of the others.
+Let $\Delta = \Gamma \cup \{\phi_1, \phi_2, \phi_3\}$. 
+
+\vspace{1em}
+Every finite substructure of $M$ is a finite planar graph, hence 4-colorable. 
+
+\vspace{1em}
+Thus, every finite subset of $\Delta$ is satisfiable. By Compactness, $\Delta$ is satisfiable.
+
+\vspace{1em}
+Therefore, there exists a $\Sigma'$-structure $M'$ expanding $M$ that satisfies $\Delta$, making $M$ four-colorable.
 \newpage
 
 
@@ -176,128 +230,99 @@ Therefore, it is clear that each sentence is independent of the others.
 \section*{PROBLEM 1 Open EML.Chapter 6.pdf : Do part 1 and part 2 only of Exercise 108 on page
 64. You do not need to do part 3 of that exercise.}
 
-\section*{Part 1:}
+
+\subsection*{Part 1}
+
+
+\vspace{1em}
 \begin{mdframed}
-    Exercise:
-    Let $\phi(x, y)$ be an atomic WFF with free variables x and y, and f a unary function symbol not appearing in $\phi$.
-    \vspace{1em}
+    \textbf{Question:} Give a precise argument in about 5-10 lines for how to systematically generate the countably infinite sequence of $K_{3,3}$ and all its subdivisions, call it $G \stackrel{\text{def}}{=} (G_i \mid i \in \mathbb{N})$, and the countably infinite sequence of $K_5$ and all its subdivisions, call it $G' \stackrel{\text{def}}{=} (G'_i \mid i \in \mathbb{N})$. The first entries in those two sequences are $K_{3,3}$ and $K_5$, i.e., $G_0 \stackrel{\text{def}}{=} K_{3,3}$ and $G'_0 \stackrel{\text{def}}{=} K_5$. It is also useful to define the sequence $G$ so that if $i < j$ then $G_i \leq G_j$, and similarly for the sequence $G'$, i.e., successive entries in $G$ and $G'$ are in order of non-decreasing sizes.
 
-    1. Show that the sentence $\forall x \phi(x, f (x)) \rightarrow \forall x\exists y \phi(x, y)$ is semantically
-    valid, i.e., the following sequent is formally derivable:
     \vspace{1em}
+    \textbf{Hint 1:} It suffices to give an answer for one of the two sequences, say $G$, and to conclude by saying "$G'$ is generated similarly."
 
-    $\vdash \forall x \phi(x, f (x)) \rightarrow \forall x \exists y \phi(x, y)$
     \vspace{1em}
+    \textbf{Hint 2:} In the two sequences there are many (though a finite number) subdivisions of the same size. And for the same size, it is possible but quite difficult to omit isomorphic copies; it is much easier to allow isomorphic copies in the two sequences.
 
-    Hint: Use any of the available methods, i.e., try to find a formal proof
-    or try a semantic approach to show $\models \forall x \phi(x, f (x)) \rightarrow \forall x\exists y \phi(x, y)$
-    and then invoke the completeness of the proof rules.
+    
 \end{mdframed}
 
-\section*{Solution:}
-\textbf{1.} To show $\vdash \forall x \phi(x, f(x)) \rightarrow \forall x \exists y \phi(x, y)$
+\subsection*{Solution:}
+My precise argument is that, to generate the sequence $G$:
+
+\begin{enumerate}
+    \item We start with $G_0 = K_{3,3}$.
+    \item For each $i \geq 1$:
+        \begin{itemize}
+            \item We consider all possible ways to subdivide one edge of $G_{i-1}$.
+            \item Add each resulting graph as the next element in the sequence.
+            \item If multiple subdivisions result in graphs of the same size, include all of them.
+        \end{itemize}
+    \item Repeat step 2 indefinitely, ensuring that graphs are added in order of non-decreasing size.
+    \item If at any step, all possible single-edge subdivisions of previous graphs have been included, start subdividing two edges, then three, and so on.
+\end{enumerate}
+This process generates all possible subdivisions of $K_{3,3}$ in a systematic way, allowing for isomorphic copies. $G'$ is generated similarly, starting with $G'_0 = K_5$.
 
 
-\vspace{1em}
-is valid, we use a semantic approach:
-
-\vspace{1em}
-Suppose $M \models \forall x \phi(x, f(x))$ for some model $M$. 
-
-\vspace{1em}
-We need to show 
-\[\begin{aligned}
-    M \models \forall x \exists y \phi(x, y)
-\end{aligned}\]
-
-\vspace{1em}
-Let $a$ be any element in the universe of $M$. 
-
-We need to show $M \models \exists y \phi(a, y)$.
-
-\vspace{1em}
-From $M \models \forall x \phi(x, f(x))$, 
-
-\vspace{1em}
-we know that $M \models \phi(a, f(a))$.
-
-\vspace{1em}
-Let $b = f^M(a)$. Then $M \models \phi(a, b)$, which means $M \models \exists y \phi(a, y)$.
-
-\vspace{1em}
-Since $a$ was arbitrary, $M \models \forall x \exists y \phi(x, y)$.
-
-\vspace{1em}
-Therefore, by completeness, 
-\[\begin{aligned}
-    & \vdash \forall x \phi(x, f(x)) \rightarrow \forall x \exists y \phi(x, y)
-\end{aligned}\]
 \newpage
 
+\subsection*{Part 2}
 
-\section*{Part 2:}
 
-
+\vspace{1em}
 \begin{mdframed}
-    2. Show that the sentence $\forall x \exists y \phi(x, y) \rightarrow \forall x \phi(x, f (x))$ is NOT
-    semanticalle valid, i.e., the following sequent is NOT derivable:
-      \vspace{1em}
-      
-    $\vdash \forall x\exists y \phi(x, y) \rightarrow \forall x \phi(x, f (x))$
-      \vspace{1em}
-      
-    Hint: Try a semantic approach, i.e., define an appropriate $\phi$ and a
-    model where the left-hand side of “$\rightarrow$” is true but the right-hand side
-    of “$\rightarrow$” is false, and then invoke the completeness of the proof rules.
+    \textbf{Question:} Let $M \stackrel{\text{def}}{=} (M, R^M)$ be an arbitrary simple graph, $G_i \stackrel{\text{def}}{=} (V_i, E_i)$ an arbitrary subdivision of $K_{3,3}$, and $G'_j \stackrel{\text{def}}{=} (V'_j, E'_j)$ an arbitrary subdivision of $K_5$. Those two subdivisions are entries in the sequences $G$ and $G'$ defined in the preceding part. Write first-order sentences $\phi_i$ and $\phi'_j$ such that if $M \models \phi_i$ (resp. $M \models \phi'_j$), then $G_i$ is a subgraph of $M$ (resp. $G'_j$ is a subgraph of $M$).
+
+    \vspace{1em}
+    \textbf{Hint:} You will find it convenient to name the vertices of $G_i$ with an initial segment of the positive integers, i.e., $V_i = \{1, 2, \ldots, n_i\}$ where $n_i$ is the size of $G_i$, and similarly for $G'_j$.
+    
 \end{mdframed}
-\section*{Solution:}
-\textbf{2.} To show the sentence is not valid, we construct a counterexample:
 
-\vspace{1em}
-Let $\phi(x,y)$ be the atomic formula $x < y$ interpreted over the real numbers $\mathbb{R}$.
+\subsection*{Solution:}
 
-\vspace{1em}
-Define $f(x) = x$ for all $x \in \mathbb{R}$.
+Let $V_i = \{1, 2, \ldots, n_i\}$ be the vertices of $G_i$ and $E_i$ its set of edges. We can write $\phi_i$ as:
 
-\vspace{1em}
-Then:
-\begin{itemize}
-\item $\forall x \exists y \phi(x,y)$ is true because for any real number $x$, there exists a larger real number $y$
-\item However, $\forall x \phi(x,f(x))$ is false because $\phi(x,f(x))$ means $x < x$, which is false for all $x$
-\end{itemize}
+\[
+\phi_i \stackrel{\text{def}}{=} \exists x_1 \ldots \exists x_{n_i} \left(
+    \bigwedge_{1 \leq k < l \leq n_i} x_k \not\approx x_l \land
+    \bigwedge_{(k,l) \in E_i} R(x_k, x_l)
+\right)
+\]
 
-Therefore, we have found a model where $\forall x \exists y \phi(x,y)$ is true but $\forall x \phi(x,f(x))$ is false.
+Similarly, for $G'_j$ with vertices $V'_j = \{1, 2, \ldots, n'_j\}$ and edges $E'_j$, we can write $\phi'_j$ as:
 
-By completeness, 
-\[\begin{aligned}
-    & \not \vdash \forall x \exists y \phi(x,y) \rightarrow \forall x \phi(x,f(x))
-\end{aligned}\]
+\[
+\phi'_j \stackrel{\text{def}}{=} \exists x_1 \ldots \exists x_{n'_j} \left(
+    \bigwedge_{1 \leq k < l \leq n'_j} x_k \not\approx x_l \land
+    \bigwedge_{(k,l) \in E'_j} R(x_k, x_l)
+\right)
+\]
 
-\newpage
+The two first-order sentences assert the existence of distinct vertices in $M$ that are connected according to the edge structure of $G_i$ or $G'_j$, respectively. If $M$ satisfies either of these sentences, it contains the corresponding subdivision as a subgraph.
 
 
 
 
 \section*{ON LEAN-4}
 \subsection*{Solutions in one file at: 
-\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw09/hw09_nicholas_ikechukwu.lean}}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw10/hw10_nicholas_ikechukwu.lean}}
 
 \newpage
 
 \section*{Exercise 3. From Macbeth’s book:}
 \section*{Solutions}
-\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw09/hw09_nicholas_ikechukwu.lean}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw10/hw10_nicholas_ikechukwu.lean}
 
 \newpage
 
 \section*{Exercise 4. From Macbeth's book}
 
-\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw09/hw09_nicholas_ikechukwu.lean}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw10/hw10_nicholas_ikechukwu.lean}
 
 \newpage
 
 \section*{PROBLEM 2. From Macbeth's book}
 \section*{Solution}
 
-\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw09/hw09_nicholas_ikechukwu.lean}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw10/hw10_nicholas_ikechukwu.lean}
 \end{document}
