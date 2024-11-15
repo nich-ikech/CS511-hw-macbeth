@@ -139,19 +139,22 @@ example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1
 --Exercise 8.1.13.14
 --# Prove one-------------------------------------------------------
 
+
 example : ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
   intros f hf
   dsimp [Injective] at *
   intros x y h
-  have : f x - f y = y - x := by
+  apply hf
+  have key : f x - f y = y - x := by
     calc
       f x - f y = (f x + x) - (f y + y) := by ring
-      _ = x - y := by rw [h]
+      _         = 0                     := by rw [h]
+      _         = y - x                 := by ring
   apply hf
   calc
     f x = f x - f y + f y := by ring
-    _ = (y - x) + f y := by rw [this]
-    _ = f y := by ring
+    _   = (y - x) + f y   := by rw [key]
+    _   = f y             := by ring
 
 
 
