@@ -19,13 +19,19 @@ example : Injective (fun (x : ℝ) ↦ 3) := by
   sorry
 
 example : ¬ Injective (fun (x : ℝ) ↦ 3) := by
-  sorry
+  dsimp [Injective]
+  push_neg
+  use 4, 5
+  constructor <;> numbers
 
 --Exercise 8.1.13.3
 --# Prove one-------------------------------------------------------
 
 example : Injective (fun (x : ℚ) ↦ 3 * x - 1) := by
-  sorry
+  dsimp [Injective]
+  intros a1 a2 ha
+  have : 3 * a1 = 3 * a2 := by addarith [ha]
+  cancel 3 at this
 
 example : ¬ Injective (fun (x : ℚ) ↦ 3 * x - 1) := by
   sorry
@@ -34,7 +40,11 @@ example : ¬ Injective (fun (x : ℚ) ↦ 3 * x - 1) := by
 --# Prove one-------------------------------------------------------
 
 example : Surjective (fun (x : ℝ) ↦ 2 * x) := by
-  sorry
+  dsimp [Surjective]
+  intro y
+  use y / 2
+  field_simp
+  ring
 
 example : ¬ Surjective (fun (x : ℝ) ↦ 2 * x) := by
   sorry
@@ -70,13 +80,22 @@ example : Injective h := by
   sorry
 
 example : ¬ Injective h := by
-  sorry
+  dsimp [Injective]
+  push_neg
+  use athos, aramis
+  constructor
+  · rfl
+  · exhaust
 
 --Exercise 8.1.13.9
 --# Prove one-------------------------------------------------------
 
 example : Surjective h := by
-  sorry
+  dsimp [Surjective]
+  intro y
+  cases y
+  · use porthos; rfl
+  · use athos; rfl
 
 example : ¬ Surjective h := by
   sorry
@@ -94,7 +113,11 @@ example : Surjective l := by
   sorry
 
 example : ¬ Surjective l := by
-  sorry
+  dsimp [Surjective]
+  push_neg
+  use athos
+  intro x
+  cases x <;> exhaust
 
 --# ----------------------------------------------------------------
 
@@ -104,7 +127,11 @@ example : ¬ Surjective l := by
 --# Prove one-------------------------------------------------------
 
 example : ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1) := by
-  sorry
+  intros f hf
+  dsimp [Injective] at *
+  intros x y h
+  apply hf
+  addarith [h]
 
 example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1) := by
   sorry
@@ -113,7 +140,25 @@ example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1
 --# Prove one-------------------------------------------------------
 
 example : ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
-  sorry
+  intros f hf
+  dsimp [Injective] at *
+  intros x y h
+  have : f x - f y = y - x := by
+    calc f x - f y
+      = (f x + x) - (f y + y) := by ring
+      _ = 0 := by rw [h]
+      _ = y - x := by
+        have : x = y := by
+          apply hf
+          rw [← sub_eq_zero, sub_eq_zero] at h
+          exact h
+        rw [this]
+        ring
+  apply hf
+  rw [sub_eq_zero]
+  exact this
+
+
 
 example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
   sorry
@@ -125,4 +170,13 @@ example : ∀ c : ℝ, Surjective (fun x ↦ c * x) := by
   sorry
 
 example : ¬ ∀ c : ℝ, Surjective (fun x ↦ c * x) := by
-  sorry
+  push_neg
+  use 0
+  dsimp [Surjective]
+  push_neg
+  use 1
+  intro x
+  apply ne_of_lt
+  calc
+    0 * x = 0 := by ring
+    _ < 1 := by numbers
