@@ -144,19 +144,14 @@ example : ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) :
   dsimp [Injective] at *
   intros x y h
   have : f x - f y = y - x := by
-    calc f x - f y
-      = (f x + x) - (f y + y) := by ring
-      _ = 0 := by rw [h]
-      _ = y - x := by
-        have : x = y := by
-          apply hf
-          rw [← sub_eq_zero, sub_eq_zero] at h
-          exact h
-        rw [this]
-        ring
+    calc
+      f x - f y = (f x + x) - (f y + y) := by ring
+      _ = x - y := by rw [h]
   apply hf
-  rw [sub_eq_zero]
-  exact this
+  calc
+    f x = f x - f y + f y := by ring
+    _ = (y - x) + f y := by rw [this]
+    _ = f y := by ring
 
 
 
