@@ -1,0 +1,294 @@
+\documentclass{article}
+\usepackage[letterpaper]{geometry} % Set the paper size to US Letter
+\usepackage{amsmath, amssymb, bussproofs, qtree, booktabs, array, lastpage, fancyhdr}
+\usepackage{mdframed}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+
+
+% \defeqine a custom-proof environment
+
+\newenvironment{proof}
+{\begin{mdframed}[linewidth=0.5pt]\begin{enumerate}[label=\arabic*.,leftmargin=*]}
+{\end{enumerate}\end{mdframed}}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=magenta,      
+  urlcolor=cyan,
+  pdftitle={Your Title Here},
+  pdfpagemode=FullScreen,
+}
+ 
+
+% Add the new command here
+\newcommand{\defeq}{\stackrel{\text{def}}{=}}
+\newcommand{\proves}{\vdash}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Page \thepage}
+\lhead{Nicholas  Ikechukwu - U71641768 - Boston University}
+\cfoot{}
+
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+
+\begin{center}
+    \Large\textbf{Solutions to CS511 Homework 11}
+    
+    \vspace{0.5cm}
+    
+    \large Nicholas Ikechukwu - U71641768
+    
+    \vspace{0.3cm}
+    
+    \large November 21, 2024
+\end{center}
+
+
+
+\section*{Exercise 1. Open [LCS, page 164]: Do Exercise 2.4.12, parts (a) and (b) only.}
+
+
+
+\begin{mdframed}
+\vspace{1em}
+    \textbf{Question Predicate Logic Formulas}: For each of the formulas of predicate logic below, either find a model which
+    does not satisfy it, or prove it is valid:
+\vspace{1em}
+\end{mdframed}
+
+\section*{Solutions: }
+
+\subsection*{(a) $(\forall x \forall y (S(x, y) \rightarrow S(y, x))) \rightarrow (\forall x \neg S(x, x))$}
+
+\vspace{1em}
+\textbf{Answer:} Formula is not valid. Let us find a counterexample:
+
+\vspace{1em}
+
+Let the domain be $\{a\}$ and interpret $S$ as $S = \{(a,a)\}$.
+
+\vspace{1em}
+
+In this model:
+\begin{itemize}
+    \item $\forall x \forall y (S(x, y) \rightarrow S(y, x))$ is true because $S$ is symmetric.
+    \item $\forall x \neg S(x, x)$ is false because $S(a,a)$ is true.
+\end{itemize}
+
+Therefore, the antecedent is true while the consequent is false, making the implication false.
+\vspace{1em}
+
+
+\newpage
+
+
+
+\section*{Exercise 2. Open [LCS, page 164]: Do Exercise 2.4.12, parts (c) and (d) only.}
+
+\subsection*{Hint: There is some reading to do in this exercise, but the answers are straightforward. Correct
+answers for parts 1, 2, and 3, are each no more than a single line. An appropriate answer for part 4
+invokes Compactness and can be written in three or four lines.}
+
+\vspace{1em}
+
+\begin{mdframed}
+    \subsection*{Graph Coloring}
+
+   Hint 1 : Find a way to make use of the following fact: Every ﬁnite planar graph is four-colorable.
+    (Do not try to prove this fact, which is diﬃcult, but you are allowed to invoke it.)
+
+    \vspace{1em}
+    Hint 2 : If M is a planar graph, then every subgraph of M is also planar. A subgraph of M is a
+    graph whose vertices are a subset of the vertices of M and whose adjacency relation is a subset
+    of the adjacency relation of M restricted to this subset. 
+  
+\end{mdframed}
+
+\vspace{1em}
+In this exercise, I will demonstrate that every infinite planar graph is 4-colorable. The first-order theory of simple undirected graphs can be taken as a set $\Gamma$ of two axioms over signature $\Sigma \stackrel{\text{def}}{=} \{R\}$ consisting of one binary relation symbol, namely:
+
+\[
+\Gamma \stackrel{\text{def}}{=} \{\forall x.\forall y. R(x, y) \rightarrow R(y, x), \forall x. \neg R(x, x)\}.
+\]
+
+\vspace{1em}
+We now expand the signature $\Sigma$ to $\Sigma' = \Sigma \cup \{B, G, P, Y\}$ where $B, G, P$, and $Y$ are unary predicate symbols (for 'blue', 'green', 'purple', and 'yellow').
+
+
+\subsection*{Part 1}
+
+\vspace{1em}
+\begin{mdframed}
+Write a first-order sentence $\phi_1$ which, in any $\Sigma'$-structure $M$ satisfying $\Gamma$ (i.e., $M$ is a simple undirected graph),
+ asserts "every vertex has at least one of the colors: blue, green, purple, yellow".
+\end{mdframed}
+
+
+\subsection*{Solution}
+
+\[
+\phi_1 := \forall x (B(x) \lor G(x) \lor P(x) \lor Y(x))
+\]
+
+\newpage
+
+
+
+\subsection*{Part 2}
+
+\vspace{1em}
+\begin{mdframed}
+    Write a first-order sentence $\phi_2$ which, in any $\Sigma'$-structure $M$ satisfying $\Gamma$, 
+    asserts "every vertex has at most one color".
+\end{mdframed}
+
+
+\subsection*{Solution}
+
+\[
+\phi_2 := \forall x ((B(x) \rightarrow \neg G(x) \land \neg P(x) \land \neg Y(x)) \land (G(x) \rightarrow \neg P(x) \land \neg Y(x)) \land (P(x) \rightarrow \neg Y(x)))
+\]
+
+\newpage
+
+
+
+\subsection*{Part 3}
+
+\vspace{1em}
+\begin{mdframed}
+
+\end{mdframed}
+
+\subsection*{Solution}
+
+\[
+\phi_3 := \forall x \forall y (R(x,y) \rightarrow \neg(B(x) \land B(y)) \land \neg(G(x) \land G(y)) \land \neg(P(x) \land P(y)) \land \neg(Y(x) \land Y(y)))
+\]
+
+\newpage
+
+\subsection*{Part 4}
+
+
+\vspace{1em}
+\begin{mdframed}
+    
+    
+\end{mdframed}
+
+
+\subsection*{Solution}
+
+
+
+
+
+\section*{PROBLEM 1. Open EML.Chapter 6.pdf : Do Exercise 100 on page 62.}
+
+
+\subsection*{Part 1}
+
+
+\vspace{1em}
+\begin{mdframed}
+    \textbf{Question:} Give a precise argument in about 5-10 lines for how to systematically generate the countably infinite sequence of $K_{3,3}$ and all its subdivisions, call it $G \stackrel{\text{def}}{=} (G_i \mid i \in \mathbb{N})$, and the countably infinite sequence of $K_5$ and all its subdivisions, call it $G' \stackrel{\text{def}}{=} (G'_i \mid i \in \mathbb{N})$. The first entries in those two sequences are $K_{3,3}$ and $K_5$, i.e., $G_0 \stackrel{\text{def}}{=} K_{3,3}$ and $G'_0 \stackrel{\text{def}}{=} K_5$. It is also useful to define the sequence $G$ so that if $i < j$ then $G_i \leq G_j$, and similarly for the sequence $G'$, i.e., successive entries in $G$ and $G'$ are in order of non-decreasing sizes.
+
+    \vspace{1em}
+    \textbf{Hint 1:} It suffices to give an answer for one of the two sequences, say $G$, and to conclude by saying "$G'$ is generated similarly."
+
+    \vspace{1em}
+    \textbf{Hint 2:} In the two sequences there are many (though a finite number) subdivisions of the same size. And for the same size, it is possible but quite difficult to omit isomorphic copies; it is much easier to allow isomorphic copies in the two sequences.
+
+    
+\end{mdframed}
+
+\subsection*{Solution:}
+My precise argument is that, to generate the sequence $G$:
+
+\begin{enumerate}
+    \item We start with $G_0 = K_{3,3}$.
+    \item For each $i \geq 1$:
+        \begin{itemize}
+            \item We consider all possible ways to subdivide one edge of $G_{i-1}$.
+            \item Add each resulting graph as the next element in the sequence.
+            \item If multiple subdivisions result in graphs of the same size, include all of them.
+        \end{itemize}
+    \item Repeat step 2 indefinitely, ensuring that graphs are added in order of non-decreasing size.
+    \item If at any step, all possible single-edge subdivisions of previous graphs have been included, start subdividing two edges, then three, and so on.
+\end{enumerate}
+This process generates all possible subdivisions of $K_{3,3}$ in a systematic way, allowing for isomorphic copies. $G'$ is generated similarly, starting with $G'_0 = K_5$.
+
+
+\newpage
+
+\subsection*{Part 2}
+
+
+\vspace{1em}
+\begin{mdframed}
+    \textbf{Question:} Let $M \stackrel{\text{def}}{=} (M, R^M)$ be an arbitrary simple graph, $G_i \stackrel{\text{def}}{=} (V_i, E_i)$ an arbitrary subdivision of $K_{3,3}$, and $G'_j \stackrel{\text{def}}{=} (V'_j, E'_j)$ an arbitrary subdivision of $K_5$. Those two subdivisions are entries in the sequences $G$ and $G'$ defined in the preceding part. Write first-order sentences $\phi_i$ and $\phi'_j$ such that if $M \models \phi_i$ (resp. $M \models \phi'_j$), then $G_i$ is a subgraph of $M$ (resp. $G'_j$ is a subgraph of $M$).
+
+    \vspace{1em}
+    \textbf{Hint:} You will find it convenient to name the vertices of $G_i$ with an initial segment of the positive integers, i.e., $V_i = \{1, 2, \ldots, n_i\}$ where $n_i$ is the size of $G_i$, and similarly for $G'_j$.
+    
+\end{mdframed}
+
+\subsection*{Solution:}
+
+Let $V_i = \{1, 2, \ldots, n_i\}$ be the vertices of $G_i$ and $E_i$ its set of edges. We can write $\phi_i$ as:
+
+\[
+\phi_i \stackrel{\text{def}}{=} \exists x_1 \ldots \exists x_{n_i} \left(
+    \bigwedge_{1 \leq k < l \leq n_i} x_k \not\approx x_l \land
+    \bigwedge_{(k,l) \in E_i} R(x_k, x_l)
+\right)
+\]
+
+Similarly, for $G'_j$ with vertices $V'_j = \{1, 2, \ldots, n'_j\}$ and edges $E'_j$, we can write $\phi'_j$ as:
+
+\[
+\phi'_j \stackrel{\text{def}}{=} \exists x_1 \ldots \exists x_{n'_j} \left(
+    \bigwedge_{1 \leq k < l \leq n'_j} x_k \not\approx x_l \land
+    \bigwedge_{(k,l) \in E'_j} R(x_k, x_l)
+\right)
+\]
+
+The two first-order sentences assert the existence of distinct vertices in $M$ that are connected according to the edge structure of $G_i$ or $G'_j$, respectively. If $M$ satisfies either of these sentences, it contains the corresponding subdivision as a subgraph.
+
+\newpage
+
+
+
+\section*{ON LEAN-4}
+\subsection*{Solutions in one file at: 
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw11/hw11_nicholas_ikechukwu.lean}}
+
+\newpage
+
+\section*{Exercise 3. From Macbeth’s book:}
+\section*{Solutions}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw11/hw11_nicholas_ikechukwu.lean}
+
+\newpage
+
+\section*{Exercise 4. From Macbeth's book}
+
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw11/hw11_nicholas_ikechukwu.lean}
+
+\newpage
+
+\section*{PROBLEM 2. From Macbeth's book}
+\section*{Solution}
+
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw11/hw11_nicholas_ikechukwu.lean}
+\end{document}
