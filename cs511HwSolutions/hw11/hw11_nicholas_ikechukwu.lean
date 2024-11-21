@@ -1,180 +1,104 @@
 import Mathlib.Data.Real.Basic
 import Library.Basic
 import Library.Tactic.Exhaust
+import Library.Theory.InjectiveSurjective
 import Library.Tactic.ModEq
-import Library.Theory.ParityModular
 
 math2001_init
 set_option pp.funBinderTypes true
 
 open Function
-namespace Int
 
-/- # Exercise 3 -/
+/-# Exercise 3-/
 
---Exercise 8.1.13.2
---# Prove one-------------------------------------------------------
+--Exercise 8.3.10.2
 
-example : Injective (fun (x : ℝ) ↦ 3) := by
-  sorry
+def u (x : ℝ) : ℝ := 5 * x + 1
 
-example : ¬ Injective (fun (x : ℝ) ↦ 3) := by
-  dsimp [Injective]
-  push_neg
-  use 4, 5
-  constructor <;> numbers
+noncomputable def v (x : ℝ) : ℝ := (x - 1) / 5
 
---Exercise 8.1.13.3
---# Prove one-------------------------------------------------------
-
-example : Injective (fun (x : ℚ) ↦ 3 * x - 1) := by
-  dsimp [Injective]
-  intros a1 a2 ha
-  have : 3 * a1 = 3 * a2 := by addarith [ha]
-  cancel 3 at this
-
-example : ¬ Injective (fun (x : ℚ) ↦ 3 * x - 1) := by
-  sorry
-
---Exercise 8.1.13.5
---# Prove one-------------------------------------------------------
-
-example : Surjective (fun (x : ℝ) ↦ 2 * x) := by
-  dsimp [Surjective]
-  intro y
-  use y / 2
-  field_simp
-  ring
-
-example : ¬ Surjective (fun (x : ℝ) ↦ 2 * x) := by
-  sorry
-
---# -----------------------------------------------------------------
-
-/- # Exercise 4 -/
-
-inductive Musketeer
-  | athos
-  | porthos
-  | aramis
-  deriving DecidableEq
-
-open Musketeer
-
-inductive White
-  | meg
-  | jack
-  deriving DecidableEq
-
-open White
-
-def h : Musketeer → White
-  | athos => jack
-  | porthos => meg
-  | aramis => jack
-
---Exercise 8.1.13.8
---# Prove one-------------------------------------------------------
-
-example : Injective h := by
-  sorry
-
-example : ¬ Injective h := by
-  dsimp [Injective]
-  push_neg
-  use athos, aramis
+example : Inverse u v := by
+  dsimp [Inverse]
   constructor
-  · rfl
-  · exhaust
-
---Exercise 8.1.13.9
---# Prove one-------------------------------------------------------
-
-example : Surjective h := by
-  dsimp [Surjective]
-  intro y
-  cases y
-  · use porthos; rfl
-  · use athos; rfl
-
-example : ¬ Surjective h := by
-  sorry
-
---# ----------------------------------------------------------------
-
-def l : White → Musketeer
-  | meg => aramis
-  | jack => porthos
-
---Exercise 8.1.13.11
---# Prove one-------------------------------------------------------
-
-example : Surjective l := by
-  sorry
-
-example : ¬ Surjective l := by
-  dsimp [Surjective]
-  push_neg
-  use athos
-  intro x
-  cases x <;> exhaust
-
---# ----------------------------------------------------------------
-
-/- # Problem 2 -/
-
---Exercise 8.1.13.13
---# Prove one-------------------------------------------------------
-
-example : ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1) := by
-  intros f hf
-  dsimp [Injective] at *
-  intros x y h
-  apply hf
-  addarith [h]
-
-example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1) := by
-  sorry
-
---Exercise 8.1.13.14
---# Prove one-------------------------------------------------------
-
-
-example : ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
-  intros f hf
-  dsimp [Injective] at *
-  intros x y h
-  apply hf
-  have key : f x - f y = y - x := by
+  · -- Prove that v ∘ u = id
+    funext x -- Introduce x and apply function extensionality
+    dsimp [u, v]
     calc
-      f x - f y = (f x + x) - (f y + y) := by ring
-      _         = 0                     := by rw [h]
-      _         = y - x                 := by ring
+      v (u x) = ((5 * x + 1) - 1) / 5 := by rfl
+      _       = (5 * x) / 5           := by ring
+      _       = x                     := by ring
+  · -- Prove that u ∘ v = id
+    funext y -- Introduce y and apply function extensionality
+    dsimp [u, v]
+    calc
+      u (v y) = 5 * ((y - 1) / 5) + 1 := by rfl
+      _       = (y - 1) + 1           := by ring
+      _       = y                     := by field_simp  --or ring
+
+
+--Exercise 8.3.10.3
+
+example {f : X → Y} (hf : Injective f) {g : Y → Z} (hg : Injective g) :
+    Injective (g ∘ f) := by
+  intros a b h
   apply hf
-  calc
-    f x = f x - f y + f y := by ring
-    _   = (y - x) + f y   := by rw [key]
-    _   = f y             := by ring
+  apply hg
+  exact h
+
+--Exercise 8.3.10.4
+
+
+example {f : X → Y} (hf : Surjective f) {g : Y → Z} (hg : Surjective g) :
+    Surjective (g ∘ f) := by
+  intro z
+  -- Since g is surjective, there exists y such that g(y) = z
+  obtain ⟨y, hy⟩ := hg z
+  -- Since f is surjective, there exists x such that f(x) = y
+  obtain ⟨x, hx⟩ := hf y
+  -- Use x as the preimage for z under g ∘ f
+  use x
+  -- Show that (g ∘ f)(x) = z by substituting hx and hy
+  rw [Function.comp_apply, hx, hy]
 
 
 
-example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
-  sorry
 
---Exercise 8.1.13.16
---# Prove one-------------------------------------------------------
 
-example : ∀ c : ℝ, Surjective (fun x ↦ c * x) := by
-  sorry
+/-# Exercise 4-/
 
-example : ¬ ∀ c : ℝ, Surjective (fun x ↦ c * x) := by
-  push_neg
-  use 0
-  dsimp [Surjective]
-  push_neg
-  use 1
-  intro x
-  apply ne_of_lt
-  calc
-    0 * x = 0 := by ring
-    _ < 1 := by numbers
+-- example : Bijective (fun ((r, s) : ℚ × ℚ) ↦ (s, r - s)) := by
+--   rw [bijective_iff_exists_inverse]
+--   sorry
+
+-- --Exercise 8.4.10.2.1
+
+-- example : ¬ Injective (fun ((x, y) : ℤ × ℤ) ↦ x - 2 * y - 1) := by
+--   sorry
+
+-- --Exercise 8.4.10.2.2
+
+-- example : Surjective (fun ((x, y) : ℤ × ℤ) ↦ x - 2 * y - 1) := by
+--  sorry
+
+
+
+
+
+-- /-# Problem 2-/
+
+-- --Exercise 8.3.10.5
+
+example {f : X → Y} (hf : Surjective f) : ∃ g : Y → X, f ∘ g = id := by
+  choose g hg using hf
+  use g
+  ext y
+  exact hg y
+
+-- --Exercise 8.3.10.7
+
+-- example {f : X → Y} {g1 g2 : Y → X} (h1 : Inverse f g1) (h2 : Inverse f g2) :
+--     g1 = g2 := by
+--   ext y
+--   calc
+--     g1 y = g1 (f (g2 y)) := by rw [h2.left_inverse]
+--       _ = g2 y          := by rw [h1.left_inverse]

@@ -37,6 +37,7 @@ example {f : X → Y} (hf : Surjective f) {g : Y → Z} (hg : Surjective g) :
 --Exercise 8.4.10.1
 
 example : Bijective (fun ((r, s) : ℚ × ℚ) ↦ (s, r - s)) := by
+  rw [bijective_iff_exists_inverse]
   sorry
 
 --Exercise 8.4.10.2.1

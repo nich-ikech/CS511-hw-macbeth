@@ -5,6 +5,7 @@
 \usepackage{tcolorbox}
 \usepackage{hyperref}
 \usepackage{enumitem}
+\usepackage{stmaryrd}
 
 
 
@@ -84,187 +85,209 @@ In this model:
     \item $\forall x \neg S(x, x)$ is false because $S(a,a)$ is true.
 \end{itemize}
 
-Therefore, the antecedent is true while the consequent is false, making the implication false.
+This shows that the antecedent is true while the consequent is false, making the implication false.
 \vspace{1em}
 
 
 \newpage
 
+\subsection*{(b) $\exists y ((\forall x P(x)) \rightarrow P(y))$}
+
+\vspace{1em}
+\textbf{Answer:} I believe the Formula here is also valid. We can prove it by cases:
+
+\vspace{1em}
+Case 1: If $\forall x P(x)$ is true, then $P(y)$ is true for any $y$, so the implication is true.
+
+\vspace{1em}
+Case 2: If $\forall x P(x)$ is false, then there exists some element $a$ in the domain for which $P(a)$ is false. 
+
+\vspace{1em}
+Choose $y = a$. Then both the antecedent and consequent of the implication are false, making the implication true.
+
+\vspace{1em}
+In both cases, we can find a $y$ that makes the formula true, so $\exists y ((\forall x P(x)) \rightarrow P(y))$ is always true.
+
+
+\newpage
 
 
 \section*{Exercise 2. Open [LCS, page 164]: Do Exercise 2.4.12, parts (c) and (d) only.}
 
-\subsection*{Hint: There is some reading to do in this exercise, but the answers are straightforward. Correct
-answers for parts 1, 2, and 3, are each no more than a single line. An appropriate answer for part 4
-invokes Compactness and can be written in three or four lines.}
-
-\vspace{1em}
-
 \begin{mdframed}
-    \subsection*{Graph Coloring}
-
-   Hint 1 : Find a way to make use of the following fact: Every ﬁnite planar graph is four-colorable.
-    (Do not try to prove this fact, which is diﬃcult, but you are allowed to invoke it.)
-
     \vspace{1em}
-    Hint 2 : If M is a planar graph, then every subgraph of M is also planar. A subgraph of M is a
-    graph whose vertices are a subset of the vertices of M and whose adjacency relation is a subset
-    of the adjacency relation of M restricted to this subset. 
-  
-\end{mdframed}
-
-\vspace{1em}
-In this exercise, I will demonstrate that every infinite planar graph is 4-colorable. The first-order theory of simple undirected graphs can be taken as a set $\Gamma$ of two axioms over signature $\Sigma \stackrel{\text{def}}{=} \{R\}$ consisting of one binary relation symbol, namely:
-
-\[
-\Gamma \stackrel{\text{def}}{=} \{\forall x.\forall y. R(x, y) \rightarrow R(y, x), \forall x. \neg R(x, x)\}.
-\]
-
-\vspace{1em}
-We now expand the signature $\Sigma$ to $\Sigma' = \Sigma \cup \{B, G, P, Y\}$ where $B, G, P$, and $Y$ are unary predicate symbols (for 'blue', 'green', 'purple', and 'yellow').
-
-
-\subsection*{Part 1}
-
-\vspace{1em}
-\begin{mdframed}
-Write a first-order sentence $\phi_1$ which, in any $\Sigma'$-structure $M$ satisfying $\Gamma$ (i.e., $M$ is a simple undirected graph),
- asserts "every vertex has at least one of the colors: blue, green, purple, yellow".
-\end{mdframed}
-
-
-\subsection*{Solution}
-
-\[
-\phi_1 := \forall x (B(x) \lor G(x) \lor P(x) \lor Y(x))
-\]
-
-\newpage
-
-
-
-\subsection*{Part 2}
-
-\vspace{1em}
-\begin{mdframed}
-    Write a first-order sentence $\phi_2$ which, in any $\Sigma'$-structure $M$ satisfying $\Gamma$, 
-    asserts "every vertex has at most one color".
-\end{mdframed}
-
-
-\subsection*{Solution}
-
-\[
-\phi_2 := \forall x ((B(x) \rightarrow \neg G(x) \land \neg P(x) \land \neg Y(x)) \land (G(x) \rightarrow \neg P(x) \land \neg Y(x)) \land (P(x) \rightarrow \neg Y(x)))
-\]
-
-\newpage
-
-
-
-\subsection*{Part 3}
-
-\vspace{1em}
-\begin{mdframed}
-
-\end{mdframed}
-
-\subsection*{Solution}
-
-\[
-\phi_3 := \forall x \forall y (R(x,y) \rightarrow \neg(B(x) \land B(y)) \land \neg(G(x) \land G(y)) \land \neg(P(x) \land P(y)) \land \neg(Y(x) \land Y(y)))
-\]
-
-\newpage
-
-\subsection*{Part 4}
-
-
-\vspace{1em}
-\begin{mdframed}
+        \textbf{Question Predicate Logic Formulas}: For each of the formulas of predicate logic below, either find a model which
+        does not satisfy it, or prove it is valid:
+    \vspace{1em}
+    \end{mdframed}
     
-    
-\end{mdframed}
+\section*{Solutions: }
+
+\vspace{1em}
+
+\subsection*{(c) $(\forall x (P(x) \rightarrow \exists y Q(y))) \rightarrow (\forall x \exists y (P(x) \rightarrow Q(y)))$}
 
 
-\subsection*{Solution}
+\textbf{Answer:} I suggest that this formula is also valid. Let's prove it by contradiction:
+
+\vspace{1em}
+Let's assume the antecedent is true and the consequent is false.
+
+\vspace{1em}
+
+That is:
+
+\vspace{1em}
+1) $\forall x (P(x) \rightarrow \exists y Q(y))$ is true
+
+\vspace{1em}
+2) $\forall x \exists y (P(x) \rightarrow Q(y))$ is false
+
+\vspace{1em}
+From the consequent, (2), there must be some $a$ such that $\forall y (P(a) \rightarrow Q(y))$ is false.
+
+\vspace{1em}
+We can tell that $P(a)$ is true and $\forall y \neg Q(y)$ is true.
+
+\vspace{1em}
+However, from (1), we know that $P(a) \rightarrow \exists y Q(y)$ is true.
+
+\vspace{1em}
+Since $P(a)$ is true, $\exists y Q(y)$ must be true.
+
+\vspace{1em}
+It's clear that this contradicts $\forall y \neg Q(y)$.
+
+\vspace{1em}
+Therefore, what we assumed, must be false, and the formula is valid.
+
+\newpage
 
 
+\subsection*{(d) $(\forall x \exists y (P(x) \rightarrow Q(y))) \rightarrow (\forall x (P(x) \rightarrow \exists y Q(y)))$}
 
+\vspace{1em}
 
+\vspace{1em}
+\textbf{Answer:} This formula is valid. We can actually prove it directly:
 
+\vspace{1em}
+Let's assume the antecedent is true: $\forall x \exists y (P(x) \rightarrow Q(y))$
+
+\vspace{1em}
+Now, consider any arbitrary $x$:
+
+\vspace{1em}
+1) If $P(x)$ is false, then $P(x) \rightarrow \exists y Q(y)$ is trivially true.
+
+\vspace{1em}
+2) If $P(x)$ is true, then from our assumption, there exists a $y$ such that $Q(y)$ is true.
+
+\vspace{1em}
+This allows $\exists y Q(y)$ to be true, and thus $P(x) \rightarrow \exists y Q(y)$ is true.
+
+\vspace{1em}
+In both cases, $P(x) \rightarrow \exists y Q(y)$ is true for any $x$.
+
+\vspace{1em}
+Therefore, $\forall x (P(x) \rightarrow \exists y Q(y))$ is true, making the entire implication true.
+
+\vspace{1em}
+Hence, the formula is valid.
+
+\newpage
 \section*{PROBLEM 1. Open EML.Chapter 6.pdf : Do Exercise 100 on page 62.}
 
 
-\subsection*{Part 1}
-
-
-\vspace{1em}
 \begin{mdframed}
-    \textbf{Question:} Give a precise argument in about 5-10 lines for how to systematically generate the countably infinite sequence of $K_{3,3}$ and all its subdivisions, call it $G \stackrel{\text{def}}{=} (G_i \mid i \in \mathbb{N})$, and the countably infinite sequence of $K_5$ and all its subdivisions, call it $G' \stackrel{\text{def}}{=} (G'_i \mid i \in \mathbb{N})$. The first entries in those two sequences are $K_{3,3}$ and $K_5$, i.e., $G_0 \stackrel{\text{def}}{=} K_{3,3}$ and $G'_0 \stackrel{\text{def}}{=} K_5$. It is also useful to define the sequence $G$ so that if $i < j$ then $G_i \leq G_j$, and similarly for the sequence $G'$, i.e., successive entries in $G$ and $G'$ are in order of non-decreasing sizes.
+    \subsection*{Question}
 
-    \vspace{1em}
-    \textbf{Hint 1:} It suffices to give an answer for one of the two sequences, say $G$, and to conclude by saying "$G'$ is generated similarly."
-
-    \vspace{1em}
-    \textbf{Hint 2:} In the two sequences there are many (though a finite number) subdivisions of the same size. And for the same size, it is possible but quite difficult to omit isomorphic copies; it is much easier to allow isomorphic copies in the two sequences.
-
+    Let $R$ be a unary relation symbol and consider the following inductively defined translation from PL to FOL, $\langle \rangle : \text{WFF}_\text{PL}(P) \rightarrow \text{WFF}_\text{FOL}(\{R\}, P)$:
     
+    \begin{align*}
+    \langle p_i \rangle &\overset{\text{def}}{=} R(p_i) \text{ for every } p_i \in P, \\
+    \langle \bot \rangle &\overset{\text{def}}{=} \bot, \\
+    \langle \top \rangle &\overset{\text{def}}{=} \top, \\
+    \langle \neg\phi \rangle &\overset{\text{def}}{=} \neg\langle\phi\rangle, \\
+    \langle \phi \diamond \psi \rangle &\overset{\text{def}}{=} \langle\phi\rangle \diamond \langle\psi\rangle \text{ where } \diamond \in \{\wedge, \vee, \rightarrow\}.
+    \end{align*}
+    
+    Give a rigorous argument, using structural induction, to establish the following assertions:
+    
+    \begin{enumerate}
+    \item $\phi$ is satisfiable in the sense of PL iff $\langle\phi\rangle$ is satisfiable in the sense of FOL.
+    \item $\phi$ is valid in the sense of PL iff $\langle\phi\rangle$ is valid in the sense of FOL.
+    \end{enumerate}
+    
+    Note that the assertions in parts 1 and 2 involve two implications because of "iff" and each of the two implications have to be proved separately.
+    
+    Someone suggested the following translation
+    $\llbracket \rrbracket : \text{WFF}_\text{PL}(P) \rightarrow \text{WFF}_\text{FOL}(\{R\}, P)$ instead of $\langle \rangle$:
+    
+    \[
+    \llbracket\phi\rrbracket \overset{\text{def}}{=} \langle\phi\rangle \wedge (\exists x R(x) \wedge (\exists x \neg R(x))
+    \]
+    
+    where $x$ is a fresh first-order variable not in $P$. Although the translation $\llbracket \rrbracket$ can be used instead of $\langle \rangle$, and was presented as being "better" than $\langle \rangle$, give a rigorous argument for the following:
+    
+    \begin{enumerate}
+    \setcounter{enumi}{2}
+    \item The added requirement in the translation $\llbracket \rrbracket$, expressed by $(\exists x R(x) \wedge (\exists x \neg R(x))$, is not necessary for correct proofs of the assertions in parts 1 and 2.
+    \end{enumerate}
 \end{mdframed}
 
-\subsection*{Solution:}
-My precise argument is that, to generate the sequence $G$:
+\section*{First-Order Logic: Interpretation of Propositional Logic}
 
-\begin{enumerate}
-    \item We start with $G_0 = K_{3,3}$.
-    \item For each $i \geq 1$:
-        \begin{itemize}
-            \item We consider all possible ways to subdivide one edge of $G_{i-1}$.
-            \item Add each resulting graph as the next element in the sequence.
-            \item If multiple subdivisions result in graphs of the same size, include all of them.
-        \end{itemize}
-    \item Repeat step 2 indefinitely, ensuring that graphs are added in order of non-decreasing size.
-    \item If at any step, all possible single-edge subdivisions of previous graphs have been included, start subdividing two edges, then three, and so on.
-\end{enumerate}
-This process generates all possible subdivisions of $K_{3,3}$ in a systematic way, allowing for isomorphic copies. $G'$ is generated similarly, starting with $G'_0 = K_5$.
+
+
+\subsection*{Answer}
+
+\subsubsection*{1. Satisfiability}
+
+Via structural induction we will prove by that $\phi$ is satisfiable in PL iff $\langle\phi\rangle$ is 
+satisfiable in FOL.
+
+\vspace{1em}
+The base cases:
+\begin{itemize}
+\item For $p_i \in P$: we know that $p_i$ is satisfiable in PL iff there exists a valuation $v$ such that $v(p_i) = \text{true}$. This is equivalent to the existence of a first-order structure $\mathcal{A}$ and variable assignment $s$ such that $\mathcal{A} \models_s R(p_i)$, which is the definition of satisfiability for $\langle p_i \rangle$ in FOL.
+\item $\bot$ is not satisfiable in PL and $\langle\bot\rangle = \bot$ is not satisfiable in FOL.
+\item $\top$ is satisfiable in PL and $\langle\top\rangle = \top$ is satisfiable in FOL.
+\end{itemize}
+
+Inductive step:
+Let's assume that for $\phi$ and $\psi$, the statement holds.
+
+\begin{itemize}
+\item $\neg\phi$ is satisfiable in PL iff $\phi$ is not valid in PL. By the induction hypothesis, this is equivalent to $\langle\phi\rangle$ not being valid in FOL, which is equivalent to $\neg\langle\phi\rangle = \langle\neg\phi\rangle$ being satisfiable in FOL.
+
+\item For $\diamond \in \{\wedge, \vee, \rightarrow\}$, $\phi \diamond \psi$ is satisfiable in PL iff there exists a valuation satisfying the truth table for $\diamond$. By the induction hypothesis, this is equivalent to the existence of a first-order structure and variable assignment satisfying $\langle\phi\rangle \diamond \langle\psi\rangle = \langle\phi \diamond \psi\rangle$ in FOL.
+\end{itemize}
 
 
 \newpage
+\subsubsection*{2. Validity}
 
-\subsection*{Part 2}
+The proof for validity follows a similar structure to the satisfiability proof, using the fact that a formula is valid iff its negation is not satisfiable.
 
 
-\vspace{1em}
-\begin{mdframed}
-    \textbf{Question:} Let $M \stackrel{\text{def}}{=} (M, R^M)$ be an arbitrary simple graph, $G_i \stackrel{\text{def}}{=} (V_i, E_i)$ an arbitrary subdivision of $K_{3,3}$, and $G'_j \stackrel{\text{def}}{=} (V'_j, E'_j)$ an arbitrary subdivision of $K_5$. Those two subdivisions are entries in the sequences $G$ and $G'$ defined in the preceding part. Write first-order sentences $\phi_i$ and $\phi'_j$ such that if $M \models \phi_i$ (resp. $M \models \phi'_j$), then $G_i$ is a subgraph of $M$ (resp. $G'_j$ is a subgraph of $M$).
+\newpage
+\subsubsection*{3. The Unnecessary Additional Requirement}
 
-    \vspace{1em}
-    \textbf{Hint:} You will find it convenient to name the vertices of $G_i$ with an initial segment of the positive integers, i.e., $V_i = \{1, 2, \ldots, n_i\}$ where $n_i$ is the size of $G_i$, and similarly for $G'_j$.
-    
-\end{mdframed}
+I think that the added requirement $(\exists x R(x) \wedge (\exists x \neg R(x))$ in the translation $\llbracket \rrbracket$
+is not necessary for correct proofs of the assertions in parts 1 and 2 for the following reasons:
 
-\subsection*{Solution:}
+\begin{itemize}
+\item The proofs for parts 1 and 2 rely on the structural correspondence between PL formulas and their FOL translations,
+ which is preserved in $\langle \rangle$ and not affected by the additional conjunct in $\llbracket \rrbracket$.
+\item This additional conjunct is always satisfiable in FOL, as it merely asserts the existence of at least one element in
+ the domain for which $R$ is true and at least one for which $R$ is false.
+\item The satisfiability and validity of $\langle\phi\rangle$ in FOL are independent of this additional conjunct.
+ If $\langle\phi\rangle$ is satisfiable (or valid), then $\llbracket\phi\rrbracket$ is satisfiable (or valid) with the same model extended to satisfy the additional conjunct. Conversely, if $\llbracket\phi\rrbracket$ is satisfiable (or valid), then $\langle\phi\rangle$ must also be satisfiable (or valid) in the same model.
+\end{itemize}
 
-Let $V_i = \{1, 2, \ldots, n_i\}$ be the vertices of $G_i$ and $E_i$ its set of edges. We can write $\phi_i$ as:
-
-\[
-\phi_i \stackrel{\text{def}}{=} \exists x_1 \ldots \exists x_{n_i} \left(
-    \bigwedge_{1 \leq k < l \leq n_i} x_k \not\approx x_l \land
-    \bigwedge_{(k,l) \in E_i} R(x_k, x_l)
-\right)
-\]
-
-Similarly, for $G'_j$ with vertices $V'_j = \{1, 2, \ldots, n'_j\}$ and edges $E'_j$, we can write $\phi'_j$ as:
-
-\[
-\phi'_j \stackrel{\text{def}}{=} \exists x_1 \ldots \exists x_{n'_j} \left(
-    \bigwedge_{1 \leq k < l \leq n'_j} x_k \not\approx x_l \land
-    \bigwedge_{(k,l) \in E'_j} R(x_k, x_l)
-\right)
-\]
-
-The two first-order sentences assert the existence of distinct vertices in $M$ that are connected according to the edge structure of $G_i$ or $G'_j$, respectively. If $M$ satisfies either of these sentences, it contains the corresponding subdivision as a subgraph.
-
+Therefore, while $\llbracket \rrbracket$ may provide other benefits, 
+it barely has an effect on the correctness of the proofs for satisfiability and validity equivalence between PL and FOL translations.
 \newpage
 
 
