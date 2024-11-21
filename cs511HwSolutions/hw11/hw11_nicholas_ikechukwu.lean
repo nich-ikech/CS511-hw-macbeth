@@ -66,22 +66,36 @@ example {f : X → Y} (hf : Surjective f) {g : Y → Z} (hg : Surjective g) :
 
 /-# Exercise 4-/
 
--- example : Bijective (fun ((r, s) : ℚ × ℚ) ↦ (s, r - s)) := by
---   rw [bijective_iff_exists_inverse]
---   sorry
-
--- --Exercise 8.4.10.2.1
-
--- example : ¬ Injective (fun ((x, y) : ℤ × ℤ) ↦ x - 2 * y - 1) := by
---   sorry
-
--- --Exercise 8.4.10.2.2
-
--- example : Surjective (fun ((x, y) : ℤ × ℤ) ↦ x - 2 * y - 1) := by
---  sorry
-
+example : Bijective (fun ((r, s) : ℚ × ℚ) ↦ (s, r - s)) := by
+  rw [bijective_iff_exists_inverse]
+  use (fun ((s, t) : ℚ × ℚ) ↦ (s + t, s)) -- Define the inverse function
+  constructor
+  · -- Prove left inverse: f⁻¹ ∘ f = id
+    ext ⟨r, s⟩
+    dsimp
+    ring
+  · -- Prove right inverse: f ∘ f⁻¹ = id
+    ext ⟨s, t⟩
+    dsimp
+    ring
 
 
+
+--Exercise 8.4.10.2.1
+example : ¬ Injective (fun ((x, y) : ℤ × ℤ) ↦ x - 2 * y - 1) := by
+  intro h
+  have : (0, 0) ≠ (2, 1) := by exhaust
+  apply this
+  apply h
+  calc
+    (0 - 2 * 0 - 1) = -1 := by ring
+    _ = (2 - 2 * 1 - 1) := by ring
+
+--Exercise 8.4.10.2.2
+example : Surjective (fun ((x, y) : ℤ × ℤ) ↦ x - 2 * y - 1) := by
+intro z
+use (z + 1, 0)
+dsimp
 
 
 -- /-# Problem 2-/
