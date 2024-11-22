@@ -142,12 +142,18 @@ example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1
 
 example : ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
   intros f h_inj x y h_eq
-  have : f x = f y := by
+  have h1 : f x + x = f y + y := h_eq
+  have h2: f x = f y := by
     calc
       f x = (f x + x) - x := by ring
-      _   = (f y + y) - x := by rw [h_eq]
+     _   = (f y + y) - x := by rw[←h1]
       _   = f y + (y - x) := by ring
-  exact h_inj this
+  have h3 : x = y := by
+    calc
+      x = f x + x - f x := by ring
+      _ = f y + y - f y := by rw[h1,h2]
+      _ = y := by ring
+  exact h3
 
 
 example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
