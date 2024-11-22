@@ -139,25 +139,15 @@ example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1
 --Exercise 8.1.13.14
 --# Prove one-------------------------------------------------------
 
+
 example : ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
-  intros f hf
-  dsimp [Injective] at *
-  intros x y h
-  -- Assume g(x) = g(y), which means f(x) + x = f(y) + y
-  have h1 : f x + x = f y + y := h
-  -- Rearrange to find the relationship between f(x) and f(y)
-  have h2 : f x - f y = y - x := by
+  intros f h_inj x y h_eq
+  have : f x = f y := by
     calc
-      f x - f y = (f x + x) - (f y + y) + y - x  := by ring
-      _         = y - x                 := by addarith [h1]
-  -- Apply injectivity of f to conclude x = y
-  apply hf
-  calc
-    f x = f x - f y + f y := by ring
-    _   = (y - x) + f y   := by rw [h2]
-    _   = f y             := by ring
-
-
+      f x = (f x + x) - x := by ring
+      _   = (f y + y) - x := by rw [h_eq]
+      _   = f y + (y - x) := by ring
+  exact h_inj this
 
 
 example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
