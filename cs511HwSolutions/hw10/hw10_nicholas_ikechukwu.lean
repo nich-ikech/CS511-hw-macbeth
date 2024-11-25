@@ -139,21 +139,18 @@ example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1
 --Exercise 8.1.13.14
 --# Prove one-------------------------------------------------------
 
-
 example : ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
   intros f h_inj x y h_eq
   have h1 : f x + x = f y + y := h_eq
   have h2: f x = f y := by
     calc
       f x = (f x + x) - x := by ring
-     _   = (f y + y) - x := by rw[←h1]
+      _   = (f y + y) - x := by rw[←h1]
       _   = f y + (y - x) := by ring
-  have h3 : x = y := by
-    calc
-      x = f x + x - f x := by ring
-      _ = f y + y - f y := by rw[h1,h2]
-      _ = y := by ring
+      _   = f y           := by sorry
+  have h3 : x = y := h_inj h2
   exact h3
+
 
 
 example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
