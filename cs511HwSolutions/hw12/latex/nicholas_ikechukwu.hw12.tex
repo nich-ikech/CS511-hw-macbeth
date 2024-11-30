@@ -50,7 +50,7 @@
     
     \vspace{0.3cm}
     
-    \large November 28, 2024
+    \large December 05, 2024
 \end{center}
 
 
@@ -59,13 +59,30 @@
 
 \begin{mdframed}
     \vspace{1em}
-        \textbf{Question on }: 
+        \textbf{Exercise:} Define \( X \sim Y \) differently in second-order logic by asserting the existence of a unary function \( F \) from \( X \) to \( Y \) which is both injective and surjective.
     \vspace{1em}
 \end{mdframed}
 
-\section*{Solutions: }
-solution here
 
+\section*{Solution to: Defining $X \sim Y$ in Second-Order Logic}
+
+If we want to define $X \sim Y$ using a bijective function $F: X \to Y$, we can express it as follows:
+
+\[
+X \sim Y \equiv \exists F. (\forall x_1, x_2 \in X. (F(x_1) = F(x_2) \rightarrow x_1 = x_2)) \land (\forall y \in Y. \exists x \in X. F(x) = y)
+\]
+
+\vspace{1em}
+Let's' break the formula down into two separate parts:
+
+\vspace{1em}
+1. \textbf{Injectivity}: Here, the condition $\forall x_1, x_2 \in X. (F(x_1) = F(x_2) \rightarrow x_1 = x_2)$ ensures that $F$ is injective, meaning each element in $X$ maps to a unique element in $Y$.
+
+\vspace{1em}
+2. \textbf{Surjectivity}: For this, the condition $\forall y \in Y. \exists x \in X. F(x) = y$ ensures that $F$ is surjective, meaning every element in $Y$ has a pre-image in $X$.
+
+\vspace{1em}
+The conditions, together, ensure that $F$ is a bijection from $X$ to $Y$, thereby establishing the equivalence relation $X \sim Y$.
 
 \newpage
 
@@ -74,15 +91,59 @@ solution here
 
 \begin{mdframed}
     \vspace{1em}
-        \textbf{Question on }: 
+        \textbf{Exercise }: 
+        
+\vspace{1em}
+        1. Define a second-order sentence \( \Psi_{\text{countable-infty}} \) such that \( A \models \Psi_{\text{countable-infty}} \) if and only if \( A \) is countably infinite.
+
+\vspace{1em}
+        2. Define a second-order sentence \( \Psi_{\text{uncountable}} \) such that \( A \models \Psi_{\text{uncountable}} \) if and only if \( A \) is uncountably infinite.
+
+\vspace{1em}
+        Note that \( \Psi_{\text{countable-infty}} \) and \( \Psi_{\text{uncountable}} \) in this exercise are sentences, i.e., closed well-formed formulas (wff's) which do not contain any free variables.
+
     \vspace{1em}
 \end{mdframed}
     
-\section*{Solutions: }
+
+
+\section*{Solution:}
+
+\textbf{Part 1. Countably Infinite Set }:
 
 \vspace{1em}
-solution here
+If we want to define \( \Psi_{\text{countable-infty}} \), basically, we need to express that a set \( A \) is countably infinite. 
+We do this by simply ensuring that \( A \) is infinite and every infinite subset of \( A \) has a bijection to \( A \). The second-order sentence is:
 
+\vspace{1em}
+\[
+\Psi_{\text{countable-infty}} = \Phi_{\text{infty}}(A) \land (\forall X \subseteq A. (\Phi_{\text{infty}}(X) \rightarrow (X \sim A)))
+\]
+
+\vspace{1em}
+Where:
+- \( \Phi_{\text{infty}}(A) \) asserts that \( A \) is infinite.
+- \( X \sim A \) shows there exists a bijection between \( X \) and \( A \).
+
+\vspace{1em}
+\newpage
+
+
+\textbf{Part 2. Uncountably Infinite Set }:
+
+\vspace{1em}
+If we want to define \( \Psi_{\text{uncountable}} \), we also want to express that a set \( A \) is uncountably infinite by negating the condition for countability:
+
+\vspace{1em}
+\[
+\Psi_{\text{uncountable}} = \Phi_{\text{infty}}(A) \land (\neg (\forall X \subseteq A. (\Phi_{\text{infty}}(X) \rightarrow (X \sim A))))
+\]
+
+\vspace{1em}
+Where:
+- The negation of the second part ensures that there exists at least one infinite subset of \( A \) that does not have a bijection with \( A \), indicating uncountability.
+
+\vspace{1em}
 
 \newpage
 
@@ -91,32 +152,128 @@ solution here
 
 \begin{mdframed}
     \vspace{1em}
-        \textbf{Question on }: 
+        \textbf{Exercise }: Write a second-order wff \( \theta(x, y) \) such that:
+
+        \[
+        \theta(x, y) \iff \text{"no binary predicate } Y \text{ can discern } x \text{ and } y\text{"}
+        \]
+        
+        Your task here is to write a wff of second-order logic modeling the English phrase to the right of "iff".
+        
     \vspace{1em}
 \end{mdframed}
     
-\section*{Solutions: }
+
+
+\section*{Solution:}
+
+For us to express that no binary predicate \( Y \) can discern \( x \) and \( y \), we basically need to ensure that 
+for any binary relation \( Y \), the truth value of \( Y(x, z) \) matches \( Y(y, z) \) for all possible \( z \), 
+and similarly, \( Y(z, x) \) matches \( Y(z, y) \). We can express this as:
 
 \vspace{1em}
-solution here
+\[
+\theta(x, y) = \forall Y. (\forall z. (Y(x, z) \leftrightarrow Y(y, z)) \land (Y(z, x) \leftrightarrow Y(z, y)))
+\]
 
+\vspace{1em}
+In the formula above:
+- This first part, \( \forall z. (Y(x, z) \leftrightarrow Y(y, z)) \), ensures that for any element \( z \), 
+if \( x \) is related to \( z \), then \( y \) must also be related to \( z \), and vice versa.
+
+\vspace{1em}
+- The second part, \( (Y(z, x) \leftrightarrow Y(z, y)) \), inturn,  ensures symmetry in the sense that if any element \( z \) 
+is related to \( x \), it must also be related to \( y \), and vice versa.
+
+\vspace{1em}
+Clearly, the above ensures that no binary predicate can distinguish between the elements \( x \) and \( y \).
 
 
 \newpage
 
-\section*{PROBLEM 1. Open [LCS, page 165]: Do parts (a), (b), and (c) only in Exercise 2.6.5.
+\section*{PROBLEM 1. Open [LCS, page 165]: Do parts (a), (b), and (c) only in Exercise 2.6.5.\newline\\
 Hint: Part (c) is already done in Lecture Slides 32, pp 20-24. You may want to do it differently! }
 
 
 \begin{mdframed}
+    \textbf{Exercise }: 
+    
     \vspace{1em}
-        \textbf{Question on }: 
+    Let \( P \) and \( R \) be predicate symbols of arity 2. Write formulas of existential second-order logic of the form \( \exists P \, \psi \) that hold in all models of the form \( M = (A, R^M) \) if and only if:
+
     \vspace{1em}
+    (a) \( R \) contains a reflexive and symmetric relation.
+
+    \vspace{1em}
+    (b) \( R \) contains an equivalence relation.
+
+    \vspace{1em}
+    (c) There is an \( R \)-path that visits each node of the graph exactly once – such a path is called Hamiltonian. 
+(Using a different approach from Lecture Slides 32, pp 20-24).
 \end{mdframed}
     
-\section*{Solutions: }
-solution here
+\section*{Solution:}
 
+ \subsection*{Part a:  Reflexive and Symmetric Relation} 
+ For us to express that \( R \) contains a reflexive and symmetric relation, we define:
+
+\[
+\exists P. (\forall x. P(x, x)) \land (\forall x \forall y. (P(x, y) \rightarrow P(y, x)))
+\]
+
+Our formula asserts:
+
+\vspace{1em}
+- Reflexivity: \( \forall x. P(x, x) \)
+
+    \vspace{1em}
+- Symmetry: \( \forall x \forall y. (P(x, y) \rightarrow P(y, x)) \)
+
+    \newpage
+
+ \subsection*{Part b: Equivalence Relation} 
+ An equivalence relation is reflexive, symmetric, and transitive. Therefore:
+
+\[
+\exists P. (\forall x. P(x, x)) \land (\forall x \forall y. (P(x, y) \rightarrow P(y, x))) \land (\forall x \forall y \forall z. ((P(x, y) \land P(y, z)) \rightarrow P(x, z)))
+\]
+
+This formula includes:
+
+    \vspace{1em}
+- Reflexivity: \( \forall x. P(x, x) \)
+
+    \vspace{1em}
+- Symmetry: \( \forall x \forall y. (P(x, y) \rightarrow P(y, x)) \)
+
+    \vspace{1em}
+- Transitivity: \( \forall x \forall y \forall z. ((P(x, y) \land P(y, z)) \rightarrow P(x, z)) \)
+
+ \newpage
+
+ \subsection*{Part c.} 
+ We can express the existence of a Hamiltonian path using a different approach thus:
+
+    \vspace{1em}
+\[
+\exists P. \left( \forall x \exists! y. P(x, y) \right) \land \left( \forall x \exists! z. P(z, x) \right) \land \left( \forall x \forall y. (P(x, y) \rightarrow R(x, y)) \right)
+\]
+ 
+    \vspace{1em}
+ Where:
+ 
+    \vspace{1em}
+- \( P(x, y) \) is a binary predicate indicating that \( y \) is the successor of \( x \) in the path. 
+
+    \vspace{1em}
+- \textbf{Unique Successor}: For every node \( x \), there exists exactly one node \( y \) such that \( P(x, y) \).
+
+    \vspace{1em}
+ - \textbf{Unique Predecessor}: For every node \( x \), there exists exactly one node \( y \) such that \( R(x,y)\).
+ 
+ \vspace{1em}
+ - \textbf{Path Condition}: For every pair of nodes \( x, y \), if \( P(x, y) \), then there must be an edge between them in \( R(x, y) \).
+ \vspace{1em}
 
 \newpage
 
