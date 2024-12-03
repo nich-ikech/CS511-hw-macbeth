@@ -10,22 +10,38 @@ open Set Function Nat
 
 --Exercise 6.4.3.1
 
-theorem extract_pow_two (n : ℕ) (hn : 0 < n) : ∃ a x, Odd x ∧ n = 2 ^ a * x := by
-  sorry
+-- theorem extract_pow_two (n : ℕ) (hn : 0 < n) : ∃ a x, Odd x ∧ n = 2 ^ a * x := by
+--   sorry
 
-theorem extract_pow_two (n : ℕ) (hn : 0 < n) : ∃ a x, Odd x ∧ n = 2 ^ a * x := by
-  induction n using Nat.strong_induction_on with n ih
-  cases Nat.even_or_odd n with h_even h_odd
-  -- Case: n is odd
-  · use 0, n
-    exact ⟨h_odd, by simp⟩
-  -- Case: n is even
-  · obtain ⟨k, hk⟩ := Nat.even_iff_two_dvd.mp h_even
-    have hk_pos : 0 < k := Nat.pos_of_mul_pos_right (by rw [hk]; exact hn) (by norm_num)
-    obtain ⟨a, x, hx⟩ := ih k hk_pos
-    use a + 1, x
-    rw [hk, pow_succ, mul_assoc]
-    exact hx
+-- theorem extract_pow_two (n : ℕ) (hn : 0 < n) : ∃ a x, Odd x ∧ n = 2 ^ a * x := by
+--   -- Use strong induction on `n`.
+--   induction n using Nat.strong_induction_on with n ih
+--   cases n with
+--   | zero =>
+--     -- Contradiction because `n = 0` violates `hn : 0 < n`.
+--     exfalso
+--     exact Nat.lt_irrefl 0 hn
+--   | succ n' =>
+--     -- Check if `n` is odd.
+--     by_cases h_odd : Odd (n + 1)
+--     · -- If `n + 1` is odd, set `a = 0` and `x = n + 1`.
+--       use 0, n + 1
+--       constructor
+--       · exact h_odd
+--       · simp
+--     · -- If `n + 1` is not odd, it must be even.
+--       have h_even : Even (n + 1) := Nat.not_odd_iff.mpr h_odd
+--       obtain ⟨k, hk⟩ := h_even
+--       -- Rewrite `n + 1 = 2 * k`.
+--       rw [hk] at hn
+--       -- `k` is strictly smaller than `n + 1`, so apply the induction hypothesis.
+--       have hk_pos : 0 < k := Nat.div_pos hn (by norm_num)
+--       obtain ⟨a, x, hx_odd, hx_eq⟩ := ih k hk_pos
+--       -- Combine results to construct the solution for `n + 1`.
+--       use a + 1, x
+--       constructor
+--       · exact hx_odd
+--       · rw [hx_eq, pow_succ, mul_assoc, ← hk]
 
 /-# Exercise 5-/
 
