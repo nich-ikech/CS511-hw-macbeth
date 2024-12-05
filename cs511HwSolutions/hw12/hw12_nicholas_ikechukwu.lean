@@ -183,12 +183,50 @@ example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} :
 
 
 -- example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} := by
---   intro n hn
---   cases hn with h5 h8
---   -- Since `n` is divisible by both `5` and `8`, it must be divisible by their least common multiple `40`.
+--   intro n h
+--   -- Unpack the intersection condition: n is divisible by both 5 and 8
+--   obtain ⟨h5, h8⟩ := h
+--   -- Use the fact that lcm(5, 8) = 40 to conclude that n is divisible by 40
+--   have h40 : 40 ∣ n := Int.dvd_lcm h5 h8
+--   exact h40
 
---    have h40: (5 * (8 / gcd(5,8))) ∣ n := by exact dvd_mul_of_dvd_left h8 _
---    exact h40
+-- example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} := by
+--   intro n h
+--   -- Unpack the intersection condition: n is divisible by both 5 and 8
+--   obtain ⟨h5, h8⟩ := h
+--   -- Use the fact that lcm(5, 8) = 40 to conclude that n is divisible by 40
+--   dsimp at h5 h8 ⊢
+--   obtain ⟨k1, hk1⟩ := h5
+--   obtain ⟨k2, hk2⟩ := h8
+--   -- Since n = 5 * k1 and n = 8 * k2, we know both divide n
+--   use lcm (5 : ℕ) (8 : ℕ)
+--   rw [Int.coe_nat_lcm] at *
+--   have h40 : (40 : ℤ) ∣ n := by exact Int.dvd_of_dvd_nat hk1 hk2
+
+
+example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} := by
+  intro n h
+  -- Unpack the intersection condition: n is divisible by both 5 and 8
+  obtain ⟨h5, h8⟩ := h
+  -- Use the definitions of divisibility to express n
+  obtain ⟨k1, hk1⟩ := h5
+  obtain ⟨k2, hk2⟩ := h8
+  -- Since n = 5 * k1 and n = 8 * k2, we show that n is divisible by lcm(5, 8) = 40
+  have : lcm (5 : ℕ) (8 : ℕ) = 40 := by norm_num
+  rw [this]
+  -- Rewrite n using one of its divisibility expressions
+  rw [hk1] at hk2
+  -- Show that k1 is divisible by 8 (since both expressions for n must match)
+  have h_k1 : (8 : ℤ) ∣ k1 := by
+    use k2
+    rw [← mul_assoc]
+    exact hk2.symm
+  -- Conclude that n is divisible by 40
+  use k1 / 8
+  rw [hk1]
+  ring_nf
+  rw [Int.mul_div_cancel' h_k1]
+
 
 --Exercise 9.3.6.1
 
@@ -198,13 +236,18 @@ example : ¬ Injective r := by
   sorry
 
 -- example : ¬ Injective r := by
---   intro h_inj
---    -- Consider two different sets that map to the same set under `r`
---    let s1 := {1}
---    let s2 := {1,3}
---    have hs1s2 : s1 ≠ s2 := by tidy
-
---    have hr_eq: r s1 = r s2 := by simp [r, Set.union_comm]
-
---    apply hs1s2
---    exact h_inj hr_eq
+--   dsimp [Injective]
+--   push_neg
+--   -- Provide a counterexample: two distinct sets with the same image under r
+--   use {1}, {2}
+--   constructor
+--   · -- Show that the function values are equal
+--     dsimp [r]
+--     ext x
+--     dsimp
+--     apply Or.comm
+--   · -- Show that the inputs are distinct
+--     intro h_eq
+--     have : 1 ∈ {1} := by dsimp; exact Or.inl rfl
+--     rw [h_eq] at this
+--     dsimp at this -- This implies `1 ∈ {2}`, which is a contradiction
