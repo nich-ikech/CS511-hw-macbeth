@@ -1,10 +1,6 @@
 import Library.Basic
 import Library.Tactic.ModEq
 import Library.Tactic.Exhaust
--- import Mathlib.Tactic.Linarith
-
--- import Mathlib.Data.Real.Basic
--- import Library.Theory.ParityModular
 
 
 math2001_init
@@ -44,37 +40,33 @@ prime_test
 --Exercise 6.4.3.1
 
 
+
+
 theorem extract_pow_two (n : ℕ) (hn : 0 < n) : ∃ a x, Odd x ∧ n = 2 ^ a * x := by
-  sorry
-
-
--- theorem extract_pow_two (n : ℕ) (hn : 0 < n) : ∃ a x, Nat.Odd x ∧ n = 2 ^ a * x := by
---   -- Case split on the parity of n using `even_or_odd`
---   cases Nat.even_or_odd n with h_even h_odd
---   · -- Case 1: n is even
---     -- Destructure h_even to extract the witness k such that n = 2 * k
---     obtain ⟨k, hk⟩ := h_even
---     have hk_pos : 0 < k := Nat.pos_of_mul_pos_left (by rw [hk]; exact hn) zero_lt_two
---     -- Apply the theorem recursively to k
---     obtain ⟨a, x, hx_odd, hk_decomp⟩ := extract_pow_two k hk_pos
---     use a + 1, x
---     constructor
---     · exact hx_odd -- x is odd
---     · calc
---         n = 2 * k := hk
---         _ = 2 * (2 ^ a * x) := by rw [hk_decomp]
---         _ = 2 ^ (a + 1) * x := by rw [pow_succ, mul_assoc]
---   · -- Case 2: n is odd
---     -- Destructure h_odd to show that n itself is odd
---     obtain ⟨k, hk⟩ := h_odd
---     use 0, n
---     constructor
---     · exact ⟨k, hk⟩ -- n itself is odd
---     · rw [pow_zero, one_mul] -- n = 2^0 * n
-
-
-
-
+  -- Case split on the parity of n
+  obtain h_even | h_odd := Nat.even_or_odd n
+  · -- Case: n is even
+    -- Extract k such that n = 2 * k using the definition of even
+    obtain ⟨k, hk⟩ := h_even
+    have hk_pos : 0 < k := by
+      apply Nat.pos_of_ne_zero
+      intro hk_zero
+      rw [hk_zero, Nat.mul_zero] at hk
+      exact Nat.not_lt_zero _ hn
+    -- Apply the inductive hypothesis to k
+    obtain ⟨b, y, hy_odd, hy⟩ := extract_pow_two k hk_pos
+    use b + 1, y
+    constructor
+    · exact hy_odd -- y is odd
+    · calc
+        n = 2 * k         := hk
+        _ = 2 * (2 ^ b * y) := by rw [hy]
+        _ = 2 ^ (b + 1) * y := by ring
+  · -- Case: n is odd
+    use 0, n
+    constructor
+    · exact h_odd -- n itself is odd
+    · rw [Nat.pow_zero, Nat.one_mul]
 
 
 /-# Exercise 5-/
@@ -113,6 +105,9 @@ example : 8 ∉ {k : ℤ | 5 ∣ k} := by
   have ⟨m, hm⟩ := h
   have : (8 % 5) = (5 * m % 5) := congr_arg (· % 5) hm
   norm_num at this -- Shows contradiction since mod should be non-zero.
+
+
+
 
 /-# Exercise 6-/
 ------------------------------------------------------------------------------------
@@ -165,35 +160,32 @@ example : {a : ℕ | 5 ∣ a} ⊈ {x : ℕ | 20 ∣ x} := by
 
 
 
- --------------------------------------------------------------
+--------------------------------------------------------------
 --Exercise 9.2.8.5
 
 example : {r : ℤ | r ≡ 7 [ZMOD 10] }
     ⊆ {s : ℤ | s ≡ 1 [ZMOD 2]} ∩ {t : ℤ | t ≡ 2 [ZMOD 5]} := by
   sorry
 
--- example : {r : ℤ | r ≡ 7 [ZMOD 10]}
---     ⊆ {s : ℤ | s ≡ 1 [ZMOD 2]} ∩ {t : ℤ | t ≡ 2 [ZMOD 5]} := by
---   intro r hr
---   -- Unpack the intersection condition
---   constructor
---   · -- Show that r ≡ 1 [ZMOD 2]
---     have h_mod_2 : r % 2 = 7 % 2 := by sorry -- rw [hr]
---     calc
---       r % 2 = 7 % 2 := h_mod_2
---       _ = 1 := by norm_num
---     -- Conclude that r ≡ 1 [ZMOD 2]
---     exact Int.mod_eq_of_lt (by norm_num) (by norm_num)
---   · -- Show that r ≡ 2 [ZMOD 5]
---     have h_mod_5 : r % 5 = 7 % 5 := by sorry -- rw [hr]
---     calc
---       r % 5 = 7 % 5 := h_mod_5
---       _ = 2 := by norm_num
---     -- Conclude that r ≡ 2 [ZMOD 5]
---     exact Int.mod_eq_of_lt (by norm_num) (by norm_num)
-
-
-
+example : {r : ℤ | r ≡ 7 [ZMOD 10]}
+    ⊆ {s : ℤ | s ≡ 1 [ZMOD 2]} ∩ {t : ℤ | t ≡ 2 [ZMOD 5]} := by
+  intro r hr
+  -- Unpack the intersection condition
+  constructor
+  · -- Show that r ≡ 1 [ZMOD 2]
+    have h_mod_2 : r % 2 = 7 % 2 := by sorry -- rw [hr]
+    calc
+      r % 2 = 7 % 2 := h_mod_2
+      _ = 1 := by norm_num
+    -- Conclude that r ≡ 1 [ZMOD 2]
+    exact Int.mod_eq_of_lt (by norm_num) (by norm_num)
+  · -- Show that r ≡ 2 [ZMOD 5]
+    have h_mod_5 : r % 5 = 7 % 5 := by sorry -- rw [hr]
+    calc
+      r % 5 = 7 % 5 := h_mod_5
+      _ = 2 := by norm_num
+    -- Conclude that r ≡ 2 [ZMOD 5]
+    exact Int.mod_eq_of_lt (by norm_num) (by norm_num)
 
 
 
@@ -201,9 +193,6 @@ example : {r : ℤ | r ≡ 7 [ZMOD 10] }
 /-# Problem 2-/
 
 --Exercise 9.2.8.6
-
-example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} := by
-  sorry
 
 
 example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} := by
@@ -235,6 +224,7 @@ example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} :
 def r (s : Set ℕ) : Set ℕ := s ∪ {3}
 
 
+
 example : ¬ Injective r := by
   dsimp [Injective]
   push_neg
@@ -245,16 +235,16 @@ example : ¬ Injective r := by
     dsimp [r]
     ext x
     constructor
-    · -- Forward direction: x ∈ {1, 3} → x ∈ {1, 3} ∪ {3}
+    · -- Forward direction: x ∈ {1} ∪ {3} → x ∈ {1, 3}
       intro h
       cases h with
-      | inl h1 => exact Or.inl sorry
-      | inr h3 => exact Or.inr h3
-    · -- Backward direction: x ∈ {1, 3} ∪ {3} → x ∈ {1, 3}
+      | inl h1 => exact Or.inl sorry -- x ∈ {1} implies x ∈ {1, 3}
+      | inr h3 => exact Or.inr h3 -- x ∈ {3} implies x ∈ {1, 3}
+    · -- Backward direction: x ∈ {1, 3} → x ∈ {1} ∪ {3}
       intro h
       cases h with
-      | inl h1 => exact Or.inl sorry
-      | inr h3 => exact Or.inr h3
+      | inl h1 => exact Or.inl sorry -- x ∈ {1} implies x ∈ {1} ∪ {3}
+      | inr h3 => exact Or.inr h3 -- x ∈ {3} implies x ∈ {1} ∪ {3}
   · -- Prove that {1} ≠ {1, 3}
     intro h_eq
     have : 3 ∈ {1, 3} := by right; rfl -- Explicitly show that 3 is in {1, 3}
