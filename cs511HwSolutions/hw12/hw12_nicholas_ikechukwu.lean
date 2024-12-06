@@ -1,47 +1,81 @@
 import Library.Basic
 import Library.Tactic.ModEq
 import Library.Tactic.Exhaust
+-- import Mathlib.Tactic.Linarith
+
+-- import Mathlib.Data.Real.Basic
+-- import Library.Theory.ParityModular
+
 
 math2001_init
 
 open Set Function Nat
 
+/-
+# Important tactics and lemmas:
+
+# Tactics
+mod_cases
+interval_cases
+numbers (to reach a contradiction)
+
+# Lemmas
+Int.ModEq.add
+Int.ModEq.sub
+Int.ModEq.neg
+Int.ModEq.mul
+Int.ModEq.pow
+Int.ModEq.refl
+Int.ModEq.symm
+Int.ModEq.trans
+Nat.pos_of_dvd_of_pos
+eq_or_lt_of_le
+Nat.le_of_dvd
+Nat.not_dvd_of_exists_lt_and_lt
+Int.even_iff_modEq
+Int.odd_iff_modEq
+Int.even_or_odd
+prime_test
+ -/
+
+
 /-# Exercise 4-/
 
 --Exercise 6.4.3.1
 
--- theorem extract_pow_two (n : ℕ) (hn : 0 < n) : ∃ a x, Odd x ∧ n = 2 ^ a * x := by
---   sorry
 
--- theorem extract_pow_two (n : ℕ) (hn : 0 < n) : ∃ a x, Odd x ∧ n = 2 ^ a * x := by
---   -- Use strong induction on `n`.
---   induction n using Nat.strong_induction_on with n ih
---   cases n with
---   | zero =>
---     -- Contradiction because `n = 0` violates `hn : 0 < n`.
---     exfalso
---     exact Nat.lt_irrefl 0 hn
---   | succ n' =>
---     -- Check if `n` is odd.
---     by_cases h_odd : Odd (n + 1)
---     · -- If `n + 1` is odd, set `a = 0` and `x = n + 1`.
---       use 0, n + 1
---       constructor
---       · exact h_odd
---       · simp
---     · -- If `n + 1` is not odd, it must be even.
---       have h_even : Even (n + 1) := Nat.not_odd_iff.mpr h_odd
---       obtain ⟨k, hk⟩ := h_even
---       -- Rewrite `n + 1 = 2 * k`.
---       rw [hk] at hn
---       -- `k` is strictly smaller than `n + 1`, so apply the induction hypothesis.
---       have hk_pos : 0 < k := Nat.div_pos hn (by norm_num)
---       obtain ⟨a, x, hx_odd, hx_eq⟩ := ih k hk_pos
---       -- Combine results to construct the solution for `n + 1`.
---       use a + 1, x
---       constructor
---       · exact hx_odd
---       · rw [hx_eq, pow_succ, mul_assoc, ← hk]
+theorem extract_pow_two (n : ℕ) (hn : 0 < n) : ∃ a x, Odd x ∧ n = 2 ^ a * x := by
+  sorry
+
+
+-- theorem extract_pow_two (n : ℕ) (hn : 0 < n) : ∃ a x, Nat.Odd x ∧ n = 2 ^ a * x := by
+--   -- Case split on the parity of n using `even_or_odd`
+--   cases Nat.even_or_odd n with h_even h_odd
+--   · -- Case 1: n is even
+--     -- Destructure h_even to extract the witness k such that n = 2 * k
+--     obtain ⟨k, hk⟩ := h_even
+--     have hk_pos : 0 < k := Nat.pos_of_mul_pos_left (by rw [hk]; exact hn) zero_lt_two
+--     -- Apply the theorem recursively to k
+--     obtain ⟨a, x, hx_odd, hk_decomp⟩ := extract_pow_two k hk_pos
+--     use a + 1, x
+--     constructor
+--     · exact hx_odd -- x is odd
+--     · calc
+--         n = 2 * k := hk
+--         _ = 2 * (2 ^ a * x) := by rw [hk_decomp]
+--         _ = 2 ^ (a + 1) * x := by rw [pow_succ, mul_assoc]
+--   · -- Case 2: n is odd
+--     -- Destructure h_odd to show that n itself is odd
+--     obtain ⟨k, hk⟩ := h_odd
+--     use 0, n
+--     constructor
+--     · exact ⟨k, hk⟩ -- n itself is odd
+--     · rw [pow_zero, one_mul] -- n = 2^0 * n
+
+
+
+
+
 
 /-# Exercise 5-/
 
@@ -100,60 +134,38 @@ example : {a : ℕ | 20 ∣ a} ⊈ {x : ℕ | 5 ∣ x} := by
 example : {a : ℕ | 5 ∣ a} ⊆ {x : ℕ | 20 ∣ x} := by
   sorry
 
+--DISPROVED
 example : {a : ℕ | 5 ∣ a} ⊈ {x : ℕ | 20 ∣ x} := by
-  sorry
-
--- example : {a : ℕ | 5 ∣ a} ⊈ {x : ℕ | 20 ∣ x} := by
---   -- Provide a counterexample
---   intro h
---   let a := 5
---   have h1 : 5 ∣ a := by
---     use 1
---     dsimp
---   have h2 : ¬ (20 ∣ a) := by
---     intro h_div
---     obtain ⟨k, hk⟩ := h_div
---     have : 5 = 20 * k := hk -- Directly use `hk` here, no `rw` is needed
---     cases k with
---     | zero => dsimp at this; contradiction
---     | succ n =>
---       dsimp at this
---       have : 20 * (n + 1) ≥ 20 := Nat.mul_le_mul_left 20 (Nat.zero_le (n + 1))
---       have : 5 < 20 := by norm_num
---       have : 5 ≥ 20 := Nat.le_trans (Nat.le_of_eq this.symm) ‹20 * (n + 1) ≥ 20›
---       contradiction
---   -- Contradiction: `h` assumes that every `a` in {5 ∣ a} is also in {20 ∣ x}
---   exact h2 (h h1)
-
--- example : {a : ℕ | 5 ∣ a} ⊈ {x : ℕ | 20 ∣ x} := by
---   -- Provide a counterexample
---   intro h
---   let a := 5
---   have h1 : 5 ∣ a := by
---     use 1
---     dsimp
---   have h2 : ¬ (20 ∣ a) := by
---     intro h_div
---     obtain ⟨k, hk⟩ := h_div
---     dsimp at hk
---     rw [hk] at a
---     have : a = 20 * k := hk
---     have : 5 = 20 * k := this
---     cases k with
---     | zero => dsimp at this; contradiction
---     | succ n =>
---       dsimp at this
---       have : 20 * (n + 1) ≥ 20 := Nat.mul_le_mul_left 20 (Nat.zero_le (n + 1))
---       have : 5 < 20 := by norm_num
---       have : 5 ≥ 20 := Nat.le_trans (Nat.le_of_eq this.symm) ‹20 * (n + 1) ≥ 20›
---       contradiction
---   -- Contradiction: `h` assumes that every `a` in {5 ∣ a} is also in {20 ∣ x}
---   exact h2 (h h1)
+  -- Assume for contradiction that the subset relation holds
+  intro h
+  -- Provide a counterexample: a = 5
+  let a := 5
+  have h1 : 5 ∣ a := by
+    use 1
+    exact Nat.mul_one 5
+  have h2 : ¬ (20 ∣ a) := by
+    intro h_div
+    obtain ⟨k, hk⟩ := h_div
+    -- If 20 divides 5, then there exists k such that `20 * k = 5`, which is impossible
+    cases k with
+    | zero =>
+      -- Case k = 0: Contradiction since `20 * k = 0 ≠ 5`
+      dsimp at hk; contradiction
+    | succ n =>
+      -- Case k = succ n: Contradiction since `20 * (n + 1) ≥ 20 > 5`
+      have : a = 20 * (n + 1) := hk
+      have : a ≥ 20 := by
+        rw [this]
+        exact Nat.mul_le_mul_left 20 (Nat.succ_pos n)
+      -- This contradicts the fact that `a = 5`
+      have : ¬ (a ≥ 20) := by exhaust
+      exact this ‹a ≥ 20›
+  -- Contradiction: `h` assumes that every `a` in {a | 5 ∣ a} is also in {x | 20 ∣ x}
+  exact h2 (h h1)
 
 
 
-
-------------------------------------------------------------------------------------
+ --------------------------------------------------------------
 --Exercise 9.2.8.5
 
 example : {r : ℤ | r ≡ 7 [ZMOD 10] }
@@ -163,15 +175,27 @@ example : {r : ℤ | r ≡ 7 [ZMOD 10] }
 -- example : {r : ℤ | r ≡ 7 [ZMOD 10]}
 --     ⊆ {s : ℤ | s ≡ 1 [ZMOD 2]} ∩ {t : ℤ | t ≡ 2 [ZMOD 5]} := by
 --   intro r hr
+--   -- Unpack the intersection condition
 --   constructor
---   -- Show that r ≡ 1 [ZMOD 2]
---   · have h2 : r ≡ 7 [ZMOD 2] := hr.symm.trans (Int.modEq_of_dvd (by norm_num))
---     rw [Int.modEq_iff_dvd] at h2
---     exact Int.modEq_of_dvd h2
---   -- Show that r ≡ 2 [ZMOD 5]
---   · have h5 : r ≡ 7 [ZMOD 5] := hr.symm.trans (Int.modEq_of_dvd (by norm_num))
---     rw [Int.modEq_iff_dvd] at h5
---     exact Int.modEq_of_dvd h5
+--   · -- Show that r ≡ 1 [ZMOD 2]
+--     have h_mod_2 : r % 2 = 7 % 2 := by sorry -- rw [hr]
+--     calc
+--       r % 2 = 7 % 2 := h_mod_2
+--       _ = 1 := by norm_num
+--     -- Conclude that r ≡ 1 [ZMOD 2]
+--     exact Int.mod_eq_of_lt (by norm_num) (by norm_num)
+--   · -- Show that r ≡ 2 [ZMOD 5]
+--     have h_mod_5 : r % 5 = 7 % 5 := by sorry -- rw [hr]
+--     calc
+--       r % 5 = 7 % 5 := h_mod_5
+--       _ = 2 := by norm_num
+--     -- Conclude that r ≡ 2 [ZMOD 5]
+--     exact Int.mod_eq_of_lt (by norm_num) (by norm_num)
+
+
+
+
+
 
 
 /-# Problem 2-/
@@ -182,72 +206,58 @@ example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} :
   sorry
 
 
--- example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} := by
---   intro n h
---   -- Unpack the intersection condition: n is divisible by both 5 and 8
---   obtain ⟨h5, h8⟩ := h
---   -- Use the fact that lcm(5, 8) = 40 to conclude that n is divisible by 40
---   have h40 : 40 ∣ n := Int.dvd_lcm h5 h8
---   exact h40
-
--- example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} := by
---   intro n h
---   -- Unpack the intersection condition: n is divisible by both 5 and 8
---   obtain ⟨h5, h8⟩ := h
---   -- Use the fact that lcm(5, 8) = 40 to conclude that n is divisible by 40
---   dsimp at h5 h8 ⊢
---   obtain ⟨k1, hk1⟩ := h5
---   obtain ⟨k2, hk2⟩ := h8
---   -- Since n = 5 * k1 and n = 8 * k2, we know both divide n
---   use lcm (5 : ℕ) (8 : ℕ)
---   rw [Int.coe_nat_lcm] at *
---   have h40 : (40 : ℤ) ∣ n := by exact Int.dvd_of_dvd_nat hk1 hk2
-
-
 example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} := by
   intro n h
   -- Unpack the intersection condition: n is divisible by both 5 and 8
   obtain ⟨h5, h8⟩ := h
   -- Use the definitions of divisibility to express n
-  obtain ⟨k1, hk1⟩ := h5
-  obtain ⟨k2, hk2⟩ := h8
-  -- Since n = 5 * k1 and n = 8 * k2, we show that n is divisible by lcm(5, 8) = 40
-  have : lcm (5 : ℕ) (8 : ℕ) = 40 := by norm_num
-  rw [this]
+  obtain ⟨k1, hk1⟩ := h5 -- n = 5 * k1
+  obtain ⟨k2, hk2⟩ := h8 -- n = 8 * k2
   -- Rewrite n using one of its divisibility expressions
-  rw [hk1] at hk2
-  -- Show that k1 is divisible by 8 (since both expressions for n must match)
+  rw [hk1] at hk2 -- Substitute n = 5 * k1 into the second equation
+  -- Simplify to show that k1 is divisible by 8
   have h_k1 : (8 : ℤ) ∣ k1 := by
     use k2
-    rw [← mul_assoc]
-    exact hk2.symm
+    sorry -- rw [← mul_assoc] at hk2
+    -- exact hk2.symm
   -- Conclude that n is divisible by 40
-  use k1 / 8
+  obtain ⟨m, hm⟩ := h_k1 -- k1 = 8 * m for some m
+  rw [hm] at hk1 -- Substitute k1 = 8 * m into n = 5 * k1
+  use m -- Show that n = 40 * m
   rw [hk1]
-  ring_nf
-  rw [Int.mul_div_cancel' h_k1]
+  ring_nf -- Simplify to show n = 40 * m
+
+
 
 
 --Exercise 9.3.6.1
 
 def r (s : Set ℕ) : Set ℕ := s ∪ {3}
 
-example : ¬ Injective r := by
-  sorry
 
--- example : ¬ Injective r := by
---   dsimp [Injective]
---   push_neg
---   -- Provide a counterexample: two distinct sets with the same image under r
---   use {1}, {2}
---   constructor
---   · -- Show that the function values are equal
---     dsimp [r]
---     ext x
---     dsimp
---     apply Or.comm
---   · -- Show that the inputs are distinct
---     intro h_eq
---     have : 1 ∈ {1} := by dsimp; exact Or.inl rfl
---     rw [h_eq] at this
---     dsimp at this -- This implies `1 ∈ {2}`, which is a contradiction
+example : ¬ Injective r := by
+  dsimp [Injective]
+  push_neg
+  -- Provide a counterexample: two distinct sets with the same image under r
+  use {1}, {1, 3}
+  constructor
+  · -- Prove that r({1}) = r({1, 3})
+    dsimp [r]
+    ext x
+    constructor
+    · -- Forward direction: x ∈ {1, 3} → x ∈ {1, 3} ∪ {3}
+      intro h
+      cases h with
+      | inl h1 => exact Or.inl sorry
+      | inr h3 => exact Or.inr h3
+    · -- Backward direction: x ∈ {1, 3} ∪ {3} → x ∈ {1, 3}
+      intro h
+      cases h with
+      | inl h1 => exact Or.inl sorry
+      | inr h3 => exact Or.inr h3
+  · -- Prove that {1} ≠ {1, 3}
+    intro h_eq
+    have : 3 ∈ {1, 3} := by right; rfl -- Explicitly show that 3 is in {1, 3}
+    rw [←h_eq] at this -- Substitute equality into the proof
+    have : 3 ∈ {1} := this -- This implies `3 ∈ {1}`, which is a contradiction because `{1}` does not contain `3`
+    cases this -- Contradiction
