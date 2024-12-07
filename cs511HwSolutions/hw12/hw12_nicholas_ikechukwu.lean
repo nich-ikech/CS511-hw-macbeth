@@ -32,7 +32,7 @@ Int.even_iff_modEq
 Int.odd_iff_modEq
 Int.even_or_odd
 prime_test
- -/
+-/
 
 
 /-# Exercise 4-/
@@ -40,33 +40,34 @@ prime_test
 --Exercise 6.4.3.1
 
 
-
-
 theorem extract_pow_two (n : ℕ) (hn : 0 < n) : ∃ a x, Odd x ∧ n = 2 ^ a * x := by
-  -- Case split on the parity of n
-  obtain h_even | h_odd := Nat.even_or_odd n
-  · -- Case: n is even
-    -- Extract k such that n = 2 * k using the definition of even
-    obtain ⟨k, hk⟩ := h_even
-    have hk_pos : 0 < k := by
-      apply Nat.pos_of_ne_zero
-      intro hk_zero
-      rw [hk_zero, Nat.mul_zero] at hk
-      exact Nat.not_lt_zero _ hn
-    -- Apply the inductive hypothesis to k
-    obtain ⟨b, y, hy_odd, hy⟩ := extract_pow_two k hk_pos
-    use b + 1, y
-    constructor
-    · exact hy_odd -- y is odd
-    · calc
-        n = 2 * k         := hk
-        _ = 2 * (2 ^ b * y) := by rw [hy]
-        _ = 2 ^ (b + 1) * y := by ring
-  · -- Case: n is odd
-    use 0, n
-    constructor
-    · exact h_odd -- n itself is odd
-    · rw [Nat.pow_zero, Nat.one_mul]
+  sorry
+
+-- theorem extract_pow_two (n : ℕ) (hn : 0 < n) : ∃ a x, Odd x ∧ n = 2 ^ a * x := by
+--   -- Case split on the parity of n
+--   obtain h_even | h_odd := Nat.even_or_odd n
+--   · -- Case: n is even
+--     -- Extract k such that n = 2 * k using the definition of even
+--     obtain ⟨k, hk⟩ := h_even
+--     have hk_pos : 0 < k := by
+--       apply Nat.pos_of_ne_zero
+--       intro hk_zero
+--       rw [hk_zero, Nat.mul_zero] at hk
+--       exact Nat.not_lt_zero _ hn
+--     -- Apply the inductive hypothesis to k
+--     obtain ⟨b, y, hy_odd, hy⟩ := extract_pow_two k hk_pos
+--     use b + 1, y
+--     constructor
+--     · exact hy_odd -- y is odd
+--     · calc
+--         n = 2 * k         := hk
+--         _ = 2 * (2 ^ b * y) := by rw [hy]
+--         _ = 2 ^ (b + 1) * y := by ring
+--   · -- Case: n is odd
+--     use 0, n
+--     constructor
+--     · exact h_odd -- n itself is odd
+--     · rw [Nat.pow_zero, Nat.one_mul]
 
 
 /-# Exercise 5-/
@@ -167,25 +168,28 @@ example : {r : ℤ | r ≡ 7 [ZMOD 10] }
     ⊆ {s : ℤ | s ≡ 1 [ZMOD 2]} ∩ {t : ℤ | t ≡ 2 [ZMOD 5]} := by
   sorry
 
-example : {r : ℤ | r ≡ 7 [ZMOD 10]}
-    ⊆ {s : ℤ | s ≡ 1 [ZMOD 2]} ∩ {t : ℤ | t ≡ 2 [ZMOD 5]} := by
-  intro r hr
-  -- Unpack the intersection condition
-  constructor
-  · -- Show that r ≡ 1 [ZMOD 2]
-    have h_mod_2 : r % 2 = 7 % 2 := by sorry -- rw [hr]
-    calc
-      r % 2 = 7 % 2 := h_mod_2
-      _ = 1 := by norm_num
-    -- Conclude that r ≡ 1 [ZMOD 2]
-    exact Int.mod_eq_of_lt (by norm_num) (by norm_num)
-  · -- Show that r ≡ 2 [ZMOD 5]
-    have h_mod_5 : r % 5 = 7 % 5 := by sorry -- rw [hr]
-    calc
-      r % 5 = 7 % 5 := h_mod_5
-      _ = 2 := by norm_num
-    -- Conclude that r ≡ 2 [ZMOD 5]
-    exact Int.mod_eq_of_lt (by norm_num) (by norm_num)
+-- example : {r : ℤ | r ≡ 7 [ZMOD 10]}
+--     ⊆ {s : ℤ | s ≡ 1 [ZMOD 2]} ∩ {t : ℤ | t ≡ 2 [ZMOD 5]} := by
+--   intro r hr
+--   -- Unpack the intersection condition
+--   constructor
+--   · -- Show that r ≡ 1 [ZMOD 2]
+--     have h_mod_2 : r % 2 = 7 % 2 := by sorry -- rw [hr]
+--     calc
+--       r % 2 = 7 % 2 := h_mod_2
+--       _ = 1 := by norm_num
+--     -- Conclude that r ≡ 1 [ZMOD 2]
+--     exact Int.mod_eq_of_lt (by norm_num) (by norm_num)
+--   · -- Show that r ≡ 2 [ZMOD 5]
+--     have h_mod_5 : r % 5 = 7 % 5 := by sorry -- rw [hr]
+--     calc
+--       r % 5 = 7 % 5 := h_mod_5
+--       _ = 2 := by norm_num
+--     -- Conclude that r ≡ 2 [ZMOD 5]
+--     exact Int.mod_eq_of_lt (by norm_num) (by norm_num)
+
+
+
 
 
 
@@ -215,7 +219,6 @@ example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} :
   use m -- Show that n = 40 * m
   rw [hk1]
   ring_nf -- Simplify to show n = 40 * m
-
 
 
 
