@@ -7,32 +7,6 @@ math2001_init
 
 open Set Function Nat
 
-/-
-# Important tactics and lemmas:
-
-# Tactics
-mod_cases
-interval_cases
-numbers (to reach a contradiction)
-
-# Lemmas
-Int.ModEq.add
-Int.ModEq.sub
-Int.ModEq.neg
-Int.ModEq.mul
-Int.ModEq.pow
-Int.ModEq.refl
-Int.ModEq.symm
-Int.ModEq.trans
-Nat.pos_of_dvd_of_pos
-eq_or_lt_of_le
-Nat.le_of_dvd
-Nat.not_dvd_of_exists_lt_and_lt
-Int.even_iff_modEq
-Int.odd_iff_modEq
-Int.even_or_odd
-prime_test
--/
 
 
 /-# Exercise 4-/
@@ -115,10 +89,6 @@ contradiction
 
 
 
-
-
-
-
 /-# Exercise 5-/
 
 ------------------------------------------------------------------------------------
@@ -191,21 +161,16 @@ example : {a : ℕ | 5 ∣ a} ⊈ {x : ℕ | 20 ∣ x} := by
   have h2 : ¬ (20 ∣ a) := by
     intro h_div
     obtain ⟨k, hk⟩ := h_div
-    -- If 20 divides 5, then there exists k such that `20 * k = 5`, which is impossible
     cases k with
     | zero =>
-      -- Case k = 0: Contradiction since `20 * k = 0 ≠ 5`
       dsimp at hk; contradiction
     | succ n =>
-      -- Case k = succ n: Contradiction since `20 * (n + 1) ≥ 20 > 5`
       have : a = 20 * (n + 1) := hk
       have : a ≥ 20 := by
         rw [this]
         exact Nat.mul_le_mul_left 20 (Nat.succ_pos n)
-      -- This contradicts the fact that `a = 5`
       have : ¬ (a ≥ 20) := by exhaust
       exact this ‹a ≥ 20›
-  -- Contradiction: `h` assumes that every `a` in {a | 5 ∣ a} is also in {x | 20 ∣ x}
   exact h2 (h h1)
 
 
@@ -226,7 +191,7 @@ example : {r : ℤ | r ≡ 7 [ZMOD 10] }
     x - 1 = (x - 7) + 6 := by ring
     _ = (10 * t) + 6 := by rw[ht]
     _ = 2 * (5 * t + 3) := by ring
-  -- destructure hx
+  -- Obtain witnesses
   obtain ⟨t, ht⟩ := hx
   -- use step
   use 2*t + 1
@@ -267,6 +232,31 @@ example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} :
 
 
 
+-- example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} := by
+--   dsimp [Set.subset_def]
+--   intro x hx
+
+--   -- Destructure the intersection
+--   obtain ⟨h5, h8⟩ := hx
+
+--   -- Obtain witnesses for divisibility
+--   obtain ⟨t, ht5⟩ := h5
+--   obtain ⟨s, ht8⟩ := h8
+
+--   -- Use step
+--   use 8*t
+
+--   -- Prove divisibility by 40
+--   have a: x = 5 * t := ht5
+--   calc
+--     x = 5 * t := a
+--     _ = 8 * s := ht8
+--     _ = 40 * t := by ring
+
+
+
+
+
 --Exercise 9.3.6.1
 
 def r (s : Set ℕ) : Set ℕ := s ∪ {3}
@@ -297,5 +287,53 @@ example : ¬ Injective r := by
     intro h_eq
     have : 3 ∈ {1, 3} := by right; rfl -- Explicitly show that 3 is in {1, 3}
     rw [←h_eq] at this -- Substitute equality into the proof
-    have : 3 ∈ {1} := this -- This implies `3 ∈ {1}`, which is a contradiction because `{1}` does not contain `3`
+    have : 3 ∈ {1} := this
     cases this -- Contradiction
+
+
+
+-- example : ¬ Injective r := by
+--   dsimp [Injective, r]
+--   push_neg
+--   use {1, 2}, {1, 2, 3}
+--   dsimp
+--   constructor
+--   · ext x
+--     dsimp
+--     suffices x ∈ {1, 2} → x ∈ {1, 2, 3} by exhaust
+--     intro hx
+--     right
+--     exact hx
+--   · ext x
+--     dsimp
+--     suffices x ∈ {1, 2, 3} → x ∈ {1, 2} by exhaust
+--     intro hx
+--     exact hx.left
+
+
+-- example : ¬ Injective r := by
+--   dsimp [Injective]
+--   push_neg
+--   -- Provide a counterexample: two distinct sets with the same image under r
+--   use {1}, {1, 3}
+--   constructor
+--   · -- Prove that r({1}) = r({1, 3})
+--     dsimp [r]
+--     ext x
+--     constructor
+--     · -- Forward direction: x ∈ {1} ∪ {3} → x ∈ {1, 3}
+--       intro h
+--       cases h with
+--       | inl h1 => exact Or.inl h1
+--       | inr h3 => exact Or.inr h3
+--     · -- Backward direction: x ∈ {1, 3} → x ∈ {1} ∪ {3}
+--       intro h
+--       cases h with
+--       | inl h1 => exact Or.inl h1
+--       | inr h3 => exact Or.inr h3
+--   · -- Prove that {1} ≠ {1, 3}
+--     intro h_eq
+--     have : 3 ∈ {1, 3} := by right; rfl
+--     rw [←h_eq] at this
+--     have : 3 ∈ {1} := this
+--     cases this

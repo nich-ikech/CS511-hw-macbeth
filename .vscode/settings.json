@@ -3,5 +3,14 @@
   "editor.fontSize": 14,
   "editor.lineHeight": 0,
   "scm.inputFontFamily": "'Fira Code'",
-  "cSpell.words": ["addarith", "dsimp", "Injective", "injectivity", "rcases", "symm", "ZMOD"]
+  "cSpell.words": [
+    "addarith",
+    "dsimp",
+    "Injective",
+    "injectivity",
+    "rcases",
+    "succ",
+    "symm",
+    "ZMOD"
+  ]
 }
