@@ -41,33 +41,82 @@ prime_test
 
 
 theorem extract_pow_two (n : ℕ) (hn : 0 < n) : ∃ a x, Odd x ∧ n = 2 ^ a * x := by
-  sorry
+match n with
+|0 =>
+have contra := Nat.not_lt_zero 0
+contradiction
+|1 =>
+  use 0, 1
+  constructor
+  dsimp[Odd]
+  use 0
+  numbers
+  numbers
+|2 =>
+  use 1, 1
+  constructor
+  dsimp[Odd]
+  use 0
+  numbers
+  numbers
+|k+3 =>
+  let h_ev_od := Nat.even_or_odd k
+  let t := (Nat.succ k)
+  have hk : Nat.succ k > 0 := by extra
+  obtain h_even | h_odd := h_ev_od
+  have IH := extract_pow_two t hk
+  obtain ⟨a, x, h_odd, ht⟩ := IH
+  use 0, k + 3
+  constructor
+  dsimp[Odd]
+  obtain ⟨r, h_even⟩ := h_even
+  use r+1
+  rw[h_even]
+  ring
+  ring
+  have IH := extract_pow_two t hk
+  obtain ⟨a, x, hod, ht⟩ := IH
+  match a with
+  |0 =>
+  use 0, x+2
+  constructor
+  obtain ⟨l, hl⟩ := hod
+  use l+1
+  rw[hl]
+  ring
+  -- calc step with k + 3
+  calc
+    k + 3 = t + 2 := by rfl
+    _ = 2 ^ 0 * x + 2 := by rw[ht]
+    _ = 2 ^ 0 * (x + 2) := by ring
+  |1 =>
+    have hx : x + 1 > 0 := by extra
+    have IH := extract_pow_two (x + 1) hx
+    obtain ⟨y, u, hu_odd, hxx⟩ := IH
+    use y+1, u
+    constructor
+    apply hu_odd
+    -- calc step with k + 3
+    calc
+      k + 3 = t + 2 := by rfl
+      _ = 2 ^ 1 * x + 2 := by rw[ht]
+      _ = 2 * (x + 1) := by ring
+      _ = 2 * (2 ^ y * u) := by rw[hxx]
+      _ = 2 ^ (y + 1) * u := by ring
+  |s + 2 =>
+  use 1, 2 ^ (s + 1) * x + 1
+  constructor
+  use 2^s*x
+  ring
+  calc
+    k + 3 = t + 2 := by rfl
+    _ = 2 ^ (s + 2) * x + 2:= by rw[ht]
+    _ = 2 ^ 1 * (2 ^ (s + 1) * x + 1) := by ring
 
--- theorem extract_pow_two (n : ℕ) (hn : 0 < n) : ∃ a x, Odd x ∧ n = 2 ^ a * x := by
---   -- Case split on the parity of n
---   obtain h_even | h_odd := Nat.even_or_odd n
---   · -- Case: n is even
---     -- Extract k such that n = 2 * k using the definition of even
---     obtain ⟨k, hk⟩ := h_even
---     have hk_pos : 0 < k := by
---       apply Nat.pos_of_ne_zero
---       intro hk_zero
---       rw [hk_zero, Nat.mul_zero] at hk
---       exact Nat.not_lt_zero _ hn
---     -- Apply the inductive hypothesis to k
---     obtain ⟨b, y, hy_odd, hy⟩ := extract_pow_two k hk_pos
---     use b + 1, y
---     constructor
---     · exact hy_odd -- y is odd
---     · calc
---         n = 2 * k         := hk
---         _ = 2 * (2 ^ b * y) := by rw [hy]
---         _ = 2 ^ (b + 1) * y := by ring
---   · -- Case: n is odd
---     use 0, n
---     constructor
---     · exact h_odd -- n itself is odd
---     · rw [Nat.pow_zero, Nat.one_mul]
+
+
+
+
 
 
 /-# Exercise 5-/
@@ -166,30 +215,26 @@ example : {a : ℕ | 5 ∣ a} ⊈ {x : ℕ | 20 ∣ x} := by
 
 example : {r : ℤ | r ≡ 7 [ZMOD 10] }
     ⊆ {s : ℤ | s ≡ 1 [ZMOD 2]} ∩ {t : ℤ | t ≡ 2 [ZMOD 5]} := by
-  sorry
-
--- example : {r : ℤ | r ≡ 7 [ZMOD 10]}
---     ⊆ {s : ℤ | s ≡ 1 [ZMOD 2]} ∩ {t : ℤ | t ≡ 2 [ZMOD 5]} := by
---   intro r hr
---   -- Unpack the intersection condition
---   constructor
---   · -- Show that r ≡ 1 [ZMOD 2]
---     have h_mod_2 : r % 2 = 7 % 2 := by sorry -- rw [hr]
---     calc
---       r % 2 = 7 % 2 := h_mod_2
---       _ = 1 := by norm_num
---     -- Conclude that r ≡ 1 [ZMOD 2]
---     exact Int.mod_eq_of_lt (by norm_num) (by norm_num)
---   · -- Show that r ≡ 2 [ZMOD 5]
---     have h_mod_5 : r % 5 = 7 % 5 := by sorry -- rw [hr]
---     calc
---       r % 5 = 7 % 5 := h_mod_5
---       _ = 2 := by norm_num
---     -- Conclude that r ≡ 2 [ZMOD 5]
---     exact Int.mod_eq_of_lt (by norm_num) (by norm_num)
-
-
-
+  dsimp [Set.subset_def]
+  intro x hx
+  constructor
+  obtain ⟨t, ht⟩ := hx
+  -- use step
+  use 5*t + 3
+  -- calc step for x - 1
+  calc
+    x - 1 = (x - 7) + 6 := by ring
+    _ = (10 * t) + 6 := by rw[ht]
+    _ = 2 * (5 * t + 3) := by ring
+  -- destructure hx
+  obtain ⟨t, ht⟩ := hx
+  -- use step
+  use 2*t + 1
+  -- calc step for x -2
+  calc
+    x - 2 = (x - 7) + 5 := by ring
+    _ = (10 * t) + 5 := by rw[ht]
+    _ = 5 * (2 * t + 1) := by ring
 
 
 

@@ -140,21 +140,26 @@ example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1
 --# Prove one-------------------------------------------------------
 
 example : ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
-  intros f h_inj x y h_eq
-  have h1 : f x + x = f y + y := h_eq
-  have h2: f x = f y := by
-    calc
-      f x = (f x + x) - x := by ring
-      _   = (f y + y) - x := by rw[←h1]
-      _   = f y + (y - x) := by ring
-      _   = f y           := by sorry
-  have h3 : x = y := h_inj h2
-  exact h3
-
+  sorry
 
 
 example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
-  sorry
+  dsimp [Injective]
+  -- negate expression
+  push_neg
+  use (fun x ↦ -x)
+  constructor
+  intro x y h
+  -- calc step using x
+  calc
+    x = -(-x) := by ring
+    _ = -(-y) := by rw[h]
+    _ = y := by ring
+  -- use 1 and 2
+  use 1, 2
+  constructor
+  ring
+  numbers
 
 --Exercise 8.1.13.16
 --# Prove one-------------------------------------------------------

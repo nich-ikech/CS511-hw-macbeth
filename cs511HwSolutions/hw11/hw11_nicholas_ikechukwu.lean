@@ -87,19 +87,13 @@ example : Bijective (fun ((r, s) : ℚ × ℚ) ↦ (s, r - s)) := by
 --Exercise 8.4.10.2.1
 
 example : ¬ Injective (fun ((x, y) : ℤ × ℤ) ↦ x - 2 * y - 1) := by
-  intro h
-  have neq : (0, 0) ≠ (2, 1) := by
-    intro h_eq
-    cases h_eq
-  have eq : (fun ((x, y) : ℤ × ℤ) ↦ x - 2 * y - 1) (0, 0) = (fun ((x, y) : ℤ × ℤ) ↦ x - 2 * y - 1) (2, 1) := by
-    calc
-      (fun ((x, y) : ℤ × ℤ) ↦ x - 2 * y - 1) (0, 0) = 0 - 2 * 0 - 1 := by rfl
-      _ = -1           := by ring
-      _ = 2 - 2 * 1 - 1 := by ring
-      _ = (fun ((x, y) : ℤ × ℤ) ↦ x - 2 * y - 1) (2, 1) := by rfl
-  have contra : (0, 0) = (2, 1) := h eq
-  exact neq sorry
-
+  dsimp[Injective]
+  push_neg
+  use (0, 0)
+  use (2, 1)
+  constructor
+  ring
+  numbers
 
 
 --Exercise 8.4.10.2.2
