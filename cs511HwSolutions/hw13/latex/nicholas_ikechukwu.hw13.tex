@@ -1,0 +1,233 @@
+\documentclass{article}
+\usepackage[letterpaper]{geometry} % Set the paper size to US Letter
+\usepackage{amsmath, amssymb, bussproofs, qtree, booktabs, array, lastpage, fancyhdr}
+\usepackage{mdframed}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{stmaryrd}
+\usepackage{graphicx}
+
+
+
+
+% \defeqine a custom-proof environment
+
+\newenvironment{proof}
+{\begin{mdframed}[linewidth=0.5pt]\begin{enumerate}[label=\arabic*.,leftmargin=*]}
+{\end{enumerate}\end{mdframed}}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=magenta,      
+  urlcolor=cyan,
+  pdftitle={Your Title Here},
+  pdfpagemode=FullScreen,
+}
+ 
+
+% Add the new command here
+\newcommand{\defeq}{\stackrel{\text{def}}{=}}
+\newcommand{\proves}{\vdash}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Page \thepage}
+\lhead{Nicholas  Ikechukwu - U71641768 - Boston University}
+\cfoot{}
+
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+
+\begin{center}
+    \Large\textbf{Solutions to CS511 Homework 13}
+    
+    \vspace{0.5cm}
+    
+    \large Nicholas Ikechukwu - U71641768
+    
+    \vspace{0.3cm}
+    
+    \large December 12, 2024
+\end{center}
+
+
+
+\section*{Exercise 1. Some questions related to database methods}
+
+\begin{mdframed}
+    \vspace{1em}
+        \textbf{Exercise:} Part (a) The SQL standard provides an operation EXISTS, which can be used as an existential
+        quantifier. For example,
+        SELECT ... FROM ... WHERE EXISTS \( < subquery > \)
+        So to express a database, we certainly need at least first-order logic. Argue as to whether or not
+        second -order logic or higher is needed for any SQL operations you are familiar with. Is first-order
+        logic sufficient for all SQL operations?
+    \vspace{1em}
+\end{mdframed}
+
+
+\section*{Part (a). Solution}
+
+\newpage
+
+\begin{mdframed}
+    \vspace{1em}
+        \textbf{Exercise:} Part (b) Considering the following schema:
+        Draw a diagram representing this schema, using the diagram language from the lecture on December
+        3. Use filled circles for table vertices and empty circles for type vertices  
+\end{mdframed}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{1b_image.png} % Replace 'image-name' with your image file name (without extension)
+    \label{fig:sample-image}
+\end{figure}  
+
+\section*{Part (b). Solution}
+
+\newpage
+
+
+\section*{Exercise 2. }
+
+\begin{mdframed}In 1763, Leonhard Euler created a very famous graph representing the islands of the
+    Pregel River and the seven bridges across it. (To understand the very simple question he wanted to
+    solve which motivated one of the first problems answered by graph theory, you may read the Wikipedia
+    article on “The Seven Bridges of K¨onigsberg.”) Here is the graph K which he drew, with some arrows
+    added:
+\end{mdframed}
+   
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.3\textwidth]{2_image.png} % Replace 'image-name' with your image file name (without extension)
+    \label{fig:sample-image}
+\end{figure} 
+
+Let $\kappa$ be the free category on K.
+\section*{Part (a):} List the 15 morphisms of K along with their domains and codomains.
+\subsection*{Part (a). Solution:}
+
+
+\newpage
+
+\section*{Part (b):} A diagram is called a “commutative” diagram if all paths with the same start and end point
+are equal; that is, if all “parallel” paths through the diagram produce the same result. Let $\kappa$' be the
+commutative free category on K; list the morphisms of $\kappa$'. Using the answers of part (a) should make
+this a trivial exercise.
+
+\subsection*{Part (b). Solution:}
+
+
+
+\newpage
+
+\section*{Part (c):} Consider the following category V:
+U - p $\rightarrow$ V $\leftarrow$ q - W \\
+Define a functor F : V → $\kappa$.
+
+
+\subsection*{Part (c). Solution:}
+
+
+\newpage
+
+\section*{Part (d):} Imagine a category that looks like this:
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.3\textwidth]{2d_image.png} % Replace 'image-name' with your image file name (without extension)
+    \label{fig:sample-image}
+\end{figure} 
+
+Argue why there cannot be a functor from this category to $\kappa$.
+
+\subsection*{Part (d). Solution:}
+
+
+
+
+
+
+\newpage
+
+\section*{PROBLEM 1. Adjunction Between Functors  }
+
+
+\begin{mdframed}
+    \textbf{Exercise }:
+    
+    \vspace{1em}
+The preceding example about currying illustrates of what is called an \textbf{adjunction} between functors, here the functor $- \times B$ and the functor $(-)^B$. We only said how each of these two functors works on objects: For an arbitrary set $X$, the first functor returns the set $X \times B$ while the second returns the set $X^B$.
+
+There are three parts in this problem -- these may look scary to you, but the answer to each part takes at most 2 (or perhaps 3) lines:
+
+\begin{enumerate}
+    \item Given a morphism $f : X \to Y$, what morphism should $- \times B : X \times B \to Y \times B$ return?
+    
+    \vspace{1em}
+    \item Given a morphism $f : X \to Y$, what morphism should $(-)^B : X^B \to Y^B$ return?
+    
+    \vspace{1em}
+    \item Consider the function $+ : \mathbb{N} \times \mathbb{N} \to \mathbb{N}$, which maps $(a,b)$ to $a + b$. Currying $+$ we get a function $p : \mathbb{N} \to \mathbb{N}^{\mathbb{N}}$. What is $p(3)$?
+\end{enumerate}
+\end{mdframed}
+    
+
+ \subsection*{Part 1:  } 
+ Given a morphism $f : X \to Y$, what morphism should $- \times B : X \times B \to Y \times B$ return? 
+ \subsection*{Part (1). Solution:}
+
+
+ \newpage
+
+ \subsection*{Part 2:  } 
+ Given a morphism $f : X \to Y$, what morphism should $(-)^B : X^B \to Y^B$ return?
+  \subsection*{Part (2). Solution:}
+
+
+ \newpage
+
+
+ \subsection*{Part 3:  } 
+ Consider the function $+ : \mathbb{N} \times \mathbb{N} \to \mathbb{N}$, which maps $(a,b)$ to $a + b$. Currying $+$ we get a function $p : \mathbb{N} \to \mathbb{N}^{\mathbb{N}}$. What is $p(3)$?
+  \subsection*{Part (3). Solution:}
+
+
+ 
+
+
+
+\newpage
+
+
+
+\section*{ON LEAN-4}
+\subsection*{Solutions in one file at: 
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw13/hw13_nicholas_ikechukwu.lean}}
+ 
+\newpage
+\section*{Exercise 3. From Macbeth’s book: Exercise 10.1.5.4 }
+\section*{Solutions}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw13/hw13_nicholas_ikechukwu.lean}
+
+
+
+\newpage
+
+\section*{Exercise 4. From Macbeth’s book: Exercise 10.1.5.5 }
+\section*{Solutions}
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw13/hw13_nicholas_ikechukwu.lean}
+
+\newpage
+
+
+\section*{PROBLEM 2. From Macbeth’s book: Exercise 10.1.5.6}
+\section*{Solutions}
+
+\url{https://github.com/nich-ikech/CS511-hw-macbeth/blob/main/cs511HwSolutions/hw13/hw13_nicholas_ikechukwu.lean}
+
+
+\end{document}
