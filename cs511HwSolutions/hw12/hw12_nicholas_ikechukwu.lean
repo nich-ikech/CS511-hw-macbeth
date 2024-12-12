@@ -250,9 +250,8 @@ example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} :
 --   have a: x = 5 * t := ht5
 --   calc
 --     x = 5 * t := a
---     _ = 8 * s := ht8
+--     _ = 8 * s := by rw [ht8]
 --     _ = 40 * t := by ring
-
 
 
 
