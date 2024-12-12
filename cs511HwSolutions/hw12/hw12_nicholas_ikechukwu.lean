@@ -262,7 +262,6 @@ example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} :
 def r (s : Set ℕ) : Set ℕ := s ∪ {3}
 
 
-
 example : ¬ Injective r := by
   dsimp [Injective]
   push_neg
@@ -276,64 +275,16 @@ example : ¬ Injective r := by
     · -- Forward direction: x ∈ {1} ∪ {3} → x ∈ {1, 3}
       intro h
       cases h with
-      | inl h1 => exact Or.inl sorry -- x ∈ {1} implies x ∈ {1, 3}
-      | inr h3 => exact Or.inr h3 -- x ∈ {3} implies x ∈ {1, 3}
+      | inl h1 => exact Or.inl (Or.inl h1)
+      | inr h3 => exact Or.inr h3
     · -- Backward direction: x ∈ {1, 3} → x ∈ {1} ∪ {3}
       intro h
       cases h with
-      | inl h1 => exact Or.inl sorry -- x ∈ {1} implies x ∈ {1} ∪ {3}
-      | inr h3 => exact Or.inr h3 -- x ∈ {3} implies x ∈ {1} ∪ {3}
+      | inl h1 => exact h1
+      | inr h3 => exact Or.inr h3
   · -- Prove that {1} ≠ {1, 3}
     intro h_eq
-    have : 3 ∈ {1, 3} := by right; rfl -- Explicitly show that 3 is in {1, 3}
-    rw [←h_eq] at this -- Substitute equality into the proof
+    have : 3 ∈ {1, 3} := by right; rfl
+    rw [←h_eq] at this
     have : 3 ∈ {1} := this
-    cases this -- Contradiction
-
-
-
--- example : ¬ Injective r := by
---   dsimp [Injective, r]
---   push_neg
---   use {1, 2}, {1, 2, 3}
---   dsimp
---   constructor
---   · ext x
---     dsimp
---     suffices x ∈ {1, 2} → x ∈ {1, 2, 3} by exhaust
---     intro hx
---     right
---     exact hx
---   · ext x
---     dsimp
---     suffices x ∈ {1, 2, 3} → x ∈ {1, 2} by exhaust
---     intro hx
---     exact hx.left
-
-
--- example : ¬ Injective r := by
---   dsimp [Injective]
---   push_neg
---   -- Provide a counterexample: two distinct sets with the same image under r
---   use {1}, {1, 3}
---   constructor
---   · -- Prove that r({1}) = r({1, 3})
---     dsimp [r]
---     ext x
---     constructor
---     · -- Forward direction: x ∈ {1} ∪ {3} → x ∈ {1, 3}
---       intro h
---       cases h with
---       | inl h1 => exact Or.inl h1
---       | inr h3 => exact Or.inr h3
---     · -- Backward direction: x ∈ {1, 3} → x ∈ {1} ∪ {3}
---       intro h
---       cases h with
---       | inl h1 => exact Or.inl h1
---       | inr h3 => exact Or.inr h3
---   · -- Prove that {1} ≠ {1, 3}
---     intro h_eq
---     have : 3 ∈ {1, 3} := by right; rfl
---     rw [←h_eq] at this
---     have : 3 ∈ {1} := this
---     cases this
+    cases this

@@ -282,7 +282,7 @@ Argue why there cannot be a functor from this category to $\kappa$.
 \subsection*{Part (d). Solution:}
 
 
-\section*{My Simple Argument Against a Functor to \(\kappa\)}
+\subsection*{My Simple Argument Against a Functor to \(\kappa\)}
 
 From the category given above, it forms forms a cycle with four objects and morphisms creating a loop. 
 We know that In category theory:
@@ -318,32 +318,62 @@ There are three parts in this problem -- these may look scary to you, but the an
     \item Given a morphism $f : X \to Y$, what morphism should $(-)^B : X^B \to Y^B$ return?
     
     \vspace{1em}
-    \item Consider the function $+ : \mathbb{N} \times \mathbb{N} \to \mathbb{N}$, which maps $(a,b)$ to $a + b$. Currying $+$ we get a function $p : \mathbb{N} \to \mathbb{N}^{\mathbb{N}}$. What is $p(3)$?
+    \item Consider the function $+ : \mathbb{N} \times \mathbb{N} \to \mathbb{N}$, which maps $(a,b)$ to $a + b$. 
+    Currying $+$ we get a function $p : \mathbb{N} \to \mathbb{N}^{\mathbb{N}}$. What is $p(3)$?
 \end{enumerate}
 \end{mdframed}
     
 
  \subsection*{Part 1:  } 
  Given a morphism $f : X \to Y$, what morphism should $- \times B : X \times B \to Y \times B$ return? 
- \subsection*{Part (1). Solution:}
 
+ \subsection*{Part (1). Solution: The Morphism for $- \times B$}
+
+ 
+Since we have $f: X \to Y$, the functor $- \times B$ should give the morphism:
+ 
+ \[ f \times id_B : X \times B \to Y \times B \]
+ 
+ Where $id_B$ denotes the identity morphism on $B$, and $f \times id_B$ is defined as:
+ 
+ \[ (f \times id_B)(x,b) = (f(x), b) \]
 
  \newpage
 
  \subsection*{Part 2:  } 
  Given a morphism $f : X \to Y$, what morphism should $(-)^B : X^B \to Y^B$ return?
-  \subsection*{Part (2). Solution:}
+  \subsection*{Part (2). Solution: The Morphism for $(-)^B$}
 
+  
+  We have a morphism $f: X \to Y$, the functor $(-)^B$ should give the morphism:
+  
+  \[ f^B : X^B \to Y^B \]
+  
+  this is defined pointwise as:
+  
+  \[ (f^B)(g)(b) = f(g(b)) \]
+  
+  Where $g \in X^B$ and $b \in B$
 
  \newpage
 
 
  \subsection*{Part 3:  } 
  Consider the function $+ : \mathbb{N} \times \mathbb{N} \to \mathbb{N}$, which maps $(a,b)$ to $a + b$. Currying $+$ we get a function $p : \mathbb{N} \to \mathbb{N}^{\mathbb{N}}$. What is $p(3)$?
-  \subsection*{Part (3). Solution:}
+  \subsection*{Part (3). Solution: Currying Addition}
 
 
- 
+  Looking at the function, we should have that $p(3)$ is the function:
+  
+  \[ p(3) : \mathbb{N} \to \mathbb{N} \]
+  
+  This is defined as:
+  
+  \[ p(3)(b) = 3 + b \]
+  
+  More clearly but comprehensively:
+  
+  \[ p(3) = \lambda b. 3 + b \]
 
 
 
