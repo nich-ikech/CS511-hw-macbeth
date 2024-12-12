@@ -23,6 +23,7 @@ contradiction
   use 0, 1
   constructor
   dsimp[Odd]
+  -- use 0
   use 0
   numbers
   numbers
@@ -30,6 +31,7 @@ contradiction
   use 1, 1
   constructor
   dsimp[Odd]
+  -- use 0
   use 0
   numbers
   numbers
@@ -37,12 +39,14 @@ contradiction
   let h_ev_od := Nat.even_or_odd k
   let t := (Nat.succ k)
   have hk : Nat.succ k > 0 := by extra
+  -- unpack h_ev_od
   obtain h_even | h_odd := h_ev_od
   have IH := extract_pow_two t hk
   obtain ⟨a, x, h_odd, ht⟩ := IH
   use 0, k + 3
   constructor
   dsimp[Odd]
+  -- unpack h_even
   obtain ⟨r, h_even⟩ := h_even
   use r+1
   rw[h_even]
@@ -54,9 +58,9 @@ contradiction
   |0 =>
   use 0, x+2
   constructor
-  obtain ⟨l, hl⟩ := hod
+  obtain ⟨l, hv⟩ := hod
   use l+1
-  rw[hl]
+  rw[hv]
   ring
   -- calc step with k + 3
   calc
@@ -64,8 +68,8 @@ contradiction
     _ = 2 ^ 0 * x + 2 := by rw[ht]
     _ = 2 ^ 0 * (x + 2) := by ring
   |1 =>
-    have hx : x + 1 > 0 := by extra
-    have IH := extract_pow_two (x + 1) hx
+    have hq : x + 1 > 0 := by extra
+    have IH := extract_pow_two (x + 1) hq
     obtain ⟨y, u, hu_odd, hxx⟩ := IH
     use y+1, u
     constructor
@@ -78,9 +82,11 @@ contradiction
       _ = 2 * (2 ^ y * u) := by rw[hxx]
       _ = 2 ^ (y + 1) * u := by ring
   |s + 2 =>
+  --choose 1, expression
   use 1, 2 ^ (s + 1) * x + 1
   constructor
-  use 2^s*x
+  --choose expression
+  use 2^s * x
   ring
   calc
     k + 3 = t + 2 := by rfl
@@ -211,24 +217,24 @@ example : {r : ℤ | r ≡ 7 [ZMOD 10] }
 
 example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} := by
   intro n h
-  -- Unpack the intersection condition: n is divisible by both 5 and 8
+  -- unpack the intersection condition: n is divisible by both 5 and 8
   obtain ⟨h5, h8⟩ := h
-  -- Use the definitions of divisibility to express n
+  -- use the definitions of divisibility to express n
   obtain ⟨k1, hk1⟩ := h5 -- n = 5 * k1
   obtain ⟨k2, hk2⟩ := h8 -- n = 8 * k2
-  -- Rewrite n using one of its divisibility expressions
+  -- rewrite n using one of its divisibility expressions
   rw [hk1] at hk2 -- Substitute n = 5 * k1 into the second equation
-  -- Simplify to show that k1 is divisible by 8
+  -- simplify to show that k1 is divisible by 8
   have h_k1 : (8 : ℤ) ∣ k1 := by
     use k2
-    sorry -- rw [← mul_assoc] at hk2
-    -- exact hk2.symm
-  -- Conclude that n is divisible by 40
+    rw [hk2] at hk1
+    sorry
+  -- conclude that n is divisible by 40
   obtain ⟨m, hm⟩ := h_k1 -- k1 = 8 * m for some m
   rw [hm] at hk1 -- Substitute k1 = 8 * m into n = 5 * k1
-  use m -- Show that n = 40 * m
+  use m -- show that n = 40 * m
   rw [hk1]
-  ring_nf -- Simplify to show n = 40 * m
+  ring_nf -- simplify to show n = 40 * m
 
 
 
@@ -264,24 +270,24 @@ def r (s : Set ℕ) : Set ℕ := s ∪ {3}
 example : ¬ Injective r := by
   dsimp [Injective]
   push_neg
-  -- Provide a counterexample: two distinct sets with the same image under r
+  -- provide a counterexample: two sets with the same image under r
   use {1}, {1, 3}
   constructor
-  · -- Prove that r({1}) = r({1, 3})
+  · -- prove that r({1}) = r({1, 3})
     dsimp [r]
     ext x
     constructor
-    · -- Forward direction: x ∈ {1} ∪ {3} → x ∈ {1, 3}
+    · -- forward direction: x ∈ {1} ∪ {3} → x ∈ {1, 3}
       intro h
       cases h with
       | inl h1 => exact Or.inl (Or.inl h1)
       | inr h3 => exact Or.inr h3
-    · -- Backward direction: x ∈ {1, 3} → x ∈ {1} ∪ {3}
+    · -- backward direction: x ∈ {1, 3} → x ∈ {1} ∪ {3}
       intro h
       cases h with
       | inl h1 => exact h1
       | inr h3 => exact Or.inr h3
-  · -- Prove that {1} ≠ {1, 3}
+  · -- prove that {1} ≠ {1, 3}
     intro h_eq
     have : 3 ∈ {1, 3} := by right; rfl
     rw [←h_eq] at this
