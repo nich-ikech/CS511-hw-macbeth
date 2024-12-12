@@ -7,6 +7,8 @@
 \usepackage{enumitem}
 \usepackage{stmaryrd}
 \usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
 
 
 
@@ -71,7 +73,33 @@
 \end{mdframed}
 
 
-\section*{Part (a). Solution}
+\section*{Part (a). Solution:}
+
+\subsection*{First-Order Logic Sufficiency in SQL}
+
+First-order logic (FOL) is  sufficient for most SQL operations due to the following observations:
+
+\begin{itemize}
+    \item The \texttt{EXISTS} operator directly corresponds to the existential quantifier $\exists$ in FOL
+    \item Using the following, we can express SQL's core operations:
+    \begin{enumerate}
+        \item Quantifiers ($\exists, \forall$)
+        \item Predicates (relations)
+        \item Logical connectives
+    \end{enumerate}
+    \item Also, when we have complex queries like joins, aggregations, and filtering,
+    we can be construct them using FOL's expressiveness
+\end{itemize}
+
+\textbf{Higher-Order Logic Limitations:}
+I believe that, although second-order logic allows quantification over predicates and relations, 
+SQL's relational model are mostly operated on first-order. 
+We don't actually need quantifying over predicates for standard SQL operations.
+
+\vspace{1em}
+\textbf{Conclusion:} FOL has enough (provides a complete) logical foundation for SQL's computational model.
+
+
 
 \newpage
 
@@ -88,6 +116,16 @@
 \end{figure}  
 
 \section*{Part (b). Solution}
+
+
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{1bb_image.png} % Replace 'image-name' with your image file name (without extension)
+    \label{fig:sample-image}
+\end{figure}  
+
 
 \newpage
 
@@ -111,6 +149,47 @@ Let $\kappa$ be the free category on K.
 \section*{Part (a):} List the 15 morphisms of K along with their domains and codomains.
 \subsection*{Part (a). Solution:}
 
+The free category \(\kappa\) on the graph \(K\) has the following morphisms:
+
+\begin{enumerate}
+    % Identity morphisms
+    \item Identity morphisms:
+    \begin{itemize}
+        \item \(id_A: A \to A\)
+        \item \(id_B: B \to B\)
+        \item \(id_C: C \to C\)
+        \item \(id_D: D \to D\)
+    \end{itemize}
+    
+    % Basic morphisms (edges)
+    \item Basic morphisms (edges):
+    \begin{itemize}
+        \item \(f: A \to B\)
+        \item \(g: B \to A\)
+        \item \(h: A \to C\)
+        \item \(i: A \to D\)
+        \item \(j: D \to A\)
+        \item \(k: B \to C\)
+        \item \(l: D \to C\)
+    \end{itemize}
+    
+    % Composite morphisms
+    \item Composite morphisms:
+    \begin{itemize}
+        \item \(f \circ g: B \to B\)
+        \item \(g \circ f: A \to A\)
+        \item \(h \circ f: A \to C\)
+        \item \(i \circ j: D \to D\)
+        \item \(l \circ j: D \to C\)
+    \end{itemize}
+    
+    % Additional compositions (if needed):
+    % Add more composite morphisms here if necessary.
+    
+\end{enumerate}
+
+These morphisms represent all possible paths and compositions in the graph \(K\).
+
 
 \newpage
 
@@ -123,6 +202,40 @@ this a trivial exercise.
 
 
 
+\section*{Morphisms of \(\kappa'\)}
+
+In the commutative free category \(\kappa'\) on graph \(K\), the morphisms are:
+
+\begin{enumerate}
+    \item Identity morphisms:
+    \begin{itemize}
+        \item \(id_A: A \to A\)
+        \item \(id_B: B \to B\)
+        \item \(id_C: C \to C\)
+        \item \(id_D: D \to D\)
+    \end{itemize}
+    
+    \item Basic morphisms:
+    \begin{itemize}
+        \item \(f: A \to B\)
+        \item \(g: B \to A\)
+        \item \(h: A \to C\)
+        \item \(i: A \to D\)
+        \item \(j: D \to A\)
+        \item \(k: B \to C\)
+        \item \(l: D \to C\)
+    \end{itemize}
+    
+    \item Composite morphisms:
+    \begin{itemize}
+        \item \(f \circ g = id_B: B \to B\)
+        \item \(g \circ f = id_A: A \to A\)
+        \item \(k \circ f = h: A \to C\)
+        \item \(l \circ j = h: A \to C\)
+        \item \(i \circ j = id_D: D \to D\)
+    \end{itemize}
+\end{enumerate}
+
 \newpage
 
 \section*{Part (c):} Consider the following category V:
@@ -132,6 +245,28 @@ Define a functor F : V → $\kappa$.
 
 \subsection*{Part (c). Solution:}
 
+\section*{Functor \(F: V \to \kappa\)}
+
+From what we have about $\kappa$, given the category \(V\) with objects \(U, V, W\) and morphisms \(p: U \to V\), \(q: W \to V\), 
+we can define the functor \(F: V \to \kappa\) as follows:
+
+\begin{itemize}
+    \item \textbf{Mapping of Object :}
+    \begin{align*}
+    F(U) &= A \\
+    F(V) &= B \\
+    F(W) &= D
+    \end{align*}
+
+    \item \textbf{Mapping of Morphism :}
+    \begin{align*}
+    F(p) &= f \\
+    F(q) &= l
+    \end{align*}
+\end{itemize}
+
+This shows that the functor maps the objects and morphisms of \(V\) 
+to the corresponding objects and morphisms in the category we have, \(\kappa\).
 
 \newpage
 
@@ -147,7 +282,19 @@ Argue why there cannot be a functor from this category to $\kappa$.
 \subsection*{Part (d). Solution:}
 
 
+\section*{My Simple Argument Against a Functor to \(\kappa\)}
 
+From the category given above, it forms forms a cycle with four objects and morphisms creating a loop. 
+We know that In category theory:
+
+\begin{itemize}    
+    \item The category \(\kappa\), as we had, does not have a structure that supports cyclic morphisms.
+    \item A functor must map objects and morphisms in a way that preserves composition and identity.
+    \item Particularly, \(\kappa\) lacks the necessary morphisms to map a cycle of four objects back onto itself.
+\end{itemize}
+
+Therefore, we cannot have a functor from this cyclic category to \(\kappa\), 
+as it would violate the necessities to preserve composition and identity in the presence of cycles.
 
 
 
