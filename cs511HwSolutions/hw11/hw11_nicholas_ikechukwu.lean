@@ -20,15 +20,15 @@ noncomputable def v (x : ℝ) : ℝ := (x - 1) / 5
 example : Inverse u v := by
   dsimp [Inverse]
   constructor
-  · -- Prove that v ∘ u = id
-    funext x -- Introduce x and apply function extensionality
+  · -- prove that v ∘ u = id
+    funext x
     dsimp [u, v]
     calc
       v (u x) = ((5 * x + 1) - 1) / 5 := by rfl
       _       = (5 * x) / 5           := by ring
       _       = x                     := by ring
-  · -- Prove that u ∘ v = id
-    funext y -- Introduce y and apply function extensionality
+  · -- prove that u ∘ v = id
+    funext y
     dsimp [u, v]
     calc
       u (v y) = 5 * ((y - 1) / 5) + 1 := by rfl
@@ -52,13 +52,9 @@ example {f : X → Y} (hf : Injective f) {g : Y → Z} (hg : Injective g) :
 example {f : X → Y} (hf : Surjective f) {g : Y → Z} (hg : Surjective g) :
     Surjective (g ∘ f) := by
   intro z
-  -- Since g is surjective, there exists y such that g(y) = z
   obtain ⟨y, hy⟩ := hg z
-  -- Since f is surjective, there exists x such that f(x) = y
   obtain ⟨x, hx⟩ := hf y
-  -- Use x as the preimage for z under g ∘ f
   use x
-  -- Show that (g ∘ f)(x) = z by substituting hx and hy
   rw [Function.comp_apply, hx, hy]
 
 

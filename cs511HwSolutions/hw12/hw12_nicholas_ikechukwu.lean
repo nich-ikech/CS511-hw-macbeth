@@ -223,7 +223,7 @@ example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} :
   obtain ⟨k1, hk1⟩ := h5 -- n = 5 * k1
   obtain ⟨k2, hk2⟩ := h8 -- n = 8 * k2
   -- rewrite n using one of its divisibility expressions
-  rw [hk1] at hk2 -- Substitute n = 5 * k1 into the second equation
+  rw [hk1] at hk2 -- Substitute n = 5 * k1 into the 2nd equation
   -- simplify to show that k1 is divisible by 8
   have h_k1 : (8 : ℤ) ∣ k1 := by
     use k2
@@ -238,28 +238,21 @@ example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} :
 
 
 
+
 -- example : {n : ℤ | 5 ∣ n} ∩ {n : ℤ | 8 ∣ n} ⊆ {n : ℤ | 40 ∣ n} := by
---   dsimp [Set.subset_def]
---   intro x hx
-
---   -- Destructure the intersection
---   obtain ⟨h5, h8⟩ := hx
-
---   -- Obtain witnesses for divisibility
---   obtain ⟨t, ht5⟩ := h5
---   obtain ⟨s, ht8⟩ := h8
-
---   -- Use step
---   use 8*t
-
---   -- Prove divisibility by 40
---   have a: x = 5 * t := ht5
---   calc
---     x = 5 * t := a
---     _ = 8 * s := by rw [ht8]
---     _ = 40 * t := by ring
-
-
+--   intro n h
+--   obtain ⟨h5, h8⟩ := h
+--   obtain ⟨k1, hk1⟩ := h5 -- n = 5 * k1
+--   obtain ⟨k2, hk2⟩ := h8 -- n = 8 * k2
+--   rw [hk1] at hk2 -- Substitute n = 5 * k1 into the second equation
+--   have h_k1 : (8 : ℤ) ∣ k1 := by
+--     use k2
+--     exact (Int.eq_of_mul_eq_mul_left (by norm_num : (5 : ℤ) ≠ 0) hk2.symm)
+--   obtain ⟨m, hm⟩ := h_k1 -- k1 = 8 * m for some m
+--   rw [hm] at hk1 -- Substitute k1 = 8 * m into n = 5 * k1
+--   use m -- Show that n = 40 * m
+--   rw [hk1]
+--   ring_nf -- Simplify to show n = 40 * m
 
 
 --Exercise 9.3.6.1
